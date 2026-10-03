@@ -41,3 +41,15 @@ labeling_functions:
 aggregator:
   kind: weighted_vote # interface allows a learned label model to replace it
   threshold: 0.5 # weak label 1 when the weighted share of misuse votes >= this
+
+# Baselines: what upay could do without Jachai. Used only for comparison.
+baselines:
+  rules_only:
+    # A shop is flagged when this many of its payments get weak label 1, or when
+    # a shop-day labeling function fires.
+    min_flagged_payments: 3
+  blanket_limit:
+    # Every merchant, whatever its size or trade, may receive at most this much by
+    # QR per day. Payments past the cap that day are blocked; a shop that ever
+    # hits the cap is "flagged".
+    daily_cap: 100000

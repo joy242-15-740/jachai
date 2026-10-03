@@ -21,12 +21,19 @@ class FeatureThresholds(_Strict):
     far_payer_km: float = Field(gt=0)
 
 
+class EvalThresholds(_Strict):
+    warmup_days: int = Field(ge=0)
+    analyst_capacity_shops: int = Field(gt=0)
+    analyst_capacity_payments: int = Field(gt=0)
+
+
 class LeakageThresholds(_Strict):
     max_single_feature_auc: float = Field(gt=0.5, le=1)
 
 
 class ThresholdsConfig(_Strict):
     features: FeatureThresholds
+    eval: EvalThresholds
     leakage: LeakageThresholds
 
 

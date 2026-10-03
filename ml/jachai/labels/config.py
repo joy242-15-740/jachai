@@ -27,9 +27,23 @@ class AggregatorSpec(_Strict):
     threshold: float = Field(gt=0, lt=1)
 
 
+class RulesOnlyBaseline(_Strict):
+    min_flagged_payments: int = Field(gt=0)
+
+
+class BlanketLimitBaseline(_Strict):
+    daily_cap: float = Field(gt=0)
+
+
+class Baselines(_Strict):
+    rules_only: RulesOnlyBaseline
+    blanket_limit: BlanketLimitBaseline
+
+
 class RulesConfig(_Strict):
     labeling_functions: dict[str, LFSpec]
     aggregator: AggregatorSpec
+    baselines: Baselines
 
 
 def load_rules(path: Path | None = None) -> RulesConfig:
