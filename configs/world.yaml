@@ -57,42 +57,43 @@ size_tiers: # [assumption]
   medium: { share: 0.30, volume_mult: 1.0, regulars: [80, 200] }
   large: { share: 0.10, volume_mult: 2.5, regulars: [200, 500] }
 
-# [assumption] Ticket sizes in Tk follow a lognormal with this median and sigma,
+# [assumption] Ticket sizes in Tk follow a lognormal with this median and sigma
+# (sigma = how spread out baskets are; widened after the leakage check, see ASSUMPTIONS.md),
 # clipped to [min, max]. daily_qr_payments is the mean for a medium shop in a
 # district town. round_share of tickets are rounded to round_unit; the rest to Tk 5.
 categories:
   grocery:
     shop_share: 0.32
     daily_qr_payments: 10
-    ticket: { median: 300, sigma: 0.8, min: 10, max: 20000 }
+    ticket: { median: 300, sigma: 1.1, min: 10, max: 30000 }
     round_unit: 100
     round_share: 0.15
     open_hours: [7, 22]
   tea_stall:
     shop_share: 0.20
     daily_qr_payments: 14
-    ticket: { median: 40, sigma: 0.5, min: 10, max: 1000 }
+    ticket: { median: 40, sigma: 0.9, min: 10, max: 5000 }
     round_unit: 10
     round_share: 0.30
     open_hours: [6, 23]
   pharmacy:
     shop_share: 0.14
     daily_qr_payments: 6
-    ticket: { median: 350, sigma: 0.9, min: 20, max: 25000 }
+    ticket: { median: 350, sigma: 1.2, min: 20, max: 30000 }
     round_unit: 100
     round_share: 0.10
     open_hours: [8, 23]
   mobile_phone_shop:
     shop_share: 0.10
     daily_qr_payments: 5
-    ticket: { median: 500, sigma: 1.2, min: 20, max: 80000 }
+    ticket: { median: 500, sigma: 1.4, min: 20, max: 80000 }
     round_unit: 100
     round_share: 0.25
     open_hours: [9, 21]
   clothing:
     shop_share: 0.13
     daily_qr_payments: 3
-    ticket: { median: 1200, sigma: 0.7, min: 100, max: 30000 }
+    ticket: { median: 1200, sigma: 0.9, min: 100, max: 30000 }
     round_unit: 100
     round_share: 0.30
     open_hours: [10, 21]

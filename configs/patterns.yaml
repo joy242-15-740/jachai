@@ -31,8 +31,10 @@ patterns:
       categories: [grocery, mobile_phone_shop, pharmacy, tea_stall]
       daily_cashouts: 6
       active_day_share: 0.7
-      amounts: [1000, 2000, 3000, 5000, 10000, 15000, 20000]
-      amount_weights: [0.10, 0.20, 0.15, 0.25, 0.20, 0.05, 0.05]
+      # Small cash-outs are common, and many amounts are not round because the
+      # customer pays the cash plus the shop's fee (Tk 4,850 for Tk 4,775 cash).
+      amounts: [500, 1000, 1500, 2000, 2550, 3000, 4850, 5000, 7400, 10000, 10185, 20000]
+      amount_weights: [0.12, 0.14, 0.10, 0.12, 0.05, 0.08, 0.06, 0.10, 0.05, 0.09, 0.04, 0.05]
       after_hours_share: 0.5
       payer_pool_share: 0.05 # share of all customers who use cash desks, repeatedly
       far_payer_share: 0.6 # payer lives outside the shop's zone
@@ -61,7 +63,7 @@ patterns:
       size_tiers: [small]
       burst_days: [2, 5]
       burst_total: [300000, 700000]
-      ticket: [8000, 50000]
+      ticket: [3000, 30000]
       min_distance_km: 40
 
   # 4. Customer moves more than the daily cash-out limit, split across several shops. [brief]
@@ -111,6 +113,52 @@ patterns:
       daily_sales: 0.4 # extra big sales per day, on top of normal category volume
       amounts: [5000, 50000]
       round_unit: 1000
+
+  # The same injector, other honest trades: occasional big bills at ordinary shops,
+  # so "big amount" or "round amount" alone does not mean misuse.
+  - name: hn_grocery_bulk_buy # month's rice, oil and lentils for a family or a hotel
+    fn: hn_big_ticket_retail
+    kind: hard_negative
+    enabled: true
+    params:
+      categories: [grocery]
+      shop_share: 0.25
+      daily_sales: 0.3
+      amounts: [1500, 12000]
+      round_unit: 500
+
+  - name: hn_pharmacy_big_bill # a month of medicine, a hospital discharge bill
+    fn: hn_big_ticket_retail
+    kind: hard_negative
+    enabled: true
+    params:
+      categories: [pharmacy]
+      shop_share: 0.25
+      daily_sales: 0.2
+      amounts: [1000, 9000]
+      round_unit: 100
+
+  - name: hn_phone_purchase # a handset, often a round price
+    fn: hn_big_ticket_retail
+    kind: hard_negative
+    enabled: true
+    params:
+      categories: [mobile_phone_shop]
+      shop_share: 0.4
+      daily_sales: 0.3
+      amounts: [5000, 30000]
+      round_unit: 500
+
+  - name: hn_clothing_order # wedding or family order
+    fn: hn_big_ticket_retail
+    kind: hard_negative
+    enabled: true
+    params:
+      categories: [clothing]
+      shop_share: 0.3
+      daily_sales: 0.3
+      amounts: [2000, 12000]
+      round_unit: 500
 
   - name: hn_festival_spike
     fn: hn_festival_spike

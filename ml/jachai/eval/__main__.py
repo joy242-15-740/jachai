@@ -3,6 +3,7 @@
 Reads the world from data/world, builds features, then writes:
   reports/leakage_check.md  single-feature AUC per feature, payment and shop level
   reports/baselines.md      rules-only and blanket-limit baseline metrics
+  reports/probe.md          combined-feature probe vs rules-only on unseen shops
 Exits with an error if any single feature is above the leakage threshold.
 """
 
@@ -14,6 +15,7 @@ import pandas as pd
 
 from jachai.eval.baselines import evaluation_window, run_baselines
 from jachai.eval.leakage import check, single_feature_auc
+from jachai.eval.probe import TEST_SHARE, run_probe
 from jachai.features import build_features
 from jachai.features.config import load_thresholds
 from jachai.labels.config import load_rules
@@ -73,12 +75,30 @@ def main() -> None:
     )
     (reports / "baselines.md").write_text(text + "\n", encoding="utf-8")
 
+    probe = run_probe(tables, feats, cfg, thr, rules)
+    probe_text = "\n\n".join(
+        [
+            "# Combined-feature probe (not the Jachai model)",
+            HEADER,
+            "A stock scikit-learn gradient-boosting classifier trained on the noisy, "
+            f"observable `case_label` for {1 - TEST_SHARE:.0%} of shops, scored on the other "
+            f"{TEST_SHARE:.0%} of shops (never seen in training) against the hidden truth, "
+            "next to the rules-only baseline on the same payments. It checks that the "
+            "features together carry signal beyond the rules once no single feature "
+            "gives the answer away. `same_flag_count`: the probe flags as many payments "
+            f"as the rules do ({probe.attrs['flag_count']:,} of "
+            f"{probe.attrs['test_payments']:,} test payments).",
+            md_table(probe.T.round(3)),
+        ]
+    )
+    (reports / "probe.md").write_text(probe_text + "\n", encoding="utf-8")
+
     leak_text, ok = render_leakage(
         leakage_tables(tables, feats, cfg, thr), thr.leakage.max_single_feature_auc
     )
     (reports / "leakage_check.md").write_text(leak_text, encoding="utf-8")
-    print(text, "\n\n", leak_text)
-    print(f"Written to {reports}/baselines.md and {reports}/leakage_check.md")
+    print(text, "\n\n", probe_text, "\n\n", leak_text)
+    print(f"Written to {reports}/baselines.md, probe.md and leakage_check.md")
     if not ok:
         sys.exit("Leakage check FAILED: see reports/leakage_check.md")
 

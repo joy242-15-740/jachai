@@ -83,15 +83,20 @@ Seven categories, each with a share of shops, a QR payment rate and a ticket-siz
 distribution. **[assumption]** Ticket sizes are lognormal (most purchases small,
 a few large), clipped to a min and max:
 
-| Category | Shops | QR payments/day (medium shop, town) | Median ticket |
-| --- | --- | --- | --- |
-| grocery | 32% | 10 | Tk 300 |
-| tea_stall | 20% | 14 | Tk 40 |
-| pharmacy | 14% | 6 | Tk 350 |
-| mobile_phone_shop | 10% | 5 | Tk 500 |
-| clothing | 13% | 3 | Tk 1,200 |
-| electronics | 6% | 1.5 | Tk 6,000 |
-| wholesaler | 5% | 3 | Tk 9,000 |
+| Category | Shops | QR payments/day (medium shop, town) | Median ticket | Spread (sigma) | Max |
+| --- | --- | --- | --- | --- | --- |
+| grocery | 32% | 10 | Tk 300 | 1.1 | Tk 30,000 |
+| tea_stall | 20% | 14 | Tk 40 | 0.9 | Tk 5,000 |
+| pharmacy | 14% | 6 | Tk 350 | 1.2 | Tk 30,000 |
+| mobile_phone_shop | 10% | 5 | Tk 500 | 1.4 | Tk 80,000 |
+| clothing | 13% | 3 | Tk 1,200 | 0.9 | Tk 30,000 |
+| electronics | 6% | 1.5 | Tk 6,000 | 1.0 | Tk 150,000 |
+| wholesaler | 5% | 3 | Tk 9,000 | 1.0 | Tk 300,000 |
+
+- **Spread widened after the leakage check (see "Changes after the leakage
+  check" below).** Medians did not change. The wider spread means occasional big
+  baskets even at small shops: a tea stall's office order, a grocery's month of
+  supplies. Real basket sizes are heavy-tailed like this.
 
 - Prices are rounded to Tk 5. A share of larger tickets are rounded to Tk 100
   (Tk 500 for electronics and wholesalers), because shop prices are often round.
@@ -156,8 +161,10 @@ Models may train on `case_label`. Evaluation uses the hidden `_true_is_misuse`.
 ### Misuse patterns (true label 1)
 
 1. `round_amount_cash_desk`: 1.5% of shops (grocery, mobile phone shops,
-   pharmacies, tea stalls) hand out cash for fake QR purchases. Amounts are
-   round, Tk 1,000 to 20,000. Half of the payments are after hours. Payers come
+   pharmacies, tea stalls) hand out cash for fake QR purchases. Amounts range
+   from Tk 500 to 20,000; about half are Tk 2,000 or less, and some are not round
+   because the customer pays the cash plus the shop's fee (for example Tk 4,850,
+   Tk 10,185). Half of the payments are after hours. Payers come
    from a pool of 5% of customers who use cash desks repeatedly, and 60% of them
    live outside the shop's zone. Half topped up from a bank 10 minutes to
    6 hours before (bank → wallet → "purchase" → cash). These shops act as
@@ -166,8 +173,8 @@ Models may train on `case_label`. Evaluation uses the hidden `_true_is_misuse`.
    to a colluding shop at least 60 km away, within 1–48 hours, in 1–3 payments,
    then their account goes quiet. Colluding shops are 0.8% of shops. **[brief]**
 3. `turnover_burst`: 1% of shops, all small, suddenly receive Tk 3–7 lakh on each
-   of 2–5 days, from payers at least 40 km away. **[brief]** (Tk 5-lakh-scale
-   bursts)
+   of 2–5 days, in tickets of roughly Tk 3,000–30,000, from payers at least 40 km
+   away. **[brief]** (Tk 5-lakh-scale bursts)
 4. `limit_bypass`: 5 rings per 1,000 shops. A ring is 3–6 nearby shops. 5–12
    customers per ring each move Tk 32,000–60,000 in a day, above the Tk 30,000
    limit, split across several ring shops within a few hours, on 3–10 days.
@@ -187,6 +194,16 @@ Models may train on `case_label`. Evaluation uses the hidden `_true_is_misuse`.
   0.4 extra large sales a day, Tk 5,000–50,000 rounded to Tk 1,000, to their
   regular buyers during opening hours. Looks like a cash desk by amount alone.
   **[brief]**
+- The same injector with other settings gives ordinary shops occasional big,
+  often round bills, paid by their regular customers during opening hours:
+  - `hn_grocery_bulk_buy`: a quarter of groceries, about 0.3 a day, Tk 1,500–12,000
+    rounded to Tk 500 (a family's or a hotel's monthly supplies).
+  - `hn_pharmacy_big_bill`: a quarter of pharmacies, about 0.2 a day,
+    Tk 1,000–9,000 rounded to Tk 100 (a month of medicine, a discharge bill).
+  - `hn_phone_purchase`: 40% of mobile phone shops, about 0.3 a day,
+    Tk 5,000–30,000 rounded to Tk 500 (a handset).
+  - `hn_clothing_order`: 30% of clothing shops, about 0.3 a day, Tk 2,000–12,000
+    rounded to Tk 500 (a wedding or family order).
 - `hn_festival_spike`: honest shops sell more during a festival (clothing 2.5×,
   electronics 1.6×, grocery 1.4×, others 1.2×). **No Eid falls in Jul–Oct 2026**
   (Eid al-Adha is around late May), so we use **Durga Puja, about 16–21 Oct 2026**.
@@ -196,6 +213,36 @@ Models may train on `case_label`. Evaluation uses the hidden `_true_is_misuse`.
   market days. **[brief]**
 - `hn_new_shop_ramp`: 5% of shops open during the window (20–70% of the way in)
   and ramp from zero to full volume over 30 days. Looks like a burst. **[brief]**
+
+## Changes after the leakage check
+
+The first version of the world was too easy. The single-feature check (`make
+eval`, threshold 0.95 in `configs/thresholds.yaml`) failed: the payment amount
+compared with the category's usual basket separated misuse from honest payments
+with strength 0.982, and the amount alone with 0.964. The cause was not a code
+leak (the cut-off tests prove the features use no future data). Misuse amounts
+were simply much bigger than almost any honest basket: only 1% of honest payments
+were more than 8.6× their category's usual basket. Every misuse pattern was easy
+to spot this way, not just one.
+
+We kept the threshold at 0.95 and changed only the configs, each for a realistic
+reason:
+
+| Change | Why it is realistic |
+| --- | --- |
+| Cash desks also hand out small amounts (Tk 500–2,000) and non-round amounts | Most people need small cash; the fee makes amounts like Tk 4,850 |
+| Burst tickets Tk 3,000–30,000 instead of Tk 8,000–50,000 | Many medium transfers hide better than a few huge ones |
+| New honest big bills at groceries, pharmacies, phone and clothing shops | Bulk buys, medicine bills and handsets are everyday large purchases |
+| Wider spread of honest baskets in every non-wholesale category | Real basket sizes are heavy-tailed |
+
+After the changes, no single feature is above 0.95; the exact strengths are in
+`reports/leakage_check.md`. The features together still beat the rules on shops
+never seen in training (`reports/probe.md`). We stopped there on purpose: making
+the world harder still would be artificial.
+
+Eid: the brief mentions Eid spikes, but no Eid falls in our window. Seasonal big
+spending is covered by Durga Puja (`hn_festival_spike`), the month-start salary
+days (`weekly`) and the honest big bills above.
 
 ## Known limits
 

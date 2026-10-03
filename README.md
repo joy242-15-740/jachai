@@ -3,7 +3,8 @@
 AI merchant-transaction integrity engine for Bangla QR. Built for AI DEV FEST
 2026 AI Hackathon (DIU CPC × upay), Track 05: Merchant & Agent Intelligence.
 
-> Status: synthetic world generator done (`make world`). No models yet.
+> Status: synthetic world, point-in-time features, weak labels, baselines and the
+> leakage check are done (`make world`, `make eval`). No trained models yet.
 > Sections marked **TODO** are filled in as the work lands.
 
 ## 1. Project overview
@@ -34,6 +35,19 @@ They do not prove real-world accuracy.
   `_true_*` columns for evaluation only; models see a noisy `case_label`.
   Seeded and deterministic. Assumptions: [data/ASSUMPTIONS.md](data/ASSUMPTIONS.md).
   Counts: [reports/world_summary.md](reports/world_summary.md).
+- **Point-in-time features** (done): payment, payer and shop features (round
+  amounts, amount vs the category's usual basket, near the daily limit, just
+  under the Tk 2,000 cap, money paid soon after an inflow, payer–shop distance,
+  first visit, shop turnover vs similar shops, ...). Each uses only information
+  available at payment time; a cut-off test proves it.
+- **Weak labels** (done): one labeling function per misuse pattern plus two
+  "honest" ones, combined by a weighted vote behind a replaceable interface.
+  Thresholds and weights in `configs/rules.yaml`.
+- **Baselines and checks** (done): rules-only and blanket-merchant-limit
+  baselines, a single-feature leakage check, and a combined-feature probe.
+  Results: [reports/baselines.md](reports/baselines.md),
+  [reports/leakage_check.md](reports/leakage_check.md),
+  [reports/probe.md](reports/probe.md).
 
 Planned:
 
@@ -100,7 +114,7 @@ make help      # list all commands
 make install   # create .venv and install packages
 make world     # generate synthetic data into data/world, summary into reports/
 make train     # train all models                (TODO)
-make eval      # write metrics to reports/       (TODO)
+make eval      # baselines, probe, leakage check into reports/ (after make world)
 make api       # run FastAPI on :8000            (TODO)
 make web       # run Next.js on :3000            (TODO)
 make test      # ruff + pytest
@@ -110,6 +124,9 @@ make clean     # remove .venv and caches
 
 Scenario and seed flags: `make world WORLD_ARGS="--p2p --seed 7"`. `--p2p`
 turns on the P2P QR what-if scenario.
+
+`make eval` exits with an error if any single feature predicts the true label
+too well on its own (threshold in `configs/thresholds.yaml`).
 
 Targets marked TODO are stubs: they print "not implemented yet" and exit
 with an error, so an empty run is never mistaken for real output.
@@ -137,7 +154,9 @@ on every push and pull request (`.github/workflows/ci.yml`).
   model code or LLM prompts. `world.yaml` (calendar, regulation, population,
   categories, ...) and `patterns.yaml` (misuse patterns, hard negatives, label
   noise) are filled in and validated when loaded; a typo fails loudly.
-  `thresholds.yaml` and `rules.yaml` are **TODO**.
+  `thresholds.yaml` (feature windows, evaluation warm-up and analyst capacity,
+  leakage threshold) and `rules.yaml` (labeling-function thresholds and weights,
+  baseline settings) are filled in too.
 - Generated data goes to `data/world/` (gitignored): one parquet file per table
   plus `manifest.json` with the seed and a config fingerprint.
 - Data assumptions: [data/ASSUMPTIONS.md](data/ASSUMPTIONS.md)

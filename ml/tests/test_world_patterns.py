@@ -161,6 +161,10 @@ def test_honest_world_has_no_misuse(small_cfg):
 
 HARD_NEGATIVES = [
     "hn_big_ticket_retail",
+    "hn_grocery_bulk_buy",
+    "hn_pharmacy_big_bill",
+    "hn_phone_purchase",
+    "hn_clothing_order",
     "hn_festival_spike",
     "hn_haat_day_spike",
     "hn_new_shop_ramp",

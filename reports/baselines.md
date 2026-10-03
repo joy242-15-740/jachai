@@ -6,15 +6,15 @@ Scored after a 30-day warm-up, against the hidden truth. `rules_only`: labeling 
 
 | index | rules_only | blanket_limit |
 |---|---|---|
-| payment_pr_auc | 0.460 | 0.162 |
-| payment_precision | 0.852 | 0.248 |
-| payment_recall | 0.493 | 0.051 |
-| payment_value_recall | 0.571 | 0.185 |
-| payment_precision_at_1000 | 0.948 | 0.743 |
-| honest_taka_blocked_share | 0.017 | 0.074 |
-| shop_pr_auc | 0.973 | 0.338 |
-| shop_precision | 0.452 | 0.192 |
-| shop_recall | 0.995 | 0.276 |
+| payment_pr_auc | 0.369 | 0.151 |
+| payment_precision | 0.804 | 0.355 |
+| payment_recall | 0.418 | 0.081 |
+| payment_value_recall | 0.547 | 0.210 |
+| payment_precision_at_1000 | 0.889 | 0.878 |
+| honest_taka_blocked_share | 0.017 | 0.061 |
+| shop_pr_auc | 0.973 | 0.293 |
+| shop_precision | 0.411 | 0.153 |
+| shop_recall | 0.995 | 0.217 |
 | shop_precision_at_50 | 1 | 0.600 |
-| honest_shop_fpr | 0.088 | 0.084 |
-| honest_lookalike_shop_fpr | 0.374 | 0.439 |
+| honest_shop_fpr | 0.104 | 0.087 |
+| honest_lookalike_shop_fpr | 0.173 | 0.170 |
