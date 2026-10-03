@@ -104,18 +104,18 @@ patterns:
   - name: hn_big_ticket_retail
     fn: hn_big_ticket_retail
     kind: hard_negative
-    enabled: false # injector not written yet
+    enabled: true
     params:
       categories: [electronics, wholesaler]
       shop_share: 0.5 # of shops in those categories
-      daily_sales: 1.0
+      daily_sales: 0.4 # extra big sales per day, on top of normal category volume
       amounts: [5000, 50000]
       round_unit: 1000
 
   - name: hn_festival_spike
     fn: hn_festival_spike
     kind: hard_negative
-    enabled: false # injector not written yet
+    enabled: true
     params:
       # No Eid falls in Jul-Oct 2026. Durga Puja is the festival in our window;
       # dates are approximate and should be checked.
@@ -127,14 +127,14 @@ patterns:
   - name: hn_haat_day_spike
     fn: hn_haat_day_spike
     kind: hard_negative
-    enabled: false # injector not written yet
+    enabled: true
     params:
       volume_mult: 2.0 # rural haat shops on their weekly haat days
 
   - name: hn_new_shop_ramp
     fn: hn_new_shop_ramp
     kind: hard_negative
-    enabled: false # injector not written yet
+    enabled: true
     params:
       shop_share: 0.05
       ramp_days: 30

@@ -42,10 +42,10 @@ def test_each_misuse_pattern_produces_labelled_rows_and_shops(world, pattern):
 
 
 def test_each_shop_has_at_most_one_pattern(world):
-    # Patterns are stored per shop as a single name; every misuse shop has exactly one.
+    # Each shop carries a single pattern name; only misuse patterns have label 1.
     shops = world.tables["shops"]
-    assert set(shops[TRUE_PATTERN]) <= {"normal", *MISUSE}
-    assert ((shops[TRUE_LABEL] == 1) == (shops[TRUE_PATTERN] != "normal")).all()
+    assert set(shops[TRUE_PATTERN]) <= {"normal", *MISUSE, *HARD_NEGATIVES}
+    assert ((shops[TRUE_LABEL] == 1) == shops[TRUE_PATTERN].isin(MISUSE)).all()
 
 
 def test_cash_desk_uses_round_amounts(world, patterns_cfg):
@@ -155,3 +155,62 @@ def test_honest_world_has_no_misuse(small_cfg):
     world = generate_world(small_cfg)  # no patterns config
     for name in ("shops", "qr_payments"):
         assert np.all(world.tables[name][TRUE_LABEL] == 0)
+
+
+# --- Hard negatives ------------------------------------------------------------
+
+HARD_NEGATIVES = [
+    "hn_big_ticket_retail",
+    "hn_festival_spike",
+    "hn_haat_day_spike",
+    "hn_new_shop_ramp",
+]
+
+
+@pytest.mark.parametrize("pattern", HARD_NEGATIVES)
+def test_each_hard_negative_produces_honest_rows(world, pattern):
+    events = rows(world, "qr_payments", pattern)
+    assert len(events) > 0
+    assert (events[TRUE_LABEL] == 0).all()
+
+
+def test_big_ticket_rows_are_large_round_and_in_opening_hours(world):
+    ev = rows(world, "qr_payments", "hn_big_ticket_retail")
+    shops = world.tables["shops"].set_index("shop_id")
+    assert shops.loc[ev["shop_id"].unique(), "category"].isin(["electronics", "wholesaler"]).all()
+    assert (ev["amount"] % 1000 == 0).all()
+    assert (ev["amount"] >= 5000).all()
+    assert (rows(world, "shops", "hn_big_ticket_retail")[TRUE_LABEL] == 0).all()
+
+
+def test_festival_rows_fall_inside_festival_dates(world, patterns_cfg):
+    params = next(p for p in patterns_cfg.patterns if p.name == "hn_festival_spike").params
+    days = rows(world, "qr_payments", "hn_festival_spike")["ts"].dt.date
+    assert days.min() >= pd.Timestamp(params["start"]).date()
+    assert days.max() <= pd.Timestamp(params["end"]).date()
+
+
+def test_haat_rows_are_rural_on_haat_days(world):
+    ev = rows(world, "qr_payments", "hn_haat_day_spike")
+    shops = world.tables["shops"].set_index("shop_id")
+    zones = world.tables["zones"].set_index("zone_id")
+    zone = shops.loc[ev["shop_id"], "zone_id"].to_numpy()
+    assert (zones.loc[zone, "area_type"] == "rural_haat").all()
+    weekday = ev["ts"].dt.day_name().str[:3].to_numpy()
+    haat = zones.loc[zone, "haat_days"].to_numpy()
+    assert all(d in h.split("|") for d, h in zip(weekday, haat, strict=True))
+
+
+def test_new_shops_have_no_payments_before_opening(world):
+    new = rows(world, "shops", "hn_new_shop_ramp").set_index("shop_id")["opened_on"]
+    assert (new > pd.Timestamp(world.config.calendar.start)).all()
+    q = world.tables["qr_payments"]
+    q = q[q["shop_id"].isin(new.index)]
+    assert len(q) > 0
+    assert (q["ts"] >= q["shop_id"].map(new)).all()
+
+
+def test_spikes_skip_misuse_shops(world):
+    misuse_shops = set(world.tables["shops"].query(f"{TRUE_LABEL} == 1")["shop_id"])
+    for pattern in ("hn_festival_spike", "hn_haat_day_spike"):
+        assert not set(rows(world, "qr_payments", pattern)["shop_id"]) & misuse_shops

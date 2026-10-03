@@ -47,4 +47,4 @@ def run_patterns(world: World) -> None:
 
 
 # Importing the modules registers their injectors.
-from jachai.world.patterns import misuse  # noqa: E402, F401
+from jachai.world.patterns import hard_negatives, misuse  # noqa: E402, F401

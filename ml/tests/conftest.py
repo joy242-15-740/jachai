@@ -6,10 +6,11 @@ from jachai.world.config import WorldConfig, load_patterns_config, load_world_co
 
 
 def small_world_config(**overrides) -> WorldConfig:
-    """The real world.yaml, scaled down. The window still spans the 1 Oct regime change."""
+    """The real world.yaml, scaled down. The 30-day window (22 Sep - 21 Oct) still spans
+    the 1 Oct regime change, the P2P what-if start and the festival."""
     data = load_world_config().model_dump()
     data["population"] = {"n_shops": 200, "n_customers": 2000, "n_agents": 40}
-    data["calendar"]["start"] = "2026-09-16"
+    data["calendar"]["start"] = "2026-09-22"
     data["calendar"]["days"] = 30
     data["scenario"]["p2p_qr_start"] = "2026-10-05"
     for area, n in {"dhaka_urban": 3, "district_town": 4, "rural_haat": 6}.items():
