@@ -211,14 +211,22 @@ class WorldConfig(_Strict):
         return self
 
 
-class NoiseRates(_Strict):
-    miss_rate: float = Field(ge=0, le=1)
-    false_flag_rate: float = Field(ge=0, le=1)
+class CasesCfg(_Strict):
+    coverage: float = Field(ge=0, le=1)
+    audit_share: float = Field(ge=0, le=1)
+    flag_weight: dict[Literal["misuse", "hard_negative", "normal"], float]
+    misuse_cleared: float = Field(ge=0, le=1)
+    honest_convicted: float = Field(ge=0, le=1)
+    duration_days: tuple[int, int]
 
-
-class LabelNoise(_Strict):
-    shops: NoiseRates
-    payments: NoiseRates  # applied to qr_payments and p2p_transfers
+    @model_validator(mode="after")
+    def _check(self) -> CasesCfg:
+        if self.audit_share > self.coverage:
+            raise ValueError("cases.audit_share cannot exceed cases.coverage")
+        if set(self.flag_weight) != {"misuse", "hard_negative", "normal"}:
+            raise ValueError("cases.flag_weight needs misuse, hard_negative and normal")
+        _check_range(self.duration_days, "cases.duration_days")
+        return self
 
 
 class PatternSpec(_Strict):
@@ -231,7 +239,7 @@ class PatternSpec(_Strict):
 
 
 class PatternsConfig(_Strict):
-    label_noise: LabelNoise
+    cases: CasesCfg
     patterns: list[PatternSpec]
 
     @model_validator(mode="after")

@@ -148,15 +148,34 @@ pattern, so each shop has an unambiguous true label. Pattern sizes are given as
 shares of all shops, so they scale with the world. All values are
 **[assumption]** unless tagged.
 
-### Label noise
-`case_label` is what past analyst cases would show. It is imperfect:
-- Shops: 30% of misuse shops were never caught. 1% of honest shops were wrongly
-  flagged.
-- Payments (QR and P2P): 30% missed, 0.1% wrongly flagged. The false-flag rate is
-  lower because there are about 800 times more payments than shops; at 1%, false
-  flags would outnumber real misuse.
+### Past cases (`cases` table)
 
-Models may train on `case_label`. Evaluation uses the hidden `_true_is_misuse`.
+Real upay would not have a label for every payment. It would have a few hundred
+closed investigations, mostly of shops its rules flagged. So the only observable
+labels are **sparse, shop-level, dated, biased and imperfect** past cases
+(settings under `cases` in `configs/patterns.yaml`):
+
+- **Sparse:** 7% of shops have a case; every other shop, and every payment, has
+  none.
+- **Biased selection:** 1.5% of shops form a uniformly random audit sample. The
+  rest were flagged by existing rules. The generator cannot run our rules (they
+  need features from the finished world), so it approximates "flagged" by drawing
+  shops with relative weights: misuse 1.0, honest look-alike 0.3, ordinary honest
+  0.02. Flagged cases therefore over-represent misuse and look-alikes, as real
+  rule-driven investigations do.
+- **Dated:** a case opens on a random day (for a misuse shop, after its misuse
+  began) and closes 7–30 days later. A case still open at the end of the window
+  is unusable. Training may only use cases closed before its own cutoff, and only
+  for its own shops.
+- **Imperfect:** 15% of investigated misuse shops were cleared, and 5% of
+  investigated honest shops were wrongly found guilty.
+
+Models may learn from cases and weak labels. Evaluation always uses the hidden
+`_true_is_misuse`, never cases. `reports/world_summary.md` shows how many cases
+each source has and how many verdicts are right.
+
+This replaced an earlier design that gave every payment a noisy label, which was
+far more information than upay would really have.
 
 ### Misuse patterns (true label 1)
 

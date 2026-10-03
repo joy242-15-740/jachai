@@ -1,6 +1,6 @@
 """Build the whole synthetic world and write it to disk.
 
-Order: entities -> honest events -> pattern injectors -> label noise
+Order: entities -> honest events -> pattern injectors -> past cases
 -> finalize (sort by time, assign random event IDs).
 """
 
@@ -12,6 +12,7 @@ from pathlib import Path
 
 import pandas as pd
 
+from jachai.world.cases import make_cases
 from jachai.world.config import PatternsConfig, WorldConfig
 from jachai.world.entities import (
     make_agents,
@@ -27,10 +28,9 @@ from jachai.world.events import (
     make_remittances,
 )
 from jachai.world.ids import random_ids
-from jachai.world.labels_noise import apply_label_noise
 from jachai.world.patterns import run_patterns
 from jachai.world.rng import stream
-from jachai.world.world import ENTITY_TABLES, EVENT_ID, EVENT_TABLES, World
+from jachai.world.world import ALL_TABLES, EVENT_ID, EVENT_TABLES, World
 
 
 def build_base(cfg: WorldConfig, patterns: PatternsConfig | None = None) -> World:
@@ -71,8 +71,9 @@ def generate_world(cfg: WorldConfig, patterns: PatternsConfig | None = None) -> 
     """The full world. Without a patterns config, only honest activity is generated."""
     world = build_base(cfg, patterns)
     run_patterns(world)
-    apply_label_noise(world)
-    return finalize(world)
+    world = finalize(world)
+    world.tables["cases"] = make_cases(world)
+    return world
 
 
 def config_fingerprint(cfg: WorldConfig, patterns: PatternsConfig | None) -> str:
@@ -84,14 +85,14 @@ def config_fingerprint(cfg: WorldConfig, patterns: PatternsConfig | None) -> str
 def write_world(world: World, out_dir: Path) -> Path:
     """Write one parquet file per table plus manifest.json."""
     out_dir.mkdir(parents=True, exist_ok=True)
-    for name in (*ENTITY_TABLES, *EVENT_TABLES):
+    for name in ALL_TABLES:
         world.tables[name].to_parquet(out_dir / f"{name}.parquet", index=False)
     manifest = {
         "seed": world.config.seed,
         "config_fingerprint": config_fingerprint(world.config, world.patterns),
         "window": [str(world.config.calendar.start), str(world.config.calendar.end)],
         "p2p_qr_enabled": world.config.scenario.p2p_qr_enabled,
-        "rows": {name: len(world.tables[name]) for name in (*ENTITY_TABLES, *EVENT_TABLES)},
+        "rows": {name: len(world.tables[name]) for name in ALL_TABLES},
     }
     path = out_dir / "manifest.json"
     path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
@@ -99,7 +100,4 @@ def write_world(world: World, out_dir: Path) -> Path:
 
 
 def read_world_tables(out_dir: Path) -> dict[str, pd.DataFrame]:
-    return {
-        name: pd.read_parquet(out_dir / f"{name}.parquet")
-        for name in (*ENTITY_TABLES, *EVENT_TABLES)
-    }
+    return {name: pd.read_parquet(out_dir / f"{name}.parquet") for name in ALL_TABLES}

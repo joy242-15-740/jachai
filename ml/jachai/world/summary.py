@@ -17,7 +17,6 @@ import pandas as pd
 
 from jachai.world.config import REPO_ROOT
 from jachai.world.generate import read_world_tables
-from jachai.world.labels_noise import CASE_LABEL
 from jachai.world.world import TRUE_LABEL, TRUE_PATTERN
 
 
@@ -74,18 +73,23 @@ def by_area(t: dict[str, pd.DataFrame]) -> pd.DataFrame:
     )
 
 
-def label_noise_table(t: dict[str, pd.DataFrame]) -> pd.DataFrame:
-    rows = {}
-    for table in ("shops", "qr_payments"):
-        df = t[table]
-        truth, case = df[TRUE_LABEL] == 1, df[CASE_LABEL] == 1
-        rows[table] = {
-            "true_misuse": int(truth.sum()),
-            "caught": int((truth & case).sum()),
-            "missed": int((truth & ~case).sum()),
-            "false_flags": int((~truth & case).sum()),
-        }
-    return pd.DataFrame(rows).T.rename_axis("table")
+def cases_table(t: dict[str, pd.DataFrame]) -> pd.DataFrame:
+    """Past cases by source: how many, how many closed, how many verdicts are right."""
+    cases = t["cases"].merge(t["shops"][["shop_id", TRUE_LABEL]], on="shop_id")
+    cases = cases.assign(
+        closed=cases["closed_on"].notna(),
+        right=cases["verdict"] == cases[TRUE_LABEL],
+        misuse_shop=cases[TRUE_LABEL] == 1,
+    )
+    out = cases.groupby("source").agg(
+        cases=("case_id", "size"),
+        closed=("closed", "sum"),
+        misuse_shops=("misuse_shop", "sum"),
+        verdict_right=("right", "sum"),
+    )
+    out.loc["all"] = out.sum()
+    out["share_of_shops"] = out["cases"] / len(t["shops"])
+    return out
 
 
 def render(world_dir: Path) -> str:
@@ -115,8 +119,8 @@ def render(world_dir: Path) -> str:
                 md_table(by_category(t)),
                 "## Per area type",
                 md_table(by_area(t)),
-                "## Label noise (observable case_label vs hidden truth)",
-                md_table(label_noise_table(t)),
+                "## Past cases (observable, shop-level) vs hidden truth",
+                md_table(cases_table(t)),
             ]
         )
         + "\n"

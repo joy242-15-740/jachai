@@ -21,6 +21,9 @@ NORMAL = "normal"
 
 ENTITY_TABLES = ("zones", "shops", "customers", "agents")
 EVENT_TABLES = ("qr_payments", "remittances", "add_money", "p2p_transfers")
+# Past investigations (observable, sparse, shop-level); see world/cases.py.
+CASE_TABLE = "cases"
+ALL_TABLES = (*ENTITY_TABLES, *EVENT_TABLES, CASE_TABLE)
 
 # ID prefix for each event table; IDs are assigned once, after all patterns ran.
 EVENT_ID = {

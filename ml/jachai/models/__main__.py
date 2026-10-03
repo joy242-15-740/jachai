@@ -20,7 +20,12 @@ MODELS_DIR = REPO_ROOT / "models"
 
 
 def main() -> None:
-    cfg, thr, rules, models = load_world_config(), load_thresholds(), load_rules(), load_models_config()
+    cfg, thr, rules, models = (
+        load_world_config(),
+        load_thresholds(),
+        load_rules(),
+        load_models_config(),
+    )
     data = prepare_payment_data(read_world_tables(default_world_dir()), cfg, thr, rules)
     model = train_from_data(data, models, cfg.seed)
     model.save(MODELS_DIR)

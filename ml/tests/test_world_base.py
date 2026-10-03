@@ -42,7 +42,10 @@ def test_events_inside_calendar_window(small_cfg):
 
 def test_every_table_has_rows_and_unique_ids(make_cfg):
     tables = generate_world(make_cfg(scenario__p2p_qr_enabled=True)).tables
+    assert tables["cases"].empty  # no patterns config -> no past investigations
     for name, df in tables.items():
+        if name == "cases":
+            continue
         assert len(df) > 0, name
         id_col = df.columns[0]
         assert id_col.endswith("_id"), name

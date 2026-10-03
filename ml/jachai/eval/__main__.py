@@ -80,8 +80,9 @@ def main() -> None:
         [
             "# Combined-feature probe (not the Jachai model)",
             HEADER,
-            "A stock scikit-learn gradient-boosting classifier trained on the noisy, "
-            f"observable `case_label` for {1 - TEST_SHARE:.0%} of shops, scored on the other "
+            "A stock scikit-learn gradient-boosting classifier trained on past cases "
+            "(sparse, shop-level: a closed case's verdict applies to that shop's payments) "
+            f"for {1 - TEST_SHARE:.0%} of shops, scored on the other "
             f"{TEST_SHARE:.0%} of shops (never seen in training) against the hidden truth, "
             "next to the rules-only baseline on the same payments. It checks that the "
             "features together carry signal beyond the rules once no single feature "

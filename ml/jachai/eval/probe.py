@@ -2,8 +2,9 @@
 
 Question it answers: once no single feature gives the answer away, do all
 features *together* still carry signal beyond the rules? It trains a stock
-scikit-learn gradient-boosting classifier on the observable, noisy `case_label`
-for 70% of shops, then scores the other 30% of shops (never seen in training)
+scikit-learn gradient-boosting classifier on past cases (sparse, shop-level:
+a closed case's verdict applies to that shop's payments; shops without a case are
+dropped) for 70% of shops, then scores the other 30% of shops (never seen in training)
 against the hidden truth, next to the rules-only baseline on the same payments.
 The real model (LightGBM, calibrated, proper time split) replaces this later.
 """
@@ -35,16 +36,15 @@ def run_probe(tables, feats, cfg, thr, rules) -> pd.DataFrame:
     pay = feats["payments"]
     pay = pay[evaluation_window(pay, cfg, thr.eval.warmup_days).to_numpy()].reset_index(drop=True)
     q = tables["qr_payments"].set_index("payment_id").loc[pay["payment_id"]]
-    truth, case, amount = (
-        q[TRUE_LABEL].to_numpy(),
-        q["case_label"].to_numpy(),
-        q["amount"].to_numpy(),
-    )
+    truth, amount = q[TRUE_LABEL].to_numpy(), q["amount"].to_numpy()
+    closed = tables["cases"].dropna(subset=["closed_on"]).drop_duplicates("shop_id")
+    case = pay["shop_id"].map(closed.set_index("shop_id")["verdict"]).to_numpy(dtype=float)
     test = shop_split(pay["shop_id"], cfg.seed)
     cols = feature_columns(pay)
 
+    train = ~test & ~np.isnan(case)
     model = HistGradientBoostingClassifier(max_iter=200, learning_rate=0.1, random_state=cfg.seed)
-    model.fit(pay.loc[~test, cols], case[~test])
+    model.fit(pay.loc[train, cols], case[train].astype(int))
     model_score = model.predict_proba(pay.loc[test, cols])[:, 1]
 
     weak = weak_label_table(pay[test], "payment", rules, cfg)

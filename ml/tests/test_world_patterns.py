@@ -7,7 +7,6 @@ from pydantic import ValidationError
 
 from jachai.world.config import PatternsConfig
 from jachai.world.generate import generate_world
-from jachai.world.labels_noise import CASE_LABEL
 from jachai.world.world import TRUE_LABEL, TRUE_PATTERN
 
 MISUSE = [
@@ -117,25 +116,41 @@ def _patterns_with(patterns_cfg, **changes):
     return PatternsConfig.model_validate(data)
 
 
-def test_no_label_noise_means_case_label_equals_truth(small_cfg, patterns_cfg):
-    clean = _patterns_with(
-        patterns_cfg,
-        label_noise__shops__miss_rate=0.0,
-        label_noise__shops__false_flag_rate=0.0,
-        label_noise__payments__miss_rate=0.0,
-        label_noise__payments__false_flag_rate=0.0,
-    )
-    world = generate_world(small_cfg, clean)
-    for table in ("shops", "qr_payments"):
-        df = world.tables[table]
-        assert (df[CASE_LABEL] == df[TRUE_LABEL]).all()
+def test_cases_are_sparse_shop_level_and_biased(world, patterns_cfg):
+    cases = world.tables["cases"]
+    shops = world.tables["shops"].set_index("shop_id")
+    c = patterns_cfg.cases
+    assert cases["shop_id"].is_unique  # at most one case per shop
+    assert len(cases) == pytest.approx(c.coverage * len(shops), abs=2)
+    assert set(cases["source"]) == {"audit", "rule_flag"}
+    # Selection bias: rule-flagged cases hit misuse far more often than the shop base rate.
+    flagged = cases[cases["source"] == "rule_flag"]
+    base = shops[TRUE_LABEL].mean()
+    assert shops.loc[flagged["shop_id"], TRUE_LABEL].mean() > 2 * base
 
 
-def test_label_noise_misses_some_misuse(world):
+def test_cases_are_dated_and_misuse_cases_open_after_misuse(world):
+    cases = world.tables["cases"]
+    closed = cases.dropna(subset=["closed_on"])
+    assert (closed["closed_on"] > closed["opened_on"]).all()
+    assert (closed["closed_on"] <= pd.Timestamp(world.config.calendar.end)).all()
     q = world.tables["qr_payments"]
-    misuse = q[q[TRUE_LABEL] == 1]
-    missed = (misuse[CASE_LABEL] == 0).mean()
-    assert 0.15 < missed < 0.45  # configured miss_rate is 0.30
+    first_bad = q[q[TRUE_LABEL] == 1].groupby("shop_id")["ts"].min().dt.normalize()
+    misuse_cases = cases[cases["shop_id"].isin(first_bad.index)]
+    assert (misuse_cases["opened_on"] >= misuse_cases["shop_id"].map(first_bad)).all()
+
+
+def test_no_payment_level_case_labels(world):
+    for name in ("qr_payments", "p2p_transfers", "shops"):
+        assert "case_label" not in world.tables[name].columns
+
+
+def test_perfect_investigators_give_true_verdicts(small_cfg, patterns_cfg):
+    exact = _patterns_with(patterns_cfg, cases__misuse_cleared=0.0, cases__honest_convicted=0.0)
+    world = generate_world(small_cfg, exact)
+    cases = world.tables["cases"]
+    truth = cases["shop_id"].map(world.tables["shops"].set_index("shop_id")[TRUE_LABEL])
+    assert (cases["verdict"] == truth).all()
 
 
 def test_unknown_pattern_fn_fails_loudly(small_cfg, patterns_cfg):

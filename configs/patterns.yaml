@@ -10,15 +10,20 @@
 # Shop counts are shares of all shops (at least 1), so tests can use a small world.
 # A shop gets at most one pattern, so labels stay unambiguous.
 
-label_noise:
-  # The observable `case_label` (past analyst cases) is imperfect. True labels stay
-  # in hidden `_true_*` columns used only for evaluation.
-  # miss_rate: misuse never caught (true 1 -> case_label 0)
-  # false_flag_rate: honest wrongly flagged (true 0 -> case_label 1)
-  shops: { miss_rate: 0.30, false_flag_rate: 0.01 }
-  # Lower false-flag rate for payments: there are ~800x more payments than shops,
-  # and analysts flag individual payments far more rarely than whole shops.
-  payments: { miss_rate: 0.30, false_flag_rate: 0.001 }
+cases:
+  # Past investigations: SPARSE and SHOP-LEVEL, like real ones. Written to the
+  # observable `cases` table (one row per investigated shop). True labels stay in
+  # hidden `_true_*` columns used only for evaluation.
+  coverage: 0.07 # share of all shops with a past case (rule-flagged + audit)
+  audit_share: 0.015 # of all shops: a uniformly random audit sample (no selection bias)
+  # Selection bias: the rest are shops existing rules flagged. The generator cannot
+  # run our rules (they need features), so it approximates "flagged" with these
+  # relative chances by kind of shop. Rules mostly flag misuse and look-alikes.
+  flag_weight: { misuse: 1.0, hard_negative: 0.3, normal: 0.02 }
+  # Wrong verdicts.
+  misuse_cleared: 0.15 # a misuse shop was investigated but cleared
+  honest_convicted: 0.05 # an honest shop was wrongly found guilty
+  duration_days: [7, 30] # case open -> closed; cases still open at the end are unusable
 
 patterns:
   # 1. Shop works as a cash desk: round amounts, many one-off payers, after hours.

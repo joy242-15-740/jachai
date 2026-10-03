@@ -32,7 +32,8 @@ They do not prove real-world accuracy.
   QR payments, remittances, add-money, and P2P transfers (what-if scenario).
   Six misuse patterns and four honest look-alikes are injected by pluggable
   functions listed in `configs/patterns.yaml`. True labels are kept in hidden
-  `_true_*` columns for evaluation only; models see a noisy `case_label`.
+  `_true_*` columns for evaluation only; the only observable labels are sparse,
+  shop-level past cases (`cases` table) and weak labels from rules.
   Seeded and deterministic. Assumptions: [data/ASSUMPTIONS.md](data/ASSUMPTIONS.md).
   Counts: [reports/world_summary.md](reports/world_summary.md).
 - **Point-in-time features** (done): payment, payer and shop features (round
