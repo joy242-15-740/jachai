@@ -12,7 +12,7 @@ STAMP  := $(VENV)/.installed
 
 help:
 	@echo "make install  create .venv and install ml + backend packages"
-	@echo "make world    generate synthetic data           (not built yet)"
+	@echo "make world    generate synthetic data into data/world, summary into reports/"
 	@echo "make train    train all models                  (not built yet)"
 	@echo "make eval     write metrics to reports/         (not built yet)"
 	@echo "make api      run FastAPI on :8000              (not built yet)"
@@ -29,8 +29,14 @@ $(STAMP): ml/pyproject.toml backend/pyproject.toml
 	$(BIN)/pip install --quiet -e "ml[dev]" -e "backend[dev]"
 	@touch $(STAMP)
 
+# Extra flags, e.g. make world WORLD_ARGS="--p2p --seed 7"
+WORLD_ARGS ?=
+
+world: $(STAMP)
+	$(BIN)/python -m jachai.world $(WORLD_ARGS)
+
 # Stubs: fail loudly so nobody mistakes an empty run for real output.
-world train eval api web:
+train eval api web:
 	@echo "make $@: not implemented yet (see README, section 7)" >&2
 	@exit 1
 

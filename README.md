@@ -3,8 +3,8 @@
 AI merchant-transaction integrity engine for Bangla QR. Built for AI DEV FEST
 2026 AI Hackathon (DIU CPC × upay), Track 05: Merchant & Agent Intelligence.
 
-> Status: repository scaffold only. No models yet. Sections marked **TODO** are
-> filled in as the work lands.
+> Status: synthetic world generator done (`make world`). No models yet.
+> Sections marked **TODO** are filled in as the work lands.
 
 ## 1. Project overview
 
@@ -26,10 +26,17 @@ They do not prove real-world accuracy.
 
 ## 2. Features
 
-Planned (none built yet):
+- **Synthetic Bangla QR world** (done): 3,000 shops, 30,000 customers and 600
+  agents over 120 days (Jul–Oct 2026), with the 1 Oct regime change. Tables:
+  QR payments, remittances, add-money, and P2P transfers (what-if scenario).
+  Six misuse patterns and four honest look-alikes are injected by pluggable
+  functions listed in `configs/patterns.yaml`. True labels are kept in hidden
+  `_true_*` columns for evaluation only; models see a noisy `case_label`.
+  Seeded and deterministic. Assumptions: [data/ASSUMPTIONS.md](data/ASSUMPTIONS.md).
+  Counts: [reports/world_summary.md](reports/world_summary.md).
 
-- Synthetic Bangla QR world with injected misuse patterns and honest
-  look-alikes. **TODO**
+Planned:
+
 - Payment risk score, shop risk score and payer–shop network score. **TODO**
 - Fused risk band (low / review / high) with the top reasons for each case.
   **TODO**
@@ -91,7 +98,7 @@ Copy `.env.example` to `.env`. Never commit `.env`. All values in
 ```bash
 make help      # list all commands
 make install   # create .venv and install packages
-make world     # generate synthetic data         (TODO)
+make world     # generate synthetic data into data/world, summary into reports/
 make train     # train all models                (TODO)
 make eval      # write metrics to reports/       (TODO)
 make api       # run FastAPI on :8000            (TODO)
@@ -100,6 +107,9 @@ make test      # ruff + pytest
 make format    # auto-fix lint and formatting
 make clean     # remove .venv and caches
 ```
+
+Scenario and seed flags: `make world WORLD_ARGS="--p2p --seed 7"`. `--p2p`
+turns on the P2P QR what-if scenario.
 
 Targets marked TODO are stubs: they print "not implemented yet" and exit
 with an error, so an empty run is never mistaken for real output.
@@ -115,14 +125,21 @@ make test
 ```
 
 This runs `ruff check` and `ruff format --check` on the whole repo, then
-`pytest` on `ml/tests` and `backend/tests`. GitHub Actions runs the same checks
+`pytest` on `ml/tests` and `backend/tests`. The world tests build a small world
+in memory: they check that the same seed gives the same world, that every
+pattern produces rows that match its description, that true labels are hidden,
+and that no value looks like a phone number or NID. GitHub Actions runs the same checks
 on every push and pull request (`.github/workflows/ci.yml`).
 
 ## 10. Other configuration
 
-- Business rules (thresholds, policies, misuse patterns, world settings) live
-  in `configs/*.yaml`, never inside model code or LLM prompts. **TODO**: fill
-  in the files.
+- Business rules and world settings live in `configs/*.yaml`, never inside
+  model code or LLM prompts. `world.yaml` (calendar, regulation, population,
+  categories, ...) and `patterns.yaml` (misuse patterns, hard negatives, label
+  noise) are filled in and validated when loaded; a typo fails loudly.
+  `thresholds.yaml` and `rules.yaml` are **TODO**.
+- Generated data goes to `data/world/` (gitignored): one parquet file per table
+  plus `manifest.json` with the seed and a config fingerprint.
 - Data assumptions: [data/ASSUMPTIONS.md](data/ASSUMPTIONS.md)
 - Competition rules checklist: [RULES_CHECKLIST.md](RULES_CHECKLIST.md)
 - AI usage log: [docs/ai_usage.md](docs/ai_usage.md)
