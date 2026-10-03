@@ -17,6 +17,15 @@ eval:
   analyst_capacity_shops: 50 # shops an analyst team can review: precision@k for shops
   analyst_capacity_payments: 1000 # payments reviewed: precision@k for payments
 
+split:
+  # Split by shop AND by time: a shop is in exactly one group, and each group only
+  # uses its own date range. Train ends after 1 Oct so incentive_splitting (which
+  # only starts on 1 Oct) is in training; only `holdout_pattern` is unseen.
+  shop_shares: { train: 0.6, validation: 0.2, test: 0.2 }
+  train_end: 2026-10-05 # inclusive; training starts after eval.warmup_days
+  validation_end: 2026-10-15 # inclusive; test runs from the next day to the window end
+  holdout_pattern: turnover_burst # all its shops go to test; never trained or tuned on
+
 leakage:
   # A single feature that predicts the true label this well on its own means the
   # synthetic world is too easy or a feature leaks the label. Measured as
