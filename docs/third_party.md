@@ -11,3 +11,8 @@ the component.
 | ruff | 0.16.10 | MIT | Linter and formatter |
 | actions/checkout | v7 | MIT | GitHub Actions: check out the repo in CI |
 | actions/setup-python | v7 | MIT | GitHub Actions: install Python 3.11 in CI |
+| NumPy | 2.5.3 | BSD-3-Clause | Random number generation and array maths for the synthetic world |
+| pandas | 3.0.6 | BSD-3-Clause | Tables for the synthetic world and features |
+| PyArrow | 25.0.1 | Apache-2.0 | Parquet files for generated data |
+| Pydantic | 2.13.5 | MIT | Validates configs/*.yaml when loaded |
+| PyYAML | 6.0.3 | MIT | Reads configs/*.yaml |

@@ -1,2 +1,131 @@
-# patterns.yaml: placeholder. Filled in by a later step.
-# Business rules live here, never inside models or LLM prompts (CLAUDE.md rule 5).
+# Misuse patterns and honest look-alikes injected into the synthetic world.
+#
+# `fn` is the name of an injector registered in ml/jachai/world/patterns/ with
+# @register("<fn>"). Config cannot import arbitrary code; only registered names work.
+# kind: misuse        -> rows get true label 1
+#       hard_negative -> honest look-alike, true label 0
+# Patterns run in the order listed. Each pattern has its own random stream, so
+# turning one off does not change the random draws of the others.
+# All values are [assumption] unless tagged [brief]. See data/ASSUMPTIONS.md.
+
+label_noise:
+  # The observable `case_label` (past analyst cases) is imperfect. True labels stay
+  # in hidden `_true_*` columns used only for evaluation.
+  miss_rate: 0.30 # misuse never caught: true 1 -> case_label 0
+  false_flag_rate: 0.01 # honest wrongly flagged: true 0 -> case_label 1
+
+patterns:
+  # 1. Shop works as a cash desk: round amounts, many one-off payers, after hours.
+  - name: round_amount_cash_desk
+    fn: round_amount_cash_desk
+    kind: misuse
+    enabled: true
+    params:
+      shop_share: 0.015
+      categories: [grocery, mobile_phone_shop, pharmacy, tea_stall]
+      daily_cashouts: 6
+      active_day_share: 0.7
+      amounts: [1000, 2000, 3000, 5000, 10000, 15000, 20000]
+      amount_weights: [0.10, 0.20, 0.15, 0.25, 0.20, 0.05, 0.05]
+      after_hours_share: 0.5
+      far_payer_share: 0.6 # payer lives outside the shop's zone
+      bank_add_money_share: 0.5 # payer topped up from a bank shortly before
+
+  # 2. Payer receives a remittance, pays almost all of it to a distant shop, goes dormant.
+  - name: remittance_drain
+    fn: remittance_drain
+    kind: misuse
+    enabled: true
+    params:
+      receiver_share: 0.15 # of remittance receivers
+      n_shops: 25
+      min_distance_km: 60
+      drain_fraction: [0.92, 1.0]
+      delay_hours: [1, 48]
+      split_into: [1, 3]
+
+  # 3. Small shop receives Tk 5-lakh-scale bursts from payers in many places. [brief]
+  - name: turnover_burst
+    fn: turnover_burst
+    kind: misuse
+    enabled: true
+    params:
+      n_shops: 30
+      size_tiers: [small]
+      burst_days: [2, 5]
+      burst_total: [300000, 700000]
+      ticket: [8000, 50000]
+      min_distance_km: 40
+
+  # 4. Customer moves more than the daily cash-out limit, split across several shops. [brief]
+  - name: limit_bypass
+    fn: limit_bypass
+    kind: misuse
+    enabled: true
+    params:
+      n_rings: 20 # a ring is a set of complicit shops close to each other
+      ring_size: [3, 6]
+      customers_per_ring: [5, 12]
+      active_days: [3, 10]
+      daily_total: [32000, 60000] # above regulation.cash_out_limit_daily
+
+  # 5. Repeated payments just under the incentive cap, only after regime_change. [brief]
+  - name: incentive_splitting
+    fn: incentive_splitting
+    kind: misuse
+    enabled: true
+    params:
+      n_shops: 40
+      payers_per_shop: [3, 10]
+      payments_per_day: [3, 8]
+      below_cap: [1, 200] # amount = qr_incentive_cap minus this many Tk
+      active_day_share: 0.6
+
+  # 6. Business payments disguised as personal P2P transfers to the owner's wallet.
+  #    Only runs when scenario.p2p_qr_enabled is true. [brief]
+  - name: p2p_disguise
+    fn: p2p_disguise
+    kind: misuse
+    enabled: true
+    params:
+      n_shops: 40
+      daily_transfers: [5, 20]
+
+  # Hard negatives: honest shops that look suspicious.
+  - name: hn_big_ticket_retail
+    fn: hn_big_ticket_retail
+    kind: hard_negative
+    enabled: true
+    params:
+      categories: [electronics, wholesaler]
+      shop_share: 0.5 # of shops in those categories
+      daily_sales: 1.0
+      amounts: [5000, 50000]
+      round_unit: 1000
+
+  - name: hn_festival_spike
+    fn: hn_festival_spike
+    kind: hard_negative
+    enabled: true
+    params:
+      # No Eid falls in Jul-Oct 2026. Durga Puja is the festival in our window;
+      # dates are approximate and should be checked.
+      festival: durga_puja_approx
+      start: 2026-10-16
+      end: 2026-10-21
+      volume_mult: { clothing: 2.5, grocery: 1.4, electronics: 1.6, default: 1.2 }
+
+  - name: hn_haat_day_spike
+    fn: hn_haat_day_spike
+    kind: hard_negative
+    enabled: true
+    params:
+      volume_mult: 2.0 # rural haat shops on their weekly haat days
+
+  - name: hn_new_shop_ramp
+    fn: hn_new_shop_ramp
+    kind: hard_negative
+    enabled: true
+    params:
+      shop_share: 0.05
+      ramp_days: 30

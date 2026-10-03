@@ -1,2 +1,142 @@
-# world.yaml: placeholder. Filled in by a later step.
-# Business rules live here, never inside models or LLM prompts (CLAUDE.md rule 5).
+# Synthetic world settings for `make world`.
+#
+# Each number is tagged:
+#   [brief]       domain fact from the team brief (CLAUDE.md "Domain facts")
+#   [assumption]  team choice to make a plausible synthetic world; not measured data
+# data/ASSUMPTIONS.md explains every value. Change numbers here, never in code.
+
+seed: 42 # JACHAI_SEED env var overrides this
+
+calendar:
+  start: 2026-07-01 # 120 days: 1 Jul to 28 Oct 2026
+  days: 120
+  regime_change: 2026-10-01 # [brief] Bangla QR MDR and IRF zero, incentive on payments up to Tk 2,000
+
+regulation:
+  cash_out_limit_daily: 30000 # [brief] cash-out limit referenced in reporting, Tk per day
+  qr_incentive_cap: 2000 # [brief] incentive applies to payments up to this amount after regime_change
+
+scenario:
+  # [brief] P2P Bangla QR starts 1 Nov 2026, after our window. When enabled, this
+  # what-if scenario pretends it starts on p2p_qr_start so the P2P table and the
+  # p2p_disguise pattern can be generated and tested.
+  p2p_qr_enabled: false
+  p2p_qr_start: 2026-10-15
+
+population: # [assumption]
+  n_shops: 3000
+  n_customers: 30000
+  n_agents: 600
+
+map: # [assumption] synthetic flat map in km, not real geography
+  size_km: 300
+  dhaka_center_km: [150, 150]
+  dhaka_radius_km: 12
+  rural_spread_km: 25 # rural haat zones sit within this distance of a district town
+
+areas: # [assumption]
+  dhaka_urban:
+    shop_share: 0.40
+    customer_share: 0.42
+    n_zones: 20
+    volume_mult: 1.3
+  district_town:
+    shop_share: 0.35
+    customer_share: 0.33
+    n_zones: 40
+    volume_mult: 1.0
+  rural_haat:
+    shop_share: 0.25
+    customer_share: 0.25
+    n_zones: 60
+    volume_mult: 0.6
+    haat_days_per_week: 2 # used by the hn_haat_day_spike pattern
+
+size_tiers: # [assumption]
+  small: { share: 0.60, volume_mult: 0.5, regulars: [30, 80] }
+  medium: { share: 0.30, volume_mult: 1.0, regulars: [80, 200] }
+  large: { share: 0.10, volume_mult: 2.5, regulars: [200, 500] }
+
+# [assumption] Ticket sizes in Tk follow a lognormal with this median and sigma,
+# clipped to [min, max]. daily_qr_payments is the mean for a medium shop in a
+# district town. round_share of tickets are rounded to round_unit; the rest to Tk 5.
+categories:
+  grocery:
+    shop_share: 0.32
+    daily_qr_payments: 10
+    ticket: { median: 300, sigma: 0.8, min: 10, max: 20000 }
+    round_unit: 100
+    round_share: 0.15
+    open_hours: [7, 22]
+  tea_stall:
+    shop_share: 0.20
+    daily_qr_payments: 14
+    ticket: { median: 40, sigma: 0.5, min: 10, max: 1000 }
+    round_unit: 10
+    round_share: 0.30
+    open_hours: [6, 23]
+  pharmacy:
+    shop_share: 0.14
+    daily_qr_payments: 6
+    ticket: { median: 350, sigma: 0.9, min: 20, max: 25000 }
+    round_unit: 100
+    round_share: 0.10
+    open_hours: [8, 23]
+  mobile_phone_shop:
+    shop_share: 0.10
+    daily_qr_payments: 5
+    ticket: { median: 500, sigma: 1.2, min: 20, max: 80000 }
+    round_unit: 100
+    round_share: 0.25
+    open_hours: [9, 21]
+  clothing:
+    shop_share: 0.13
+    daily_qr_payments: 3
+    ticket: { median: 1200, sigma: 0.7, min: 100, max: 30000 }
+    round_unit: 100
+    round_share: 0.30
+    open_hours: [10, 21]
+  electronics:
+    shop_share: 0.06
+    daily_qr_payments: 1.5
+    ticket: { median: 6000, sigma: 1.0, min: 200, max: 150000 }
+    round_unit: 500
+    round_share: 0.50
+    open_hours: [10, 20]
+  wholesaler:
+    shop_share: 0.05
+    daily_qr_payments: 3
+    ticket: { median: 9000, sigma: 1.0, min: 500, max: 300000 }
+    round_unit: 500
+    round_share: 0.45
+    open_hours: [6, 18]
+
+payers: # [assumption] who pays an honest shop
+  regular_share: 0.65 # from the shop's own pool of regular customers
+  same_zone_share: 0.25 # any customer living in the shop's zone; the rest come from anywhere
+  honest_after_hours_share: 0.02 # honest payments outside opening hours
+
+qr: # [brief] one merchant can carry 4-5 Bangla QR codes from different providers
+  codes_per_shop: [1, 5]
+  on_us_share: 0.55 # [assumption] payer wallet is upay
+
+weekly: # [assumption]
+  friday_mult: 0.85
+  month_start_days: 5 # salary days
+  month_start_mult: 1.10
+
+remittances: # [assumption]
+  receiver_share: 0.12 # share of customers who receive remittances
+  per_30_days: 1.0
+  amount: { median: 20000, sigma: 0.6, min: 3000, max: 300000 }
+  corridors: { gulf: 0.60, europe: 0.15, asia_pacific: 0.15, north_america: 0.10 }
+
+add_money: # [assumption]
+  per_30_days: 3
+  amount: { median: 1500, sigma: 0.8, min: 50, max: 50000 }
+  channels: { agent_cash_in: 0.60, bank: 0.25, card: 0.15 }
+
+p2p: # [assumption] only generated when scenario.p2p_qr_enabled is true
+  per_30_days: 2
+  amount: { median: 1000, sigma: 0.9, min: 20, max: 50000 }
+  same_zone_share: 0.70
