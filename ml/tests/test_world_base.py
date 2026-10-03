@@ -15,9 +15,10 @@ from jachai.world.world import (
 )
 
 
-def test_same_seed_gives_identical_world(small_cfg):
-    a = generate_world(small_cfg).tables
-    b = generate_world(small_cfg).tables
+def test_same_seed_gives_identical_world(make_cfg, patterns_cfg):
+    cfg = make_cfg(scenario__p2p_qr_enabled=True)
+    a = generate_world(cfg, patterns_cfg).tables
+    b = generate_world(cfg, patterns_cfg).tables
     assert a.keys() == b.keys()
     for name in a:
         pd.testing.assert_frame_equal(a[name], b[name], obj=name)
@@ -77,8 +78,8 @@ PHONE = re.compile(r"(?<![0-9A-Za-z])(?:\+?88)?01[3-9]\d{8}(?![0-9A-Za-z])")
 NID = re.compile(r"^\d{10}$|^\d{13}$|^\d{17}$")
 
 
-def test_no_personal_data_columns_or_values(make_cfg):
-    tables = generate_world(make_cfg(scenario__p2p_qr_enabled=True)).tables
+def test_no_personal_data_columns_or_values(make_cfg, patterns_cfg):
+    tables = generate_world(make_cfg(scenario__p2p_qr_enabled=True), patterns_cfg).tables
     for name, df in tables.items():
         for col in df.columns:
             assert not PERSONAL_COLUMN.search(col), f"{name}.{col} looks like personal data"

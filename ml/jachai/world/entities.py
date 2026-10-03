@@ -101,6 +101,7 @@ def make_customers(cfg: WorldConfig, zones: pd.DataFrame) -> pd.DataFrame:
             "x_km": x,
             "y_km": y,
             f"{HIDDEN_PREFIX}segment": np.where(receiver, "remittance_receiver", "regular"),
+            TRUE_PATTERN: NORMAL,  # set by patterns for payers who take part in misuse
         }
     )
 

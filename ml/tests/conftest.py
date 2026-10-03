@@ -38,3 +38,12 @@ def patterns_cfg():
 def make_cfg():
     """Factory fixture: make_cfg(seed=1, scenario__p2p_qr_enabled=True)."""
     return small_world_config
+
+
+@pytest.fixture(scope="session")
+def pattern_world():
+    """A small world with every pattern and the P2P scenario on. Built once per run;
+    tests must not modify it."""
+    from jachai.world.generate import generate_world
+
+    return generate_world(small_world_config(scenario__p2p_qr_enabled=True), load_patterns_config())

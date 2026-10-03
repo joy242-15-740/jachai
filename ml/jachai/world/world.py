@@ -12,7 +12,7 @@ from dataclasses import dataclass, field
 import numpy as np
 import pandas as pd
 
-from jachai.world.config import PatternsConfig, WorldConfig
+from jachai.world.config import PatternsConfig, PatternSpec, WorldConfig
 
 HIDDEN_PREFIX = "_true_"
 TRUE_LABEL = f"{HIDDEN_PREFIX}is_misuse"
@@ -44,6 +44,8 @@ class World:
     # Each shop's regular customers (see entities.regular_pools); used by patterns
     # that add honest volume.
     pools: tuple[np.ndarray, np.ndarray, np.ndarray] | None = None
+    # The pattern currently being injected (set by patterns.run_patterns).
+    current_pattern: PatternSpec | None = None
 
     def append(self, table: str, rows: pd.DataFrame) -> None:
         """Add event rows (e.g. from a pattern). Columns must match the table."""

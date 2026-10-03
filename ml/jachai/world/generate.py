@@ -1,6 +1,6 @@
 """Build the whole synthetic world and write it to disk.
 
-Order: entities -> honest events -> pattern injectors (added in a later step)
+Order: entities -> honest events -> pattern injectors -> label noise
 -> finalize (sort by time, assign random event IDs).
 """
 
@@ -27,6 +27,8 @@ from jachai.world.events import (
     make_remittances,
 )
 from jachai.world.ids import random_ids
+from jachai.world.labels_noise import apply_label_noise
+from jachai.world.patterns import run_patterns
 from jachai.world.rng import stream
 from jachai.world.world import ENTITY_TABLES, EVENT_ID, EVENT_TABLES, World
 
@@ -66,7 +68,11 @@ def finalize(world: World) -> World:
 
 
 def generate_world(cfg: WorldConfig, patterns: PatternsConfig | None = None) -> World:
-    return finalize(build_base(cfg, patterns))
+    """The full world. Without a patterns config, only honest activity is generated."""
+    world = build_base(cfg, patterns)
+    run_patterns(world)
+    apply_label_noise(world)
+    return finalize(world)
 
 
 def config_fingerprint(cfg: WorldConfig, patterns: PatternsConfig | None) -> str:

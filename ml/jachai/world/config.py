@@ -206,9 +206,14 @@ class WorldConfig(_Strict):
         return self
 
 
-class LabelNoise(_Strict):
+class NoiseRates(_Strict):
     miss_rate: float = Field(ge=0, le=1)
     false_flag_rate: float = Field(ge=0, le=1)
+
+
+class LabelNoise(_Strict):
+    shops: NoiseRates
+    payments: NoiseRates  # applied to qr_payments and p2p_transfers
 
 
 class PatternSpec(_Strict):
