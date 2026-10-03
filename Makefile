@@ -14,7 +14,7 @@ help:
 	@echo "make install  create .venv and install ml + backend packages"
 	@echo "make world    generate synthetic data into data/world, summary into reports/"
 	@echo "make train    train all models                  (not built yet)"
-	@echo "make eval     write metrics to reports/         (not built yet)"
+	@echo "make eval     baselines + leakage check into reports/ (needs make world)"
 	@echo "make api      run FastAPI on :8000              (not built yet)"
 	@echo "make web      run Next.js on :3000              (not built yet)"
 	@echo "make test     ruff lint + format check, then pytest"
@@ -35,8 +35,11 @@ WORLD_ARGS ?=
 world: $(STAMP)
 	$(BIN)/python -m jachai.world $(WORLD_ARGS)
 
+eval: $(STAMP)
+	$(BIN)/python -m jachai.eval
+
 # Stubs: fail loudly so nobody mistakes an empty run for real output.
-train eval api web:
+train api web:
 	@echo "make $@: not implemented yet (see README, section 7)" >&2
 	@exit 1
 
