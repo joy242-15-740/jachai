@@ -62,7 +62,7 @@ Planned:
 
 ## 3. Technology stack
 
-- **ML and data:** Python 3.11+, pandas, NumPy, scikit-learn, LightGBM,
+- **ML and data:** Python 3.12+, pandas, NumPy, scikit-learn, LightGBM,
   NetworkX, SHAP (planned)
 - **Backend:** FastAPI, Pydantic v2 (planned)
 - **Frontend:** Next.js, TypeScript, Tailwind, Recharts (planned)
@@ -73,7 +73,8 @@ Every external component and its licence is listed in
 
 ## 4. Requirements
 
-- Python 3.11 or newer (`python3.12` or `python3.11` on your PATH)
+- Python 3.12 or newer (`python3.12` or `python3.13` on your PATH). NumPy 2.5 and
+  SciPy 1.18 need 3.12.
 - GNU Make
 - Git
 - Node.js (version TBD) for the frontend. **TODO**

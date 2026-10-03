@@ -1,8 +1,8 @@
 # Jachai developer commands. Run `make help` to list them.
 # Works with the GNU Make 3.81 that ships with macOS.
 
-# First Python 3.11+ found on PATH. Override with: make install PYTHON=/path/to/python
-PYTHON ?= $(shell command -v python3.13 || command -v python3.12 || command -v python3.11 || echo python3)
+# First Python 3.12+ found on PATH. Override with: make install PYTHON=/path/to/python
+PYTHON ?= $(shell command -v python3.13 || command -v python3.12 || echo python3)
 VENV   := .venv
 BIN    := $(VENV)/bin
 # Stamp file: reinstall only when a pyproject changes.

@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "jachai"
 version = "0.1.0"
 description = "Jachai ML: merchant-transaction integrity models for Bangla QR (synthetic data only)"
-requires-python = ">=3.11"
+requires-python = ">=3.12"
 # Each library is added when first used, together with a row in docs/third_party.md.
 dependencies = [
     "numpy>=2.5,<3",

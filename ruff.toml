@@ -1,5 +1,5 @@
 # One ruff config for the whole repo (ml/ and backend/).
-target-version = "py311"
+target-version = "py312"
 line-length = 100
 extend-exclude = ["frontend", "data", "reports"]
 

@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "jachai-backend"
 version = "0.1.0"
 description = "Jachai API: serves scores, reasons and case notes to the analyst dashboard"
-requires-python = ">=3.11"
+requires-python = ">=3.12"
 # FastAPI and Pydantic are added when the API is built, with rows in docs/third_party.md.
 dependencies = []
 
