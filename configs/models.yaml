@@ -38,3 +38,15 @@ shop_model:
     log_features: [unique_payers_per_day_7d, turnover_vs_peers_7d, last_day_vs_own_median_30d]
     snapshot_every_days: 7 # train on weekly snapshots, not every near-identical day
     n_estimators: 200
+
+network:
+  window_days: 30 # graph built from the previous 30 days of QR payments
+  snapshot_every_days: 7 # a shop-day uses the latest snapshot on or before it
+  # Two shops are linked when the same payer paid both on the same day AND that
+  # payer's QR total that day went past regulation.cash_out_limit_daily (share 1.0)
+  # across at least link_min_shops_same_day shops: the brief's limit-bypass
+  # definition. (Half the limit across 2 shops also linked honest big shoppers.)
+  link_min_day_total_share: 1.0
+  link_min_shops_same_day: 3
+  min_shared_payers: 2 # distinct linking payers needed for an edge
+  max_shops_per_payer: 25 # payers visiting more shops are skipped (they would link everything)

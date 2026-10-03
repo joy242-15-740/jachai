@@ -49,9 +49,19 @@ class ShopModelConfig(_Strict):
     isolation_forest: IsolationForestConfig
 
 
+class NetworkConfig(_Strict):
+    window_days: int = Field(gt=0)
+    snapshot_every_days: int = Field(gt=0)
+    link_min_day_total_share: float = Field(gt=0)
+    link_min_shops_same_day: int = Field(gt=1)
+    min_shared_payers: int = Field(gt=0)
+    max_shops_per_payer: int = Field(gt=1)
+
+
 class ModelsConfig(_Strict):
     payment_model: PaymentModelConfig
     shop_model: ShopModelConfig
+    network: NetworkConfig
 
 
 def load_models_config(path: Path | None = None) -> ModelsConfig:

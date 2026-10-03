@@ -21,3 +21,4 @@ the component.
 | joblib | 1.6.0 | BSD-3-Clause | Saves the calibration model; installed with scikit-learn |
 | threadpoolctl | 3.7.0 | BSD-3-Clause | Installed with scikit-learn |
 | LightGBM | 4.7.0 | MIT | Payment risk model (gradient-boosted trees) |
+| NetworkX | 3.7 | BSD-3-Clause | Payer-shop graph and Louvain communities for the network score |

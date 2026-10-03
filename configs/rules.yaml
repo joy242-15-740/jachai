@@ -63,3 +63,11 @@ training_target:
   mode: weak_and_cases # weak | weak_and_cases | cases (ablation compares all three)
   rule_weight: 1.0 # rules' weighted vote (weak_proba)
   case_weight: 3.0 # a closed investigation counts more than the rules
+
+# Ring flag on the payer-shop network (see ml/jachai/models/network.py).
+# A ring: a small community of nearby shops that share many of the same payers,
+# which is how limit-bypass rings look [brief].
+ring_flag:
+  community_size: [3, 8]
+  max_span_km: 10 # all ring shops within this distance of each other
+  min_linking_payers: 2 # payers linking this shop to others in its ring

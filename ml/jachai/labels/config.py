@@ -46,11 +46,18 @@ class TrainingTarget(_Strict):
     case_weight: float = Field(gt=0)
 
 
+class RingFlag(_Strict):
+    community_size: tuple[int, int]
+    max_span_km: float = Field(gt=0)
+    min_linking_payers: int = Field(gt=0)
+
+
 class RulesConfig(_Strict):
     labeling_functions: dict[str, LFSpec]
     aggregator: AggregatorSpec
     baselines: Baselines
     training_target: TrainingTarget
+    ring_flag: RingFlag
 
 
 def load_rules(path: Path | None = None) -> RulesConfig:
