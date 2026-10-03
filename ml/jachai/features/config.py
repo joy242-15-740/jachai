@@ -26,6 +26,7 @@ class EvalThresholds(_Strict):
     warmup_days: int = Field(ge=0)
     analyst_capacity_shops: int = Field(gt=0)
     analyst_capacity_payments: int = Field(gt=0)
+    ablation_seeds: list[int] = Field(min_length=1)
 
 
 class SplitThresholds(_Strict):

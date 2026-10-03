@@ -16,6 +16,7 @@ eval:
   warmup_days: 30 # first days lack history (long window); excluded from evaluation
   analyst_capacity_shops: 50 # shops an analyst team can review: precision@k for shops
   analyst_capacity_payments: 1000 # payments reviewed: precision@k for payments
+  ablation_seeds: [42, 7, 2026] # worlds regenerated per seed for the validation ablation
 
 split:
   # Split by shop AND by time: a shop is in exactly one group, and each group only
