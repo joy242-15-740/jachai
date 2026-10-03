@@ -18,5 +18,6 @@ the component.
 | PyYAML | 6.0.3 | MIT | Reads configs/*.yaml |
 | scikit-learn | 1.9.1 | BSD-3-Clause | Evaluation metrics (PR-AUC, ROC-AUC); models later |
 | SciPy | 1.18.1 | BSD-3-Clause | Installed with scikit-learn |
-| joblib | 1.6.0 | BSD-3-Clause | Installed with scikit-learn |
+| joblib | 1.6.0 | BSD-3-Clause | Saves the calibration model; installed with scikit-learn |
 | threadpoolctl | 3.7.0 | BSD-3-Clause | Installed with scikit-learn |
+| LightGBM | 4.7.0 | MIT | Payment risk model (gradient-boosted trees) |

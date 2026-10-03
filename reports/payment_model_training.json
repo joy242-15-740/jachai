@@ -1,0 +1,20 @@
+{
+  "model": "payment",
+  "fingerprint": "e990494f6592e5d6",
+  "trained_on": "weak labels (observable); hidden truth not used",
+  "train_rows": 782522,
+  "validation_rows": 40701,
+  "train_positive_share": 0.0062017425708159,
+  "best_iteration": 458,
+  "threshold_rule": "max F1 vs validation weak labels",
+  "seed": 42,
+  "holdout_pattern": "turnover_burst",
+  "validation": {
+    "against": "validation weak labels (hidden truth not used)",
+    "rows": 40701,
+    "pr_auc": 0.9999057657475355,
+    "precision": 0.9921259842519685,
+    "recall": 1.0,
+    "threshold": 0.5
+  }
+}

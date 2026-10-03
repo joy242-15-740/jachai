@@ -13,7 +13,7 @@ STAMP  := $(VENV)/.installed
 help:
 	@echo "make install  create .venv and install ml + backend packages"
 	@echo "make world    generate synthetic data into data/world, summary into reports/"
-	@echo "make train    train all models                  (not built yet)"
+	@echo "make train    train the payment model into models/ (needs make world)"
 	@echo "make eval     baselines + leakage check into reports/ (needs make world)"
 	@echo "make api      run FastAPI on :8000              (not built yet)"
 	@echo "make web      run Next.js on :3000              (not built yet)"
@@ -38,8 +38,11 @@ world: $(STAMP)
 eval: $(STAMP)
 	$(BIN)/python -m jachai.eval
 
+train: $(STAMP)
+	$(BIN)/python -m jachai.models
+
 # Stubs: fail loudly so nobody mistakes an empty run for real output.
-train api web:
+api web:
 	@echo "make $@: not implemented yet (see README, section 7)" >&2
 	@exit 1
 

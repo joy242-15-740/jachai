@@ -20,7 +20,8 @@ htmlcov/
 build/
 dist/
 
-# Models / large artefacts
+# Models / large artefacts (rebuilt by `make train`)
+/models/
 *.pkl
 *.joblib
 *.lgb

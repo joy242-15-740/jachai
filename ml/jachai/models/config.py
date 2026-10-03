@@ -1,0 +1,36 @@
+"""Load configs/models.yaml."""
+
+from __future__ import annotations
+
+from pathlib import Path
+from typing import Literal
+
+from pydantic import Field
+
+from jachai.world.config import DEFAULT_CONFIG_DIR, _read_yaml, _Strict
+
+
+class LightGBMParams(_Strict):
+    objective: Literal["binary"]
+    learning_rate: float = Field(gt=0)
+    num_leaves: int = Field(gt=1)
+    min_child_samples: int = Field(gt=0)
+    feature_fraction: float = Field(gt=0, le=1)
+    bagging_fraction: float = Field(gt=0, le=1)
+    bagging_freq: int = Field(ge=0)
+    lambda_l2: float = Field(ge=0)
+    num_boost_round: int = Field(gt=0)
+    early_stopping_rounds: int = Field(gt=0)
+
+
+class PaymentModelConfig(_Strict):
+    lightgbm: LightGBMParams
+    threshold_metric: Literal["f1"]
+
+
+class ModelsConfig(_Strict):
+    payment_model: PaymentModelConfig
+
+
+def load_models_config(path: Path | None = None) -> ModelsConfig:
+    return ModelsConfig.model_validate(_read_yaml(path or DEFAULT_CONFIG_DIR / "models.yaml"))
