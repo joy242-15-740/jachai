@@ -15,3 +15,26 @@ payment_model:
     early_stopping_rounds: 50 # on validation weak labels
   # Frozen on validation: the cut-off that maximises F1 against validation targets.
   threshold_metric: f1
+
+shop_model:
+  # 1) Expected daily turnover from what the shop IS (not what it does).
+  turnover:
+    inputs: [category, area_type, size_tier]
+    loss: absolute_error # median-type loss: a few huge misuse shops cannot pull "expected" up
+    max_iter: 200
+    learning_rate: 0.1
+  # 2) Odd behaviour among similar shops.
+  isolation_forest:
+    peer_group: [category, area_type]
+    min_peer_shops: 30 # smaller groups fall back to the category alone
+    features:
+      - round_1000_share_30d
+      - after_hours_share_30d
+      - first_visit_share_30d
+      - far_payer_share_30d
+      - unique_payers_per_day_7d
+      - turnover_vs_peers_7d
+      - last_day_vs_own_median_30d
+    log_features: [unique_payers_per_day_7d, turnover_vs_peers_7d, last_day_vs_own_median_30d]
+    snapshot_every_days: 7 # train on weekly snapshots, not every near-identical day
+    n_estimators: 200

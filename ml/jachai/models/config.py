@@ -28,8 +28,30 @@ class PaymentModelConfig(_Strict):
     threshold_metric: Literal["f1"]
 
 
+class TurnoverConfig(_Strict):
+    inputs: list[str] = Field(min_length=1)
+    loss: Literal["absolute_error", "squared_error"]
+    max_iter: int = Field(gt=0)
+    learning_rate: float = Field(gt=0)
+
+
+class IsolationForestConfig(_Strict):
+    peer_group: list[str] = Field(min_length=1)
+    min_peer_shops: int = Field(gt=0)
+    features: list[str] = Field(min_length=1)
+    log_features: list[str]
+    snapshot_every_days: int = Field(gt=0)
+    n_estimators: int = Field(gt=0)
+
+
+class ShopModelConfig(_Strict):
+    turnover: TurnoverConfig
+    isolation_forest: IsolationForestConfig
+
+
 class ModelsConfig(_Strict):
     payment_model: PaymentModelConfig
+    shop_model: ShopModelConfig
 
 
 def load_models_config(path: Path | None = None) -> ModelsConfig:
