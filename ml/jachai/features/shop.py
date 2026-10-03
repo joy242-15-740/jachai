@@ -32,6 +32,29 @@ def _past(wide: pd.DataFrame, window: int, how: str = "sum") -> pd.DataFrame:
     return getattr(roll, how)().shift(1)
 
 
+def _owner_p2p_senders(
+    tables: dict[str, pd.DataFrame],
+    shops: pd.DataFrame,
+    days: pd.DatetimeIndex,
+    thr: FeatureThresholds,
+) -> pd.Series:
+    """Distinct-sender days into the owner's personal wallet over the previous
+    `short_window_days` days (0 when the P2P table is empty)."""
+    p2p = public_view(tables["p2p_transfers"])
+    owner_to_shop = pd.Series(shops.index, index=shops["owner_wallet_id"])
+    p2p = p2p[p2p["receiver_id"].isin(owner_to_shop.index)]
+    daily = (
+        p2p.assign(shop_id=p2p["receiver_id"].map(owner_to_shop), day=p2p["ts"].dt.normalize())
+        .groupby(["shop_id", "day"])["sender_id"]
+        .nunique()
+        .astype(float)
+    )
+    wide = _wide(daily, days, shops.index)
+    return (
+        _past(wide, thr.short_window_days).stack(future_stack=True).rename_axis(["day", "shop_id"])
+    )
+
+
 def build_shop_day_features(
     payment_features: pd.DataFrame,
     tables: dict[str, pd.DataFrame],
@@ -87,6 +110,11 @@ def build_shop_day_features(
     long = long.join(static, on="shop_id")
     peer_median = long.groupby(["day", *PEER_KEYS])["turnover_7d"].transform("median")
     long["turnover_vs_peers_7d"] = (long["turnover_7d"] + 1) / (peer_median + 1)
+    long["owner_p2p_senders_7d"] = (
+        _owner_p2p_senders(tables, shops, days, thr)
+        .reindex(pd.MultiIndex.from_frame(long[["day", "shop_id"]]))
+        .to_numpy()
+    )
     long["shop_age_days"] = (long["day"] - long["opened_on"]).dt.days
     long["is_open"] = (long["shop_age_days"] >= 0).astype(np.int8)
     long = long.rename(columns={"n_qr_codes": "qr_codes_per_account"})

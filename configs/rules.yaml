@@ -1,2 +1,43 @@
-# rules.yaml: placeholder. Filled in by a later step.
-# Business rules live here, never inside models or LLM prompts (CLAUDE.md rule 5).
+# Business rules. Labeling functions (weak labels) read their thresholds and vote
+# weights from here; nothing is hard-coded in ml/jachai/labels/.
+# All values are [assumption] unless tagged [brief]. Regulatory numbers (Tk 30,000
+# limit, Tk 2,000 cap) come from configs/world.yaml `regulation`.
+
+labeling_functions:
+  # --- vote 1 (misuse) on QR payments -------------------------------------------
+  lf_cash_desk: # round amount, stranger, at night or from far away
+    weight: 1.0
+    min_amount: 1000
+    far_km: 20
+  lf_remittance_drain: # most of a recent remittance paid to a distant shop
+    weight: 1.0
+    min_paid_share: 0.8
+    min_distance_km: 50
+  lf_turnover_burst: # stranger from far away paying many times the usual basket
+    weight: 0.8
+    min_amount_vs_median: 20
+    min_distance_km: 30
+  lf_limit_bypass: # payer over the daily limit today, across several shops [brief]
+    weight: 1.0
+    min_shops_today: 3 # 2 caught too many honest big shopping days (TV + groceries)
+    round_unit: 500 # split pieces are round, honest receipts mostly are not
+  lf_incentive_splitting: # repeated just-under-cap payments at one shop after 1 Oct [brief]
+    weight: 1.0
+    min_payments_here_today: 2
+
+  # --- vote 0 (honest) on QR payments --------------------------------------------
+  lf_honest_small_ticket: # ordinary basket, nothing odd about the payer's day
+    weight: 0.5
+    max_amount_vs_median: 3
+  lf_honest_regular_customer: # known customer, lives nearby, non-round amount
+    weight: 0.5
+    max_distance_km: 10
+
+  # --- vote 1 (misuse) on shop-days ----------------------------------------------
+  lf_p2p_disguise: # many different people paying the owner's personal wallet
+    weight: 1.0
+    min_p2p_senders_7d: 15
+
+aggregator:
+  kind: weighted_vote # interface allows a learned label model to replace it
+  threshold: 0.5 # weak label 1 when the weighted share of misuse votes >= this
