@@ -8,6 +8,9 @@ features:
   inflow_window_minutes: 60 # money paid soon after an add-money or remittance
   remittance_window_hours: 48 # remittance drain window
   category_median_lookback_days: 30 # basket reference: past days only
+  short_window_days: 7 # payer and shop history windows (earlier days only)
+  long_window_days: 30
+  far_payer_km: 20 # payer lives at least this far from the shop
 
 leakage:
   # A single feature that predicts the true label this well on its own means the

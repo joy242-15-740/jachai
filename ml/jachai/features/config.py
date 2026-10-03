@@ -16,6 +16,9 @@ class FeatureThresholds(_Strict):
     inflow_window_minutes: int = Field(gt=0)
     remittance_window_hours: int = Field(gt=0)
     category_median_lookback_days: int = Field(gt=0)
+    short_window_days: int = Field(gt=0)
+    long_window_days: int = Field(gt=0)
+    far_payer_km: float = Field(gt=0)
 
 
 class LeakageThresholds(_Strict):
