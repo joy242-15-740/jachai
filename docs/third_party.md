@@ -9,3 +9,5 @@ the component.
 | setuptools | >=69 (build only) | MIT | Builds and installs the `jachai` and `jachai-backend` packages |
 | pytest | 9.1.1 | MIT | Test runner |
 | ruff | 0.16.10 | MIT | Linter and formatter |
+| actions/checkout | v7 | MIT | GitHub Actions: check out the repo in CI |
+| actions/setup-python | v7 | MIT | GitHub Actions: install Python 3.11 in CI |

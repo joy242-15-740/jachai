@@ -89,14 +89,20 @@ Copy `.env.example` to `.env`. Never commit `.env`. All values in
 ## 7. Run and build commands
 
 ```bash
+make help      # list all commands
 make install   # create .venv and install packages
-make world     # generate synthetic data         (stub: TODO)
-make train     # train all models                (stub: TODO)
-make eval      # write metrics to reports/       (stub: TODO)
-make api       # run FastAPI on :8000            (stub: TODO)
-make web       # run Next.js on :3000            (stub: TODO)
+make world     # generate synthetic data         (TODO)
+make train     # train all models                (TODO)
+make eval      # write metrics to reports/       (TODO)
+make api       # run FastAPI on :8000            (TODO)
+make web       # run Next.js on :3000            (TODO)
 make test      # ruff + pytest
+make format    # auto-fix lint and formatting
+make clean     # remove .venv and caches
 ```
+
+Targets marked TODO are stubs: they print "not implemented yet" and exit
+with an error, so an empty run is never mistaken for real output.
 
 ## 8. Live deployment URL
 
