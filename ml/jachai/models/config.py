@@ -11,7 +11,7 @@ from jachai.world.config import DEFAULT_CONFIG_DIR, _read_yaml, _Strict
 
 
 class LightGBMParams(_Strict):
-    objective: Literal["binary"]
+    objective: Literal["binary", "cross_entropy"]
     learning_rate: float = Field(gt=0)
     num_leaves: int = Field(gt=1)
     min_child_samples: int = Field(gt=0)

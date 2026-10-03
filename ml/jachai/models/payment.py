@@ -1,17 +1,16 @@
-"""Payment risk model: LightGBM on weak labels, isotonic calibration.
+"""Payment risk model: LightGBM on soft targets, isotonic calibration.
 
-Training uses only observable things: point-in-time features and weak labels.
-  1. train   LightGBM on train rows with a weak label (abstained rows dropped),
-             early stopping on validation weak labels
-  2. calibrate  isotonic regression on validation: raw score -> probability that
-             the weak-label process would call it misuse
-  3. freeze  the flag threshold on validation (max F1 vs weak labels)
-The hidden truth is never used here; it is only used once, on test, in
-jachai.eval.payment_eval.
+Training uses only observable things: point-in-time features and the soft
+targets from jachai.labels.targets (rules' votes and/or past cases).
+  1. train      LightGBM (cross-entropy on soft targets, weighted by evidence)
+                on train rows with evidence; early stopping on validation
+  2. calibrate  isotonic regression on validation: raw score -> target scale
+  3. freeze     the flag threshold on validation (max F1 vs validation targets)
+The hidden truth is never used here; it is only used once, on test.
 
-Note: calibration is against weak labels, not the truth. A "0.8" means "the rules
-would agree 80% of the time", which is not the same as an 80% chance of real
-misuse. The test report shows how it lines up with the truth.
+Note: calibration is against the training evidence, not the truth. A "0.8"
+means "our evidence would call this misuse 80% of the time", not an 80% chance
+of real misuse. The test report shows how it lines up with the truth.
 """
 
 from __future__ import annotations
@@ -28,6 +27,7 @@ import pandas as pd
 from sklearn.isotonic import IsotonicRegression
 
 from jachai.features import feature_columns
+from jachai.labels.targets import Targets
 from jachai.models.config import PaymentModelConfig
 
 MODEL_FILE, CALIBRATOR_FILE, META_FILE = (
@@ -98,17 +98,17 @@ def best_f1_threshold(y: np.ndarray, p: np.ndarray) -> float:
 def train_payment_model(
     payments: pd.DataFrame,
     split: pd.Series,
-    weak_label: np.ndarray,
+    targets: Targets,
     cfg: PaymentModelConfig,
     seed: int,
 ) -> PaymentModel:
-    """`split` and `weak_label` are aligned with `payments` rows."""
+    """`split` and `targets` are aligned with `payments` rows."""
     features = feature_columns(payments)
-    labelled = weak_label != -1
-    tr = (split.to_numpy() == "train") & labelled
-    va = (split.to_numpy() == "validation") & labelled
-    if weak_label[tr].min() == weak_label[tr].max():
-        raise ValueError("training weak labels are all one class")
+    tr = (split.to_numpy() == "train") & targets.usable
+    va = (split.to_numpy() == "validation") & targets.usable
+    y, w, hard = targets.soft, targets.weight, targets.hard
+    if hard[tr].min() == hard[tr].max() or hard[va].min() == hard[va].max():
+        raise ValueError("training or validation targets are all one class")
 
     p = cfg.lightgbm
     params = {
@@ -125,8 +125,8 @@ def train_payment_model(
         "num_threads": 1,  # same result on every machine
         "verbosity": -1,
     }
-    train_set = lgb.Dataset(payments.loc[tr, features], weak_label[tr])
-    val_set = lgb.Dataset(payments.loc[va, features], weak_label[va], reference=train_set)
+    train_set = lgb.Dataset(payments.loc[tr, features], y[tr], weight=w[tr])
+    val_set = lgb.Dataset(payments.loc[va, features], y[va], weight=w[va], reference=train_set)
     booster = lgb.train(
         params,
         train_set,
@@ -137,16 +137,16 @@ def train_payment_model(
 
     raw_val = booster.predict(payments.loc[va, features], num_iteration=booster.best_iteration)
     calibrator = IsotonicRegression(out_of_bounds="clip", y_min=0.0, y_max=1.0)
-    calibrator.fit(raw_val, weak_label[va])
-    threshold = best_f1_threshold(weak_label[va], calibrator.predict(raw_val))
+    calibrator.fit(raw_val, y[va], sample_weight=w[va])
+    threshold = best_f1_threshold(hard[va], calibrator.predict(raw_val))
 
     meta = {
-        "trained_on": "weak labels (observable); hidden truth not used",
+        "trained_on": "soft targets from rules and/or past cases; hidden truth not used",
         "train_rows": int(tr.sum()),
         "validation_rows": int(va.sum()),
-        "train_positive_share": float(weak_label[tr].mean()),
+        "train_mean_target": float(np.average(y[tr], weights=w[tr])),
         "best_iteration": int(booster.best_iteration),
-        "threshold_rule": "max F1 vs validation weak labels",
+        "threshold_rule": "max F1 vs validation targets",
         "seed": seed,
     }
     return PaymentModel(booster, calibrator, features, threshold, meta)

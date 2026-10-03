@@ -40,10 +40,17 @@ class Baselines(_Strict):
     blanket_limit: BlanketLimitBaseline
 
 
+class TrainingTarget(_Strict):
+    mode: Literal["weak", "weak_and_cases", "cases"]
+    rule_weight: float = Field(gt=0)
+    case_weight: float = Field(gt=0)
+
+
 class RulesConfig(_Strict):
     labeling_functions: dict[str, LFSpec]
     aggregator: AggregatorSpec
     baselines: Baselines
+    training_target: TrainingTarget
 
 
 def load_rules(path: Path | None = None) -> RulesConfig:

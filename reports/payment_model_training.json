@@ -1,20 +1,21 @@
 {
   "model": "payment",
-  "fingerprint": "e990494f6592e5d6",
-  "trained_on": "weak labels (observable); hidden truth not used",
-  "train_rows": 782522,
+  "fingerprint": "3ae301c40694e10b",
+  "trained_on": "soft targets from rules and/or past cases; hidden truth not used",
+  "train_rows": 783469,
   "validation_rows": 40701,
-  "train_positive_share": 0.0062017425708159,
-  "best_iteration": 458,
-  "threshold_rule": "max F1 vs validation weak labels",
+  "train_mean_target": 0.020092014098220003,
+  "best_iteration": 498,
+  "threshold_rule": "max F1 vs validation targets",
   "seed": 42,
+  "target_mode": "weak_and_cases",
   "holdout_pattern": "turnover_burst",
   "validation": {
-    "against": "validation weak labels (hidden truth not used)",
+    "against": "validation targets (hidden truth not used)",
     "rows": 40701,
-    "pr_auc": 0.9999057657475355,
-    "precision": 0.9921259842519685,
-    "recall": 1.0,
+    "pr_auc": 0.99828109946549,
+    "precision": 0.984313725490196,
+    "recall": 0.996031746031746,
     "threshold": 0.5
   }
 }

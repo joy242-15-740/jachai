@@ -53,3 +53,13 @@ baselines:
     # QR per day. Payments past the cap that day are blocked; a shop that ever
     # hits the cap is "flagged".
     daily_cap: 100000
+
+# How the payment model's training target is built from the evidence we have.
+# Soft target = weighted average of the available evidence; training weight = the
+# sum of those weights. Rows with no evidence (all rules abstain, no usable case)
+# are dropped. Cases are only used if closed before the split's cutoff, only for
+# that split's shops, and only for payments made before the case closed.
+training_target:
+  mode: weak_and_cases # weak | weak_and_cases | cases (ablation compares all three)
+  rule_weight: 1.0 # rules' weighted vote (weak_proba)
+  case_weight: 3.0 # a closed investigation counts more than the rules

@@ -1,6 +1,6 @@
 """`python -m jachai.models` (what `make train` runs).
 
-Trains the payment model on weak labels, saves it to models/ (gitignored) and
+Trains the payment model on rules' votes + past cases, saves it to models/ (gitignored) and
 writes reports/payment_model_training.json. Does not touch the test set.
 """
 
@@ -27,14 +27,14 @@ def main() -> None:
         load_models_config(),
     )
     data = prepare_payment_data(read_world_tables(default_world_dir()), cfg, thr, rules)
-    model = train_from_data(data, models, cfg.seed)
+    model = train_from_data(data, models, rules.training_target, cfg.seed)
     model.save(MODELS_DIR)
     report = {
         "model": "payment",
         "fingerprint": model.fingerprint(),
         **model.meta,
         "holdout_pattern": thr.split.holdout_pattern,
-        "validation": validation_report(model, data),
+        "validation": validation_report(model, data, rules.training_target),
     }
     path = default_report_path().parent / "payment_model_training.json"
     path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
