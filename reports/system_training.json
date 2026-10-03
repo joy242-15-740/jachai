@@ -1,0 +1,48 @@
+{
+  "system": "payment + shop + network + fusion",
+  "test_set_touched": false,
+  "payment_model": {
+    "fingerprint": "3ae301c40694e10b",
+    "trained_on": "soft targets from rules and/or past cases; hidden truth not used",
+    "train_rows": 783469,
+    "validation_rows": 40701,
+    "train_mean_target": 0.020092014098220003,
+    "best_iteration": 498,
+    "threshold_rule": "max F1 vs validation targets",
+    "seed": 42,
+    "target_mode": "weak_and_cases",
+    "validation_vs_targets": {
+      "against": "validation targets (hidden truth not used)",
+      "rows": 40701,
+      "pr_auc": 0.99828109946549,
+      "precision": 0.984313725490196,
+      "recall": 0.996031746031746,
+      "threshold": 0.5
+    }
+  },
+  "shop_model": {
+    "peer_forests": 27,
+    "turnover_residual_median": -0.00012793328244331548,
+    "turnover_residual_scale": 0.3527588737656117
+  },
+  "fusion": {
+    "weights": {
+      "payment_top3_7d": 0.3,
+      "payment_flag_share_7d": 0.1,
+      "turnover_z": 0.15,
+      "peer_anomaly": 0.15,
+      "linking_payers": 0.1,
+      "ring_flag": 0.1,
+      "distant_payer_share": 0.1
+    },
+    "band_cutoffs_frozen_on_validation": {
+      "review": 0.6422579774353658,
+      "high": 0.7900803413099893
+    },
+    "validation_shop_days_per_band": {
+      "low": 5547,
+      "review": 362,
+      "high": 121
+    }
+  }
+}

@@ -50,3 +50,19 @@ network:
   link_min_shops_same_day: 3
   min_shared_payers: 2 # distinct linking payers needed for an edge
   max_shops_per_payer: 25 # payers visiting more shops are skipped (they would link everything)
+
+fusion:
+  # Shop-day risk = weighted average of component ranks. Each component is first
+  # turned into "share of TRAIN shop-days with a lower value" (0..1), so a z-score,
+  # an anomaly score and a 0/1 flag become comparable. Weights are a documented
+  # choice [assumption], NOT tuned: validation has too few misuse shops to tune
+  # seven weights without fitting noise. Step-5 ablation shows what each adds.
+  payment_window_days: 7
+  weights:
+    payment_top3_7d: 0.30 # mean of the shop's 3 riskiest payments, last 7 days
+    payment_flag_share_7d: 0.10 # share of its payments above the payment threshold
+    turnover_z: 0.15 # busier than a shop like this should be
+    peer_anomaly: 0.15 # unusual among similar shops
+    linking_payers: 0.10 # payers linking it to others on same heavy days
+    ring_flag: 0.10 # part of a small, tight ring
+    distant_payer_share: 0.10 # payers living far away

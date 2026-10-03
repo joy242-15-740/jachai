@@ -46,6 +46,17 @@ class SplitThresholds(_Strict):
         return self
 
 
+class BandThresholds(_Strict):
+    high_quantile: float = Field(gt=0, lt=1)
+    review_quantile: float = Field(gt=0, lt=1)
+
+    @model_validator(mode="after")
+    def _order(self) -> BandThresholds:
+        if not self.review_quantile < self.high_quantile:
+            raise ValueError("review_quantile must be below high_quantile")
+        return self
+
+
 class LeakageThresholds(_Strict):
     max_single_feature_auc: float = Field(gt=0.5, le=1)
 
@@ -54,6 +65,7 @@ class ThresholdsConfig(_Strict):
     features: FeatureThresholds
     eval: EvalThresholds
     split: SplitThresholds
+    bands: BandThresholds
     leakage: LeakageThresholds
 
 

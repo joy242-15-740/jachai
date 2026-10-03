@@ -27,6 +27,12 @@ split:
   validation_end: 2026-10-15 # inclusive; test runs from the next day to the window end
   holdout_pattern: turnover_burst # all its shops go to test; never trained or tuned on
 
+bands:
+  # Fused shop-day risk bands, frozen on VALIDATION shop-days as absolute cut-offs
+  # (saved with the trained system) and never re-fitted on test.
+  high_quantile: 0.98 # top 2% of validation shop-days -> "high"
+  review_quantile: 0.92 # next 6% -> "review"; the rest -> "low"
+
 leakage:
   # A single feature that predicts the true label this well on its own means the
   # synthetic world is too easy or a feature leaks the label. Measured as

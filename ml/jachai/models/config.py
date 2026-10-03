@@ -5,7 +5,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Literal
 
-from pydantic import Field
+from pydantic import Field, model_validator
 
 from jachai.world.config import DEFAULT_CONFIG_DIR, _read_yaml, _Strict
 
@@ -58,10 +58,22 @@ class NetworkConfig(_Strict):
     max_shops_per_payer: int = Field(gt=1)
 
 
+class FusionConfig(_Strict):
+    payment_window_days: int = Field(gt=0)
+    weights: dict[str, float]
+
+    @model_validator(mode="after")
+    def _weights(self) -> FusionConfig:
+        if not self.weights or min(self.weights.values()) < 0 or sum(self.weights.values()) <= 0:
+            raise ValueError("fusion.weights must be non-negative with a positive sum")
+        return self
+
+
 class ModelsConfig(_Strict):
     payment_model: PaymentModelConfig
     shop_model: ShopModelConfig
     network: NetworkConfig
+    fusion: FusionConfig
 
 
 def load_models_config(path: Path | None = None) -> ModelsConfig:
