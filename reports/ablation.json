@@ -1,0 +1,109 @@
+{
+  "evaluated_on": "validation shops and dates, against the hidden true label",
+  "test_set_touched": false,
+  "validation_payments": 42377,
+  "validation_misuse_payments": 492,
+  "label_sources": [
+    {
+      "variant": "rules_only",
+      "pr_auc": 0.2968022269778802,
+      "precision_at_1000": 0.193,
+      "precision": 0.7301587301587301,
+      "recall": 0.37398373983739835,
+      "value_recall": 0.47673027167603504,
+      "flags": 252,
+      "flag_overlap_with_rules": 1.0
+    },
+    {
+      "variant": "model_weak",
+      "pr_auc": 0.29842183921534016,
+      "precision_at_1000": 0.3,
+      "precision": 0.3821656050955414,
+      "recall": 0.4878048780487805,
+      "value_recall": 0.6318848375130848,
+      "flags": 628,
+      "flag_overlap_with_rules": 0.3990461049284579,
+      "train_rows_with_evidence": 782522,
+      "train_case_shops_misuse": 12,
+      "train_case_shops_honest": 44,
+      "validation_case_shops_misuse": 0,
+      "validation_case_shops_honest": 1
+    },
+    {
+      "variant": "model_weak_and_cases",
+      "pr_auc": 0.48010511525403843,
+      "precision_at_1000": 0.308,
+      "precision": 0.5648148148148148,
+      "recall": 0.6199186991869918,
+      "value_recall": 0.765589605190447,
+      "flags": 540,
+      "flag_overlap_with_rules": 0.46395563770794823,
+      "train_rows_with_evidence": 783469,
+      "train_case_shops_misuse": 12,
+      "train_case_shops_honest": 44,
+      "validation_case_shops_misuse": 0,
+      "validation_case_shops_honest": 1
+    },
+    {
+      "variant": "model_cases",
+      "not_trainable": "training or validation targets are all one class",
+      "train_case_shops_misuse": 12,
+      "train_case_shops_honest": 44,
+      "validation_case_shops_misuse": 0,
+      "validation_case_shops_honest": 1
+    }
+  ],
+  "case_coverage": [
+    {
+      "variant": "model_weak_and_cases @ 2% coverage",
+      "pr_auc": 0.4090304434072578,
+      "precision_at_1000": 0.301,
+      "precision": 0.6813880126182965,
+      "recall": 0.43902439024390244,
+      "value_recall": 0.5749297874020067,
+      "flags": 317,
+      "flag_overlap_with_rules": 0.789308176100629,
+      "train_rows_with_evidence": 782884,
+      "train_case_shops_misuse": 0,
+      "train_case_shops_honest": 26,
+      "validation_case_shops_misuse": 0,
+      "validation_case_shops_honest": 1,
+      "cases": 60,
+      "usable_train_cases": 26
+    },
+    {
+      "variant": "model_weak_and_cases @ 5% coverage",
+      "pr_auc": 0.565206650251559,
+      "precision_at_1000": 0.38,
+      "precision": 0.6156941649899397,
+      "recall": 0.6219512195121951,
+      "value_recall": 0.7567724995863289,
+      "flags": 497,
+      "flag_overlap_with_rules": 0.5040160642570282,
+      "train_rows_with_evidence": 783149,
+      "train_case_shops_misuse": 6,
+      "train_case_shops_honest": 39,
+      "validation_case_shops_misuse": 1,
+      "validation_case_shops_honest": 2,
+      "cases": 150,
+      "usable_train_cases": 45
+    },
+    {
+      "variant": "model_weak_and_cases @ 10% coverage",
+      "pr_auc": 0.5100711330181952,
+      "precision_at_1000": 0.321,
+      "precision": 0.5812917594654788,
+      "recall": 0.5304878048780488,
+      "value_recall": 0.7040139261118612,
+      "flags": 449,
+      "flag_overlap_with_rules": 0.40480961923847697,
+      "train_rows_with_evidence": 784152,
+      "train_case_shops_misuse": 15,
+      "train_case_shops_honest": 69,
+      "validation_case_shops_misuse": 2,
+      "validation_case_shops_honest": 3,
+      "cases": 300,
+      "usable_train_cases": 84
+    }
+  ]
+}
