@@ -1,0 +1,2 @@
+# patterns.yaml: placeholder. Filled in by a later step.
+# Business rules live here, never inside models or LLM prompts (CLAUDE.md rule 5).

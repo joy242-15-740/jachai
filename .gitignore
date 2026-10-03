@@ -1,0 +1,36 @@
+# Generated data: ignore everything in data/ except the assumptions file
+data/*
+!data/ASSUMPTIONS.md
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+build/
+dist/
+
+# Models / large artefacts
+*.pkl
+*.joblib
+*.lgb
+
+# Frontend
+node_modules/
+.next/
+out/
+
+# OS / editors
+.DS_Store
+.idea/
+.vscode/
