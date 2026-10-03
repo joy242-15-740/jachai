@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "jachai"
+version = "0.1.0"
+description = "Jachai ML: merchant-transaction integrity models for Bangla QR (synthetic data only)"
+requires-python = ">=3.11"
+# Runtime ML libraries (pandas, scikit-learn, LightGBM, ...) are added when first used,
+# together with a row in docs/third_party.md.
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest==9.1.1", "ruff==0.16.10"]
+
+[tool.setuptools.packages.find]
+include = ["jachai*"]

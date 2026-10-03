@@ -1,0 +1,11 @@
+# One ruff config for the whole repo (ml/ and backend/).
+target-version = "py311"
+line-length = 100
+extend-exclude = ["frontend", "data", "reports"]
+
+[lint]
+# E/W pycodestyle, F pyflakes, I import order, B bugbear, UP pyupgrade, SIM simplify
+select = ["E", "W", "F", "I", "B", "UP", "SIM"]
+
+[lint.isort]
+known-first-party = ["jachai", "app"]
