@@ -111,6 +111,9 @@ categories:
     round_share: 0.45
     open_hours: [6, 18]
 
+customers: # [assumption]
+  account_age_mean_days: 700 # accounts all exist before the window; age ~ exponential
+
 payers: # [assumption] who pays an honest shop
   regular_share: 0.65 # from the shop's own pool of regular customers
   same_zone_share: 0.25 # any customer living in the shop's zone; the rest come from anywhere

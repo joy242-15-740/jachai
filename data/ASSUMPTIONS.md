@@ -100,6 +100,13 @@ a few large), clipped to a min and max:
 - Each category has opening hours (for example tea stalls 06–23, wholesalers
   06–18). Payments outside them count as after-hours.
 
+### `customers`
+Every customer account already exists before the window. Account age is
+exponential with a mean of 700 days. **[assumption]** No pattern uses account
+age, so the `payer_account_age_days` feature carries no signal in this world. It
+is there so the pipeline is ready for real data, where new accounts are a known
+risk sign.
+
 ### `payers`
 Who pays an honest shop **[assumption]**: 65% the shop's own regular customers,
 25% other people from the same zone, 10% anyone. 2% of honest payments happen

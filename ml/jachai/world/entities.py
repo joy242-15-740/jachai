@@ -93,9 +93,15 @@ def make_customers(cfg: WorldConfig, zones: pd.DataFrame) -> pd.DataFrame:
     areas = _choice_by_share(rng, {k: a.customer_share for k, a in cfg.areas.items()}, n)
     zone_id, x, y = _place_in_zones(rng, zones, areas, JITTER_KM["customers"])
     receiver = rng.random(n) < cfg.remittances.receiver_share
+    # Account opening date (KYC), from its own stream so other draws stay unchanged.
+    # No pattern uses account age, so it carries no signal (see ASSUMPTIONS.md).
+    mean_age = cfg.customers.account_age_mean_days
+    age_days = stream(cfg.seed, "customers:account_age").exponential(mean_age, n)
+    opened = pd.Timestamp(cfg.calendar.start) - pd.to_timedelta(np.ceil(age_days), unit="D")
     return pd.DataFrame(
         {
             "customer_id": random_ids(rng, n, "CU"),
+            "account_opened_on": opened,
             "zone_id": zone_id,
             "area_type": areas,
             "x_km": x,

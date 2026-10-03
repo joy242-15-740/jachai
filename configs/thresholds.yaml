@@ -1,2 +1,16 @@
-# thresholds.yaml: placeholder. Filled in by a later step.
-# Business rules live here, never inside models or LLM prompts (CLAUDE.md rule 5).
+# Thresholds used by feature engineering and checks. Not business actions:
+# those live in rules.yaml. Every value is [assumption] unless tagged [brief].
+
+features:
+  round_units: [100, 500, 1000] # amount is a multiple of each -> is_round_<unit>
+  near_limit_share: 0.8 # payer's QR total today >= 80% of regulation.cash_out_limit_daily
+  just_under_cap_band: 200 # cap - 200 <= amount < cap  (cap = regulation.qr_incentive_cap)
+  inflow_window_minutes: 60 # money paid soon after an add-money or remittance
+  remittance_window_hours: 48 # remittance drain window
+  category_median_lookback_days: 30 # basket reference: past days only
+
+leakage:
+  # A single feature that predicts the true label this well on its own means the
+  # synthetic world is too easy or a feature leaks the label. Measured as
+  # max(AUC, 1 - AUC) so strongly negative predictors count too.
+  max_single_feature_auc: 0.95

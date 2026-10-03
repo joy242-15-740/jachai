@@ -118,6 +118,10 @@ class Category(_Strict):
         return self
 
 
+class Customers(_Strict):
+    account_age_mean_days: float = Field(gt=0)
+
+
 class Payers(_Strict):
     regular_share: float = Field(ge=0, le=1)
     same_zone_share: float = Field(ge=0, le=1)
@@ -183,6 +187,7 @@ class WorldConfig(_Strict):
     areas: dict[str, Area]
     size_tiers: dict[str, SizeTier]
     categories: dict[str, Category]
+    customers: Customers
     payers: Payers
     qr: Qr
     weekly: Weekly
