@@ -84,6 +84,23 @@ def payment_components(
     )
 
 
+def rules_component(
+    payments: pd.DataFrame, weak_label: np.ndarray, shop_day: pd.DataFrame, window_days: int
+) -> pd.Series:
+    """Per shop-day D: payments the labeling functions flagged on days D-window .. D-1."""
+    flagged = payments.loc[weak_label == 1]
+    counts = flagged.groupby([flagged["shop_id"], flagged["ts"].dt.normalize()]).size()
+    days = pd.date_range(
+        min(payments["ts"].min().normalize(), shop_day["day"].min()), shop_day["day"].max()
+    )
+    shops = pd.Index(shop_day["shop_id"].unique())
+    wide = counts.unstack(0).reindex(index=days, columns=shops).fillna(0.0)
+    rolled = wide.rolling(window_days, min_periods=1).sum().shift(1).stack(future_stack=True)
+    rolled.index = rolled.index.set_names(["day", "shop_id"])
+    key = pd.MultiIndex.from_arrays([shop_day["day"], shop_day["shop_id"]])
+    return pd.Series(rolled.reindex(key).to_numpy(), index=shop_day.index, name="rules_flags_30d")
+
+
 @dataclass
 class Fusion:
     cfg: FusionConfig

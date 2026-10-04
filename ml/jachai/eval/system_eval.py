@@ -108,6 +108,16 @@ def shop_metrics(v: pd.DataFrame, score: np.ndarray, k: int, n_band: int) -> dic
     return out
 
 
+def risk_with(
+    system, frame: pd.DataFrame, models: ModelsConfig, group_names: list[str]
+) -> np.ndarray:
+    """Fused risk using only the components of the given fusion groups (same fixed weights)."""
+    cols = [c for g in group_names for c in models.ablation.fusion_groups[g]]
+    ranks = system.fusion.ranks(frame)[cols]
+    w = pd.Series(models.fusion.weights)[cols]
+    return (ranks * w).sum(axis=1).to_numpy() / w.sum()
+
+
 def budgets(v: pd.DataFrame, thr: ThresholdsConfig) -> tuple[int, int]:
     k = round(thr.eval.analyst_capacity_shops * thr.split.shop_shares["validation"])
     n_band = int(v["band"].isin(["review", "high"]).sum())
@@ -141,17 +151,14 @@ def evaluate_seed(seed: int, thr, rules: RulesConfig, models: ModelsConfig) -> d
     add("baseline", "blanket_limit", v["blanket_limit"].to_numpy(dtype=float))
 
     # 3) fusion groups
-    ranks = system.fusion.ranks(v)
     groups = models.ablation.fusion_groups
-    names = list(groups)
-    for r in range(1, len(names)):
-        for i in range(len(names)):
-            subset = names[i : i + r] if r == 1 else [n for j, n in enumerate(names) if j != i]
-            if r == 2 and len(names) != 3:
-                continue
-            cols = [c for g in subset for c in groups[g]]
-            w = pd.Series(models.fusion.weights)[cols]
-            add("fusion_only", "+".join(subset), (ranks[cols] * w).sum(axis=1).to_numpy() / w.sum())
+    for g in groups:
+        add("fusion_only", f"only {g}", risk_with(system, v, models, [g]))
+        add(
+            "fusion_only",
+            f"all but {g}",
+            risk_with(system, v, models, [x for x in groups if x != g]),
+        )
 
     # 4) payment feature groups (retrain the payment model without each)
     codes = feature_to_code(load_reason_codes())
@@ -220,6 +227,15 @@ def evaluate_seed(seed: int, thr, rules: RulesConfig, models: ModelsConfig) -> d
             **shop_metrics(e, e["rules_only"].to_numpy(dtype=float), k, n_band),
         }
     )
+    no_rules = [g for g in models.ablation.fusion_groups if g != "rules"]
+    rows.append(
+        {
+            "seed": seed,
+            "group": "evasion",
+            "variant": "all but rules",
+            **shop_metrics(e, risk_with(system, e, models, no_rules), k, n_band),
+        }
+    )
     ev_va = (e_scored.data.split == "validation").to_numpy()
     eq = (
         evaded.tables["qr_payments"]
@@ -273,6 +289,80 @@ def run() -> dict:
     }
 
 
+HEADLINE = {  # name -> (normal-world (group, variant), evasion-world (group, variant))
+    "rules only": (("baseline", "rules_only"), ("evasion", "rules_only")),
+    "Jachai without rules": (("fusion_only", "all but rules"), ("evasion", "all but rules")),
+    "Jachai with rules": (("system", "fused_risk"), ("evasion", "fused_risk")),
+}
+HEADLINE_METRICS = [
+    "pr_auc",
+    "bands_precision",
+    "bands_recall",
+    "bands_value_recall",
+    "recall_limit_bypass",
+]
+
+CIRCULARITY = (
+    "**Circularity note.** The synthetic world and the rules (labeling functions) were "
+    "both written from the same reported misuse typologies. The rules therefore match "
+    "the injected patterns almost exactly and look much stronger on the normal world "
+    "than they would on real data, where misuse is messier and adapts. The fairer tests "
+    "of whether Jachai generalises are: the evasion test (misusers stop using round "
+    "amounts), ring detection (limit-bypass rings found through the payer-shop network), "
+    "and the held-out pattern, which the models never see and which is measured once, "
+    "in the final test evaluation."
+)
+
+
+def headline(shop: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """(mean ± std text table, numeric means) for the three-way comparison."""
+    text, means = {}, {}
+    for name, ((ng, nv), (eg, ev)) in HEADLINE.items():
+        row_t, row_m = {}, {}
+        for setting, (g, var) in (("normal", (ng, nv)), ("evasion", (eg, ev))):
+            sub = shop[(shop["group"] == g) & (shop["variant"] == var)]
+            for metric in HEADLINE_METRICS:
+                col = f"{setting}: {'ring recall' if metric == 'recall_limit_bypass' else metric}"
+                row_m[col] = sub[metric].mean()
+                row_t[col] = f"{sub[metric].mean():.3f} ± {sub[metric].std(ddof=0):.3f}"
+        text[name], means[name] = row_t, row_m
+    return pd.DataFrame(text).T.rename_axis("system"), pd.DataFrame(means).T
+
+
+def success_checks(means: pd.DataFrame) -> list[str]:
+    """The agreed success criteria, checked on the numbers (never hand-written)."""
+    r, w, wo = (
+        means.loc["rules only"],
+        means.loc["Jachai with rules"],
+        means.loc["Jachai without rules"],
+    )
+    ok1 = w["normal: pr_auc"] >= r["normal: pr_auc"] - 0.02
+    ok2 = w["evasion: pr_auc"] > r["evasion: pr_auc"]
+    ok3 = (
+        w["evasion: ring recall"] > r["evasion: ring recall"]
+        and w["normal: ring recall"] >= r["normal: ring recall"] - 0.02
+    )
+    lines = [
+        f"Normal world: Jachai with rules PR-AUC {w['normal: pr_auc']:.3f} vs rules "
+        f"{r['normal: pr_auc']:.3f} (needs to be within 0.02 or better): "
+        f"{'MET' if ok1 else 'NOT MET'}.",
+        f"Evasion world: {w['evasion: pr_auc']:.3f} vs rules {r['evasion: pr_auc']:.3f} "
+        f"(needs to stay ahead): {'MET' if ok2 else 'NOT MET'}.",
+        f"Rings: recall {w['normal: ring recall']:.3f} normal / {w['evasion: ring recall']:.3f} "
+        f"evasion vs rules {r['normal: ring recall']:.3f} / {r['evasion: ring recall']:.3f} "
+        f"(needs to stay ahead under evasion, not fall behind on normal): "
+        f"{'MET' if ok3 else 'NOT MET'}.",
+        f"Effect of adding rules: normal PR-AUC {wo['normal: pr_auc']:.3f} -> "
+        f"{w['normal: pr_auc']:.3f}; evasion {wo['evasion: pr_auc']:.3f} -> "
+        f"{w['evasion: pr_auc']:.3f}.",
+        "Overall: "
+        + (
+            "all criteria met." if ok1 and ok2 and ok3 else "NOT all criteria met: stop and review."
+        ),
+    ]
+    return lines
+
+
 def render(result: dict) -> str:
     shop = pd.DataFrame([r for s in result["per_seed"] for r in s["shop_rows"]])
     pay = pd.DataFrame([r for s in result["per_seed"] for r in s["payment_rows"]])
@@ -316,6 +406,13 @@ def render(result: dict) -> str:
                 "fused system puts in review + high (same budget for every row). "
                 "`value_recall`: share of validation-period misuse taka at the flagged shops. "
                 "The held-out pattern's shops are all in test, so it is not measured here.",
+                "## Headline: rules only vs Jachai without rules vs Jachai with rules",
+                "Same budget for every row (`bands`: as many shops as Jachai with rules puts in "
+                "review + high). `ring recall`: limit-bypass shops found at that budget.",
+                md_table(headline(shop)[0]),
+                "### Success criteria (computed)",
+                "\n".join(f"- {line}" for line in success_checks(headline(shop)[1])),
+                CIRCULARITY,
                 "## System vs baselines (shop level)",
                 block("system", main_cols),
                 block("baseline", main_cols),

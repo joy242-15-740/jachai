@@ -37,6 +37,7 @@ payment_features:
 shop_components:
   payment_top3_7d: PAYMENT_RISK
   payment_flag_share_7d: FLAGGED_SHARE
+  rules_flags_30d: RULES_FLAGS
   turnover_z: TURNOVER_IMPLAUSIBLE
   peer_anomaly: PEER_ANOMALY
   linking_payers: LINKING_PAYERS
@@ -92,6 +93,9 @@ templates:
   FLAGGED_SHARE:
     en: "{flag_pct}% of its payments in the last 7 days were flagged."
     bn: "গত ৭ দিনে এর {flag_pct}% পেমেন্ট চিহ্নিত হয়েছে।"
+  RULES_FLAGS:
+    en: "Existing rules flagged {rules_flags} of its payments in the last 30 days."
+    bn: "গত ৩০ দিনে বিদ্যমান নিয়মে এর {rules_flags}টি পেমেন্ট চিহ্নিত হয়েছে।"
   TURNOVER_IMPLAUSIBLE:
     en: "Received about Tk {actual_daily}/day vs about Tk {expected_daily}/day expected for a shop like this."
     bn: "দিনে প্রায় ৳{actual_daily} পেয়েছে, যেখানে এ ধরনের দোকানে প্রত্যাশিত প্রায় ৳{expected_daily}।"

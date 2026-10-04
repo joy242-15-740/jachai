@@ -54,18 +54,24 @@ network:
 fusion:
   # Shop-day risk = weighted average of component ranks. Each component is first
   # turned into "share of TRAIN shop-days with a lower value" (0..1), so a z-score,
-  # an anomaly score and a 0/1 flag become comparable. Weights are a documented
-  # choice [assumption], NOT tuned: validation has too few misuse shops to tune
-  # seven weights without fitting noise. Step-5 ablation shows what each adds.
+  # an anomaly score, a count and a 0/1 flag become comparable.
+  # Weighting scheme: EQUAL weights (a plain average of ranks). A fixed, documented
+  # rule [assumption], NOT tuned: validation has too few misuse shops to tune eight
+  # weights without fitting noise. The ablation shows what each part adds.
+  # rules_flags_30d layers the existing rules into the score (ML on top of rules),
+  # added after validation showed rules alone rank shops very well on the normal
+  # world (see reports/validation_evaluation.md and reports/circularity_note.md).
   payment_window_days: 7
+  rules_window_days: 30
   weights:
-    payment_top3_7d: 0.30 # mean of the shop's 3 riskiest payments, last 7 days
-    payment_flag_share_7d: 0.10 # share of its payments above the payment threshold
-    turnover_z: 0.15 # busier than a shop like this should be
-    peer_anomaly: 0.15 # unusual among similar shops
-    linking_payers: 0.10 # payers linking it to others on same heavy days
-    ring_flag: 0.10 # part of a small, tight ring
-    distant_payer_share: 0.10 # payers living far away
+    payment_top3_7d: 1.0 # mean of the shop's 3 riskiest payments, last 7 days
+    payment_flag_share_7d: 1.0 # share of its payments above the payment threshold
+    rules_flags_30d: 1.0 # payments the rules flagged, last 30 days
+    turnover_z: 1.0 # busier than a shop like this should be
+    peer_anomaly: 1.0 # unusual among similar shops
+    linking_payers: 1.0 # payers linking it to others on same heavy days
+    ring_flag: 1.0 # part of a small, tight ring
+    distant_payer_share: 1.0 # payers living far away
 
 ablation:
   # Payment-model feature groups, named by reason codes (configs/reason_codes.yaml),
@@ -81,5 +87,6 @@ ablation:
   # Fusion component groups.
   fusion_groups:
     payment: [payment_top3_7d, payment_flag_share_7d]
+    rules: [rules_flags_30d]
     shop: [turnover_z, peer_anomaly]
     network: [linking_payers, ring_flag, distant_payer_share]

@@ -60,6 +60,7 @@ class NetworkConfig(_Strict):
 
 class FusionConfig(_Strict):
     payment_window_days: int = Field(gt=0)
+    rules_window_days: int = Field(gt=0)
     weights: dict[str, float]
 
     @model_validator(mode="after")

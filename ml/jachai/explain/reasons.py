@@ -107,6 +107,7 @@ def _placeholders(row: pd.Series, cfg: WorldConfig) -> dict:
         # Shop components
         "top3": lambda: f"{_get(row, 'payment_top3_7d', 0.0):.2f}",
         "flag_pct": lambda: _pct(_get(row, "payment_flag_share_7d", 0.0)),
+        "rules_flags": lambda: f"{int(_get(row, 'rules_flags_30d', 0.0))}",
         "actual_daily": lambda: _taka(_get(row, "turnover_7d", 0.0) / 7),
         "expected_daily": lambda: _taka(_get(row, "expected_daily_turnover")),
         "linking_payers": lambda: f"{int(_get(row, 'linking_payers', 0.0))}",

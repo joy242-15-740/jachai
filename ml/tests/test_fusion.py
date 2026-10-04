@@ -11,7 +11,7 @@ from jachai.world.world import TRUE_LABEL
 
 
 def test_ranks_are_share_of_training_values_below():
-    cfg = FusionConfig(payment_window_days=7, weights={"a": 1.0, "b": 3.0})
+    cfg = FusionConfig(payment_window_days=7, rules_window_days=30, weights={"a": 1.0, "b": 3.0})
     comp = pd.DataFrame({"a": [1.0, 2.0, 3.0, 4.0], "b": [0.0, 0.0, 1.0, np.nan]})
     f = Fusion(cfg).fit_ranks(comp, np.array([True, True, True, False]))
     r = f.ranks(comp)
@@ -21,7 +21,7 @@ def test_ranks_are_share_of_training_values_below():
 
 
 def test_bands_are_frozen_cutoffs():
-    f = Fusion(FusionConfig(payment_window_days=7, weights={"a": 1.0}))
+    f = Fusion(FusionConfig(payment_window_days=7, rules_window_days=30, weights={"a": 1.0}))
     f.freeze_bands(np.linspace(0, 1, 101), BandThresholds(high_quantile=0.9, review_quantile=0.5))
     assert f.cutoffs == pytest.approx({"review": 0.5, "high": 0.9})
     assert list(f.band(np.array([0.1, 0.6, 0.95]))) == ["low", "review", "high"]
@@ -61,3 +61,15 @@ def test_bands_frozen_on_validation_only(small_system):
     val = s.loc[s["split"] == "validation", "risk"].to_numpy()
     thr = load_thresholds().bands
     assert system.fusion.cutoffs["high"] == pytest.approx(np.quantile(val, thr.high_quantile))
+
+
+def test_rules_component_counts_earlier_flags_only():
+    from jachai.models.fusion import rules_component
+
+    day = pd.Timestamp("2026-08-31")
+    payments = pd.DataFrame(
+        {"shop_id": ["S"] * 4, "ts": [day - pd.Timedelta(days=d) for d in (0, 1, 5, 40)]}
+    )
+    weak = np.array([1, 1, 1, 1])  # same day and 40 days ago must not count
+    shop_day = pd.DataFrame({"shop_id": ["S"], "day": [day]})
+    assert rules_component(payments, weak, shop_day, window_days=30).iloc[0] == 2

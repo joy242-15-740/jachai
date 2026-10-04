@@ -20,7 +20,7 @@ from jachai.eval.splits import shop_groups, time_groups
 from jachai.features.config import ThresholdsConfig
 from jachai.labels.config import RulesConfig
 from jachai.models.config import ModelsConfig
-from jachai.models.fusion import Fusion, payment_components
+from jachai.models.fusion import Fusion, payment_components, rules_component
 from jachai.models.network import build_network_features, network_as_of
 from jachai.models.payment import PaymentModel
 from jachai.models.shop import ShopModel
@@ -64,6 +64,9 @@ def build_components(
     proba = payment.predict_proba(data.payments)
     comp = payment_components(
         data.payments, proba, payment.threshold, shop_day, models.fusion.payment_window_days
+    )
+    comp["rules_flags_30d"] = rules_component(
+        data.payments, data.weak_label, shop_day, models.fusion.rules_window_days
     )
     network = build_network_features(
         tables,
