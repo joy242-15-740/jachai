@@ -89,6 +89,13 @@ They do not prove real-world accuracy.
 Every external component and its licence is listed in
 [docs/third_party.md](docs/third_party.md).
 
+Evidence and responsible-use documentation:
+
+- [Results summary](reports/summary.md) — status-labelled existing results
+- [Data card](docs/data_card.md) — synthetic dataset scope and provenance
+- [Model card](docs/model_card.md) — intended use, evidence and oversight
+- [Limitations](docs/limitations.md) — claim and deployment boundaries
+
 ## 4. Requirements
 
 - Python 3.12 or newer (`python3.12` or `python3.13` on your PATH). NumPy 2.5 and
