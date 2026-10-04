@@ -3,9 +3,11 @@
 AI merchant-transaction integrity engine for Bangla QR. Built for AI DEV FEST
 2026 AI Hackathon (DIU CPC × upay), Track 05: Merchant & Agent Intelligence.
 
-> Status: synthetic world, point-in-time features, weak labels, baselines and the
-> leakage check are done (`make world`, `make eval`). No trained models yet.
-> Sections marked **TODO** are filled in as the work lands.
+> Status: end-to-end synthetic prototype complete—generation, point-in-time
+> features, payment/shop/network scores, fusion, explanations, simulator, API,
+> dashboard and responsible-AI documentation. The current rules-in-fusion
+> change and final test remain deliberately unevaluated; live deployment is
+> pending.
 
 ## 1. Project overview
 
@@ -176,6 +178,9 @@ too well on its own (threshold in `configs/thresholds.yaml`).
 ## 8. Live deployment URL
 
 **TODO**: not deployed yet.
+
+For a local judge demo, follow [docs/demo_runbook.md](docs/demo_runbook.md).
+The submission-ready written report is [docs/project_report.md](docs/project_report.md).
 
 ## 9. Testing instructions
 
