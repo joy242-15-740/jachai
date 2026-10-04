@@ -77,8 +77,9 @@ They do not prove real-world accuracy.
   case detail and decision history, merchant-notice preview, interactive
   five-policy simulator, and a trust center for evidence status, fairness and
   limitations. The homepage includes animated, data-backed queue, evidence and
-  policy infographics; reduced-motion preferences are respected. When the API
-  is unavailable the dashboard uses bundled, code-generated fast-profile JSON.
+  policy infographics, a custom Jachai icon system, and persistent light and
+  dark themes; reduced-motion preferences are respected. When the API is
+  unavailable the dashboard uses bundled, code-generated fast-profile JSON.
 
 ## 3. Technology stack
 
@@ -203,6 +204,10 @@ split dates and model sizes scaled to match. It reads and writes `data/fast/`,
 reference outputs. Use it for every development check; fast-profile numbers are
 not results. Reference results come from the normal configs, and multi-seed
 validation from `make validate-full`, which is a long job run only on purpose.
+
+The dashboard follows the device colour preference on first load. Its header
+toggle switches between light and dark mode and saves that choice in the
+browser. Both themes use the same semantic risk colours and glass-style layout.
 
 
 - Business rules and world settings live in `configs/*.yaml`, never inside

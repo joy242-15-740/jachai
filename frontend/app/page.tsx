@@ -1,13 +1,21 @@
 import Link from "next/link";
+import { Icon, type IconName } from "@/components/BrandIcons";
 import { HomeInfographics } from "@/components/HomeInfographics";
 
-const CARDS = [
+const CARDS: {
+  href: string;
+  tag: string;
+  title: string;
+  text: string;
+  icon: IconName;
+  tone: string;
+}[] = [
   {
     href: "/queue",
     tag: "Investigate",
     title: "Alert queue",
     text: "Review the highest-priority shops with evidence, context and neutral language.",
-    glyph: "↗",
+    icon: "queue",
     tone: "from-rose-400/20 to-orange-300/5 text-rose-400",
   },
   {
@@ -15,7 +23,7 @@ const CARDS = [
     tag: "Compare",
     title: "Policy simulator",
     text: "Replay five policy choices and see the trade-off between recovery and merchant harm.",
-    glyph: "≈",
+    icon: "simulator",
     tone: "from-sky-400/20 to-indigo-300/5 text-sky-400",
   },
   {
@@ -23,7 +31,7 @@ const CARDS = [
     tag: "Communicate",
     title: "Merchant notice",
     text: "Preview respectful Bangla communication and give merchants a route to explain.",
-    glyph: "অ",
+    icon: "notice",
     tone: "from-emerald-400/20 to-teal-300/5 text-emerald-400",
   },
   {
@@ -31,7 +39,7 @@ const CARDS = [
     tag: "Verify",
     title: "Trust center",
     text: "Inspect evidence status, fairness slices, limitations and validation boundaries.",
-    glyph: "✓",
+    icon: "trust",
     tone: "from-violet-400/20 to-fuchsia-300/5 text-violet-400",
   },
 ];
@@ -93,7 +101,7 @@ export default function Home() {
             <div
               className={`mb-8 grid h-11 w-11 place-items-center rounded-2xl bg-gradient-to-br text-lg font-semibold ${card.tone}`}
             >
-              {card.glyph}
+              <Icon name={card.icon} className="h-5 w-5" />
             </div>
             <div className="eyebrow">{card.tag}</div>
             <h2 className="mt-1 text-lg font-semibold tracking-tight">{card.title}</h2>
