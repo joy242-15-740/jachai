@@ -97,6 +97,9 @@ class Store:
     def has_shop(self, shop_id: str) -> bool:
         return shop_id in self.shops.index
 
+    def has_payer(self, payer_id: str) -> bool:
+        return payer_id in self.customers.index
+
     def shop_scores(self, shop_id: str) -> dict:
         row = self.latest.loc[shop_id]
         components = {c: _clean(row[c]) for c in self.cfg.models.fusion.weights}

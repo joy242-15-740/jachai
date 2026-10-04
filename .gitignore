@@ -42,3 +42,4 @@ out/
 
 # Local editor / assistant settings (machine-specific paths)
 .claude/
+.vercel

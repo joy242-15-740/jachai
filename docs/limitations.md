@@ -86,6 +86,14 @@ case-management integration and a real appeal workflow. SQLite and bundled JSON
 are demo choices. A hash chain can reveal modification but is not a substitute
 for access control, backups or external immutable storage.
 
+The public Vercel API serves previously generated fast-profile scores because
+its managed Python runtime does not include LightGBM's OpenMP system library.
+The local API remains the reference model-serving path. Public analyst decisions
+are written to SQLite under serverless temporary storage, so history may reset
+after a cold start or a different function instance; it is not durable audit
+storage. The public transaction endpoint is a transparent demo triage fallback,
+not the trained payment model.
+
 ## Appropriate claim
 
 Jachai is a synthetic-data prototype showing a configurable, explainable,

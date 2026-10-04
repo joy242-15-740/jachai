@@ -16,7 +16,7 @@ decision in human hands.
 > [!IMPORTANT]
 > End-to-end synthetic prototype complete. The frozen system has three-seed
 > validation and one single-access final synthetic test. Results demonstrate the
-> workflow—not real-world accuracy. Live deployment is pending.
+> workflow—not real-world accuracy. The dashboard and fast-profile demo API are live.
 
 ## Quick navigation
 
@@ -229,9 +229,15 @@ too well on its own (threshold in `configs/thresholds.yaml`).
 
 **Production dashboard:** [https://jachai-eta.vercel.app](https://jachai-eta.vercel.app)
 
-This Vercel deployment uses bundled, code-generated synthetic demo JSON. The
-local FastAPI service remains available for live scoring, decisions and dynamic
-simulator requests; the public dashboard stays fully browsable without it.
+**Public demo API:** [https://jachai-api.vercel.app](https://jachai-api.vercel.app)
+
+The dashboard now calls the public FastAPI service for the generated
+fast-profile queue, cases, fairness slices, policy sliders and analyst decision
+submissions. It still falls back to bundled synthetic JSON if the API is
+unreachable. The serverless API reads cached, code-generated scores rather than
+loading LightGBM; its SQLite decision log lives in temporary storage and can
+reset between function instances. Use the local API for the complete frozen
+model path and durable demo-session behavior.
 
 For a local judge demo, follow [docs/demo_runbook.md](docs/demo_runbook.md).
 The submission-ready written report is [docs/project_report.md](docs/project_report.md).

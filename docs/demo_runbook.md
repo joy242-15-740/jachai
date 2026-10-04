@@ -27,8 +27,15 @@ make api-fast      # terminal 1, http://localhost:8000
 make web           # terminal 2, http://localhost:3000
 ```
 
-The frontend falls back to bundled generated demo JSON if the API is
-unreachable. Decision writes and live slider requests require the API.
+Production URLs:
+
+- Dashboard: <https://jachai-eta.vercel.app>
+- Fast-profile demo API: <https://jachai-api.vercel.app>
+
+The production frontend calls the public API and falls back to bundled generated
+demo JSON if it is unreachable. Decision writes and live slider requests use the
+API. Its serverless SQLite file is temporary, so do not present the public demo
+decision history as durable storage.
 
 ## Pre-submission checks
 
@@ -39,8 +46,7 @@ git status --short
 git log --oneline -12
 ```
 
-- Replace the README live deployment TODO only after both URLs open in a private
-  browser window.
+- Confirm both live URLs open in a private browser window.
 - Confirm the GitHub repository is public and the latest commit is pushed.
 - Never expose `.env`, `LLM_API_KEY`, tokens, generated SQLite files or real PII.
 - Check the organizer's exact submission form, deadline and required file type.

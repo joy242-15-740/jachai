@@ -8,6 +8,7 @@ recommendation that a human analyst records as a decision.
 from __future__ import annotations
 
 import json
+import os
 from contextlib import asynccontextmanager
 from datetime import datetime
 from typing import Literal
@@ -20,7 +21,13 @@ from pydantic import BaseModel, ConfigDict, Field, ValidationError
 from app import __version__
 from app.audit import DECISIONS, AuditLog
 from app.settings import Settings
-from app.store import Store
+
+if os.getenv("JACHAI_CACHED_STORE") == "1":
+    # Vercel's Python image does not provide LightGBM's libgomp dependency.
+    # The public demo therefore serves the already-produced fast-profile scores.
+    from app.cached_store import CachedStore as Store
+else:
+    from app.store import Store
 from jachai.explain.brief import build_brief, openai_reworder
 
 
@@ -129,7 +136,7 @@ def create_app(settings: Settings | None = None, store: Store | None = None) -> 
         store = get_store(request)
         if not store.has_shop(tx.shop_id):
             raise HTTPException(404, f"unknown shop {tx.shop_id}")
-        if tx.payer_id not in store.customers.index:
+        if not store.has_payer(tx.payer_id):
             raise HTTPException(404, f"unknown payer {tx.payer_id}")
         ts = pd.Timestamp(tx.ts).tz_localize(None)
         return store.score_transaction(tx.shop_id, tx.payer_id, tx.amount, ts)
