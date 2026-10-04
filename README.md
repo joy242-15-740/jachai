@@ -63,8 +63,16 @@ Planned:
   Reports misuse taka stopped or rerouted, fees recaptured, honest shops
   restricted, alerts per day and agent leads. Parameters in
   `configs/simulator.yaml`, overridable per run.
-- Analyst dashboard. The analyst makes every decision; nothing is blocked
-  automatically. **TODO**
+- **API** (done, FastAPI): `GET /health`, `POST /score/transaction`,
+  `GET /shops/{id}`, `GET /cases` (by band, sorted by risk), `GET /cases/{id}`
+  (scores, top-3 reasons in English and Bangla, network neighbourhood, 30-day
+  timeline, decision history), `POST /cases/{id}/decision` (clear, monitor,
+  educate, convert, restrict, escalate; reason required; append-only SQLite audit
+  log), `POST /simulate` (slider values), `GET /fairness` (false-alarm rate by
+  area type, shop size, category on validation shops), `GET /metrics` (existing
+  reports, nothing recomputed). Interactive docs at `/docs`. The API recommends;
+  analysts decide; nothing is blocked automatically.
+- Analyst dashboard. **TODO**
 
 ## 3. Technology stack
 
@@ -110,6 +118,9 @@ Copy `.env.example` to `.env`. Never commit `.env`. All values in
 | `JACHAI_SEED` | Random seed for the synthetic world. | `42` |
 | `JACHAI_DATA_DIR` | Where generated data is written. | `data` |
 | `JACHAI_REPORTS_DIR` | Where metrics and figures are written. | `reports` |
+| `REPORTS_DIR` | Reports the API serves at `GET /metrics`. | `reports` |
+| `AUDIT_DB_PATH` | SQLite file for the append-only decision log. | `data/audit.sqlite3` |
+| `ALLOWED_ORIGINS` | Comma-separated origins allowed to call the API (CORS). | `http://localhost:3000` |
 | `JACHAI_PROFILE` | Config profile; `fast` = small dev world (see section 10). Empty = reference configs. | *(empty)* |
 | `MODEL_DIR` | Where trained models are saved and loaded. | `models` |
 | `API_HOST` | Backend bind host. | `127.0.0.1` |
@@ -125,7 +136,8 @@ make world     # generate synthetic data into data/world, summary into reports/
 make train     # train the full system (payment, shop, network, fusion) into models/
 make sim       # policy simulator A-E into reports/simulator/ (after make train)
 make eval      # baselines, probe, leakage check into reports/ (after make world)
-make api       # run FastAPI on :8000            (TODO)
+make api       # run the API on :8000 (docs at /docs), reference artifacts
+make api-fast  # the API on fast-profile artifacts (after make demo-data)
 make web       # run Next.js on :3000            (TODO)
 make test      # ruff + pytest (small in-memory fixtures, under a minute)
 

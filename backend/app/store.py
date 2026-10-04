@@ -67,8 +67,10 @@ def _reasons(reasons) -> list[dict]:
 
 
 class Store:
-    def __init__(self, model_dir, world_dir, configs: Configs | None = None):
+    def __init__(self, model_dir, world_dir, configs: Configs | None = None, sim_cache_dir=None):
         self.cfg = configs or Configs.load()
+        self.sim_cache_dir = sim_cache_dir or world_dir.parent / "simulator"
+        self._sim_inputs = None
         c = self.cfg
         self.tables = read_world_tables(world_dir)
         self.system = load_system(model_dir, c.models)
@@ -221,6 +223,73 @@ class Store:
             "riskiest_payments": self.riskiest_payments(shop_id),
             "neighbourhood": self.neighbourhood(shop_id),
             "timeline": self.timeline(shop_id),
+        }
+
+    # --- fairness -------------------------------------------------------------------
+    def fairness(self) -> dict:
+        """False-alarm rate (honest shops put in an alert band / honest shops) by area
+        type, shop size and category. Uses VALIDATION shops on the last validation day
+        only (never test shops), and returns group totals only, never per-shop truth."""
+        sd = self.scored.shop_day
+        day = pd.Timestamp(self.cfg.thresholds.split.validation_end)
+        v = sd[(sd["split"] == "validation") & (sd["day"] == day)].copy()
+        truth = self.tables["shops"].set_index("shop_id")[TRUE_LABEL]
+        v["honest"] = v["shop_id"].map(truth).to_numpy() == 0
+        v["alert"] = v["band"].isin(ALERT_BANDS).to_numpy()
+        v = v.join(self.shops[["area_type", "size_tier", "category"]], on="shop_id")
+        honest = v[v["honest"]]
+
+        def table(by: str | None) -> list[dict]:
+            groups = honest.groupby(by) if by else [("all", honest)]
+            out = []
+            for name, g in groups:
+                n = len(g)
+                out.append(
+                    {
+                        "group": name,
+                        "honest_shops": n,
+                        "false_alarms": int(g["alert"].sum()),
+                        "false_alarm_rate": round(float(g["alert"].mean()), 4) if n else None,
+                        "small_sample": n < 20,
+                    }
+                )
+            return out
+
+        return {
+            "evaluated_on": f"validation shops on {day.date()} (test set not used)",
+            "overall": table(None)[0],
+            "by_area_type": table("area_type"),
+            "by_size_tier": table("size_tier"),
+            "by_category": table("category"),
+            "note": "Synthetic data. Small groups (small_sample) give unstable rates.",
+        }
+
+    # --- policy simulator -----------------------------------------------------------
+    def simulate(self, overrides: dict) -> dict:
+        from jachai.simulate.config import load_simulator_config
+        from jachai.simulate.inputs import build_inputs, cached_inputs
+        from jachai.simulate.policies import run_all
+
+        sim = load_simulator_config()
+        params = sim.params.with_overrides(overrides)  # raises ValidationError if invalid
+        if self._sim_inputs is None:
+            c = self.cfg
+            key = {
+                "system": self.system.payment.fingerprint(),
+                "replay_seed": sim.replay.seed,
+                "replay_days": sim.replay.days,
+                "fee_rate": c.world.regulation.agent_cash_out_fee_rate,
+            }
+            self._sim_inputs = cached_inputs(
+                self.sim_cache_dir,
+                key,
+                lambda: build_inputs(self.system, c.world, c.thresholds, c.rules, c.models, sim),
+            )
+        return {
+            "params": params.model_dump(),
+            "replay": sim.replay.model_dump(),
+            "results": run_all(self._sim_inputs, params),
+            "note": "Synthetic replay world (not the test set): the method, not real amounts.",
         }
 
     # --- one new payment ------------------------------------------------------------

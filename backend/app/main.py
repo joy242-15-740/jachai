@@ -15,11 +15,35 @@ from typing import Literal
 import pandas as pd
 from fastapi import FastAPI, HTTPException, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
 from app import __version__
+from app.audit import DECISIONS, AuditLog
 from app.settings import Settings
 from app.store import Store
+
+
+class DecisionIn(BaseModel):
+    """An analyst's decision on a case. The reason is required and kept forever."""
+
+    model_config = ConfigDict(extra="forbid")
+    decision: Literal[DECISIONS]
+    reason: str = Field(min_length=10, max_length=2000)
+    analyst: str = Field(min_length=1, max_length=100)
+
+
+class SimulateIn(BaseModel):
+    """Slider values; anything left out keeps its configs/simulator.yaml value."""
+
+    model_config = ConfigDict(extra="forbid")
+    misuse_scale: float | None = None
+    fee_rate: float | None = None
+    analyst_capacity_per_day: int | None = None
+    limit_level: float | None = None
+    analyst_recall: float | None = None
+    analyst_false_confirm: float | None = None
+    offer_acceptance: float | None = None
+    convert_min_monthly_taka: float | None = None
 
 
 class TransactionIn(BaseModel):
@@ -64,6 +88,7 @@ def create_app(settings: Settings | None = None, store: Store | None = None) -> 
     app = FastAPI(title="Jachai API", version=__version__, lifespan=lifespan)
     app.state.settings = settings
     app.state.store = store
+    app.state.audit = AuditLog(settings.audit_db_path)
     app.add_middleware(
         CORSMiddleware,
         allow_origins=settings.allowed_origins,
@@ -131,7 +156,33 @@ def create_app(settings: Settings | None = None, store: Store | None = None) -> 
         store = get_store(request)
         if not store.has_shop(case_id):
             raise HTTPException(404, f"unknown case {case_id}")
-        return store.case_detail(case_id)
+        return {**store.case_detail(case_id), "decisions": app.state.audit.history(case_id)}
+
+    @app.post("/cases/{case_id}/decision", status_code=201)
+    def decide(case_id: str, body: DecisionIn, request: Request) -> dict:
+        """Record a decision (append-only). Nothing is carried out automatically:
+        'restrict' or 'convert' is a recorded instruction for people to act on."""
+        store = get_store(request)
+        if not store.has_shop(case_id):
+            raise HTTPException(404, f"unknown case {case_id}")
+        scores = store.shop_scores(case_id)
+        row = app.state.audit.append(
+            case_id, body.decision, body.reason, body.analyst, scores["risk"], scores["band"]
+        )
+        return {**row, "note": "Recorded. No automatic action is taken by the system."}
+
+    @app.post("/simulate")
+    def simulate(body: SimulateIn, request: Request) -> dict:
+        store = get_store(request)
+        overrides = body.model_dump(exclude_none=True)
+        try:
+            return store.simulate(overrides)
+        except ValidationError as err:
+            raise HTTPException(422, err.errors(include_url=False)) from err
+
+    @app.get("/fairness")
+    def fairness(request: Request) -> dict:
+        return get_store(request).fairness()
 
     return app
 
