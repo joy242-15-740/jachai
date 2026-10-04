@@ -1,13 +1,30 @@
-# Jachai (যাচাই)
+<div align="center">
 
-AI merchant-transaction integrity engine for Bangla QR. Built for AI DEV FEST
-2026 AI Hackathon (DIU CPC × upay), Track 05: Merchant & Agent Intelligence.
+![Jachai — review with context](docs/readme-hero.svg)
 
-> Status: end-to-end synthetic prototype complete—generation, point-in-time
-> features, payment/shop/network scores, fusion, explanations, simulator, API,
-> dashboard and responsible-AI documentation. The frozen rules-in-fusion system
-> has three-seed synthetic validation and one final synthetic test evaluation;
-> live deployment is pending.
+### Explainable merchant-transaction integrity for Bangla QR
+
+Find the few shops that need review, protect honest merchants, and keep every
+decision in human hands.
+
+`Synthetic data only` · `Human-in-the-loop` · `Bangla + English` · `Explainable AI`
+
+[Explore the dashboard](http://localhost:3000) · [Read the results](reports/summary.md) · [Project report](docs/project_report.md) · [Two-minute demo](docs/demo_runbook.md)
+
+</div>
+
+> [!IMPORTANT]
+> End-to-end synthetic prototype complete. The frozen system has three-seed
+> validation and one single-access final synthetic test. Results demonstrate the
+> workflow—not real-world accuracy. Live deployment is pending.
+
+## Quick navigation
+
+| Product | Evidence | Responsible AI | Build |
+| --- | --- | --- | --- |
+| [Features](#2-features) | [Results summary](reports/summary.md) | [Model card](docs/model_card.md) | [Setup](#5-installation-and-setup) |
+| [API](#7-run-and-build-commands) | [Final test](reports/final_test.md) | [Data card](docs/data_card.md) | [Commands](#7-run-and-build-commands) |
+| [Dashboard](frontend/) | [Three-seed validation](reports/validation_evaluation.md) | [Limitations](docs/limitations.md) | [Testing](#9-testing-instructions) |
 
 ## 1. Project overview
 
@@ -27,7 +44,39 @@ protect honest shopkeepers, and turn the leak into new upay agents.
 All data is synthetic. Results on synthetic data show that the method works.
 They do not prove real-world accuracy.
 
+### How it works
+
+```mermaid
+flowchart LR
+    A[Synthetic world] --> B[Point-in-time features]
+    B --> C1[Payment score]
+    B --> C2[Shop score]
+    B --> C3[Network score]
+    C1 --> D[Transparent fusion]
+    C2 --> D
+    C3 --> D
+    D --> E[Reasons + risk band]
+    E --> F[Human review]
+    F --> G[Audited decision]
+```
+
+| What Jachai does | What Jachai never does |
+| --- | --- |
+| Prioritizes shops that need review | Labels a merchant a criminal |
+| Shows payment, shop and network evidence | Blocks or restricts automatically |
+| Generates polite bilingual explanations | Sends merchant text to an LLM |
+| Compares policies on synthetic replay data | Claims production accuracy from synthetic data |
+
 ## 2. Features
+
+| Layer | Capability | Why it matters |
+| --- | --- | --- |
+| **World** | Seeded shops, customers, agents and six misuse patterns | Reproducible development without real PII |
+| **Intelligence** | Payment, shop and payer–shop network scores | Different evidence survives different evasions |
+| **Explanation** | Top-three reason codes and guarded analyst notes | Analysts see evidence, not a black-box verdict |
+| **Operations** | Queue, case timeline, graph and audited decisions | Human control is built into the workflow |
+| **Strategy** | Five-policy simulator with configurable assumptions | Makes benefit and merchant-harm trade-offs visible |
+| **Trust** | Leakage, fairness, ablation, evasion and final-test reports | Claims stay tied to evidence |
 
 - **Synthetic Bangla QR world** (done): 3,000 shops, 30,000 customers and 600
   agents over 120 days (Jul–Oct 2026), with the 1 Oct regime change. Tables:

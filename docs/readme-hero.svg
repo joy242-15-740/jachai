@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="420" viewBox="0 0 1200 420" role="img" aria-labelledby="title desc">
+  <title id="title">Jachai — review with context</title>
+  <desc id="desc">Original Jachai banner showing synthetic signals flowing through three scores to human review.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#07151d"/><stop offset="1" stop-color="#0a2530"/>
+    </linearGradient>
+    <linearGradient id="brand" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#55e7ca"/><stop offset="1" stop-color="#09836f"/>
+    </linearGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="18"/></filter>
+  </defs>
+  <rect width="1200" height="420" rx="28" fill="url(#bg)"/>
+  <circle cx="1020" cy="40" r="180" fill="#1ad2b1" opacity=".08" filter="url(#glow)"/>
+  <circle cx="170" cy="410" r="190" fill="#4d73ff" opacity=".08" filter="url(#glow)"/>
+  <g transform="translate(74 67)">
+    <rect width="86" height="86" rx="27" fill="url(#brand)"/>
+    <path d="M21 44l15 15 31-35" fill="none" stroke="white" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="68" cy="68" r="4" fill="white" opacity=".9"/>
+  </g>
+  <text x="184" y="113" fill="#f4f8fa" font-family="Inter,Arial,sans-serif" font-size="58" font-weight="700" letter-spacing="-2">Jachai</text>
+  <text x="187" y="147" fill="#72e8cf" font-family="Arial,sans-serif" font-size="18" letter-spacing="3">যাচাই · REVIEW WITH CONTEXT</text>
+  <text x="75" y="210" fill="#f4f8fa" font-family="Inter,Arial,sans-serif" font-size="30" font-weight="600">Find the few. Protect the many.</text>
+  <text x="75" y="246" fill="#9db0bc" font-family="Inter,Arial,sans-serif" font-size="18">Explainable merchant-transaction integrity for synthetic Bangla QR</text>
+  <g font-family="Inter,Arial,sans-serif" font-size="14" font-weight="600">
+    <g transform="translate(76 299)"><rect width="150" height="50" rx="15" fill="#102d38" stroke="#24505b"/><circle cx="26" cy="25" r="6" fill="#55e7ca"/><text x="43" y="30" fill="#dfecef">Synthetic world</text></g>
+    <path d="M238 324h42" stroke="#37606a" stroke-width="2" stroke-dasharray="5 6"/>
+    <g transform="translate(292 299)"><rect width="142" height="50" rx="15" fill="#102d38" stroke="#24505b"/><text x="22" y="30" fill="#dfecef">Three scores</text></g>
+    <path d="M446 324h42" stroke="#37606a" stroke-width="2" stroke-dasharray="5 6"/>
+    <g transform="translate(500 299)"><rect width="155" height="50" rx="15" fill="#102d38" stroke="#24505b"/><text x="22" y="30" fill="#dfecef">Evidence + reasons</text></g>
+    <path d="M667 324h42" stroke="#37606a" stroke-width="2" stroke-dasharray="5 6"/>
+    <g transform="translate(721 299)"><rect width="162" height="50" rx="15" fill="#102d38" stroke="#24505b"/><text x="22" y="30" fill="#dfecef">Human decision</text></g>
+  </g>
+  <g transform="translate(940 118)" font-family="Inter,Arial,sans-serif">
+    <rect width="190" height="176" rx="22" fill="#0d222c" stroke="#21414c"/>
+    <text x="24" y="38" fill="#8fa5b2" font-size="12" letter-spacing="2">TRUST BY DESIGN</text>
+    <text x="24" y="75" fill="#f4f8fa" font-size="17" font-weight="600">No automatic blocking</text>
+    <text x="24" y="109" fill="#f4f8fa" font-size="17" font-weight="600">No real personal data</text>
+    <text x="24" y="143" fill="#f4f8fa" font-size="17" font-weight="600">No hidden claims</text>
+  </g>
+  <text x="75" y="391" fill="#66808d" font-family="Inter,Arial,sans-serif" font-size="13">AI DEV FEST 2026 · Track 05 · Merchant &amp; Agent Intelligence</text>
+</svg>
