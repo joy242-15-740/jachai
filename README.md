@@ -76,8 +76,9 @@ They do not prove real-world accuracy.
 - **Analyst dashboard** (done): premium responsive workspace with alert queue,
   case detail and decision history, merchant-notice preview, interactive
   five-policy simulator, and a trust center for evidence status, fairness and
-  limitations. When the API is unavailable the dashboard uses bundled,
-  code-generated fast-profile JSON.
+  limitations. The homepage includes animated, data-backed queue, evidence and
+  policy infographics; reduced-motion preferences are respected. When the API
+  is unavailable the dashboard uses bundled, code-generated fast-profile JSON.
 
 ## 3. Technology stack
 

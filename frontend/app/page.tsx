@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { HomeInfographics } from "@/components/HomeInfographics";
 
 const CARDS = [
   {
@@ -38,9 +39,9 @@ const CARDS = [
 export default function Home() {
   return (
     <>
-      <section className="relative overflow-hidden rounded-[2rem] border border-line bg-panel/55 px-6 py-10 shadow-2xl shadow-slate-950/5 backdrop-blur-2xl sm:px-10 sm:py-14 lg:px-14 lg:py-16">
+      <section className="hero-glow relative overflow-hidden rounded-[2rem] border border-line bg-panel/55 px-6 py-10 shadow-2xl shadow-slate-950/5 backdrop-blur-2xl sm:px-10 sm:py-14 lg:px-14 lg:py-16">
         <div className="soft-grid absolute inset-y-0 right-0 w-1/2 opacity-30 [mask-image:linear-gradient(to_left,black,transparent)]" />
-        <div className="absolute -right-20 -top-28 h-72 w-72 rounded-full bg-accent/10 blur-3xl" />
+        <div className="ambient-orb absolute -right-20 -top-28 h-72 w-72 rounded-full bg-accent/10 blur-3xl" />
         <div className="relative max-w-4xl">
           <div className="mb-6 flex flex-wrap gap-2">
             <span className="rounded-full border border-accent/20 bg-accent-soft px-3 py-1 text-xs font-semibold text-accent">
@@ -79,6 +80,8 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <HomeInfographics />
 
       <section className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {CARDS.map((card) => (
