@@ -5,9 +5,9 @@ AI merchant-transaction integrity engine for Bangla QR. Built for AI DEV FEST
 
 > Status: end-to-end synthetic prototype complete—generation, point-in-time
 > features, payment/shop/network scores, fusion, explanations, simulator, API,
-> dashboard and responsible-AI documentation. The current rules-in-fusion
-> change and final test remain deliberately unevaluated; live deployment is
-> pending.
+> dashboard and responsible-AI documentation. The frozen rules-in-fusion system
+> has three-seed synthetic validation and one final synthetic test evaluation;
+> live deployment is pending.
 
 ## 1. Project overview
 

@@ -1,10 +1,9 @@
 # Jachai results summary
 
-This document only summarizes artifacts already present in `reports/`. No model
-was trained, no world was regenerated, no validation was rerun, and the final
-test set was not evaluated to create it. All results use synthetic data and show
-whether the method works in that synthetic setting—not expected production
-accuracy or financial impact.
+This document summarizes generated artifacts in `reports/`. The current frozen
+fusion was validated over three seeds and evaluated once on the final synthetic
+test. These results show behavior in the configured synthetic setting—not
+expected production accuracy or financial impact.
 
 ## Evidence status
 
@@ -13,18 +12,14 @@ accuracy or financial impact.
   test results.
 - **SINGLE-SEED / DIAGNOSTIC:** one synthetic run; useful for a demo or a
   directional check only.
-- **UNVALIDATED:** implemented after the three-seed report, or not evaluated
-  against hidden truth in an existing report.
-- **FINAL TEST:** not evaluated. The access log records one earlier diagnostic
-  that touched test-shop labels but computed no test metric and tuned no
-  threshold. See [test_access_log.md](test_access_log.md).
+- **FINAL TEST — SINGLE ACCESS:** current frozen system, 615 test shops and 71
+  misuse shops. No tuning may follow. See [final_test.md](final_test.md) and
+  [test_access_log.md](test_access_log.md).
 
-The three-seed full-system figures below describe the fusion evaluated in
-[validation_evaluation.md](validation_evaluation.md). The current fusion adds
-rules as an input; that change is **UNVALIDATED** and these figures must not be
-presented as validation of the current system.
+The three-seed figures below describe the current fusion, including rules as an
+equal-weight input.
 
-## System versus baselines — VALIDATION, 3 seeds, previous fusion
+## System versus baselines — VALIDATION, 3 seeds, current fusion
 
 At the analyst-capacity budget (`k=10` validation shops per seed), rules were
 strongest on the normal synthetic world. At the fused system's review/high-band
@@ -34,8 +29,8 @@ same typology definitions, which favours the rules.
 
 | shop-level method | PR-AUC | precision @ k | misuse-value recall @ k | honest shops @ k | recall at band budget | misuse-value recall at band budget |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| Previous fused system | 0.740 ± 0.068 | 0.833 ± 0.047 | 0.269 ± 0.058 | 1.667 ± 0.471 | 0.771 ± 0.063 | 0.926 ± 0.009 |
-| Rules only | 0.899 ± 0.033 | 1.000 ± 0.000 | 0.586 ± 0.064 | 0.000 ± 0.000 | 0.906 ± 0.077 | 0.971 ± 0.024 |
+| Jachai with rules | 0.774 ± 0.059 | 0.867 ± 0.125 | 0.207 ± 0.081 | 1.333 ± 1.247 | 0.820 ± 0.045 | 0.947 ± 0.005 |
+| Rules only | 0.899 ± 0.033 | 1.000 ± 0.000 | 0.586 ± 0.064 | 0.000 ± 0.000 | 0.898 ± 0.078 | 0.968 ± 0.025 |
 | Blanket limit | 0.137 ± 0.019 | 0.000 ± 0.000 | 0.000 ± 0.000 | 10.000 ± 0.000 | 0.108 ± 0.024 | 0.191 ± 0.068 |
 
 Source: [validation_evaluation.md](validation_evaluation.md). The earlier
@@ -59,15 +54,15 @@ it ranked more misuse value and flagged fewer distinct honest shops.
 
 Source: [ablation.md](ablation.md).
 
-## Evasion and ring evidence — VALIDATION, 3 seeds, previous fusion
+## Evasion and ring evidence — VALIDATION, 3 seeds, current fusion
 
 When misuse amounts were made non-round and the system was **not retrained**,
-the previous fusion became more robust than rules at the equal band budget:
+the current fusion was more robust than rules at the equal band budget:
 
 | evasion-world method | PR-AUC | precision | recall | misuse-value recall |
 | --- | ---: | ---: | ---: | ---: |
-| Previous fused system | 0.620 ± 0.049 | 0.533 ± 0.073 | 0.693 ± 0.060 | 0.869 ± 0.019 |
-| Rules only | 0.588 ± 0.051 | 0.434 ± 0.032 | 0.568 ± 0.057 | 0.754 ± 0.032 |
+| Jachai with rules | 0.599 ± 0.024 | 0.573 ± 0.040 | 0.738 ± 0.048 | 0.893 ± 0.013 |
+| Rules only | 0.588 ± 0.051 | 0.433 ± 0.041 | 0.560 ± 0.068 | 0.739 ± 0.053 |
 
 The ring flag alone had modest overall PR-AUC (0.235 ± 0.057), but recovered
 93.1% mean recall on limit-bypass shops at the band budget across the three
@@ -124,13 +119,12 @@ No agent was signed and no misuse taka was rerouted in this replay. The tiny
 difference between rules and targeted Jachai is not robust evidence. Source:
 [fast/simulator/results.md](fast/simulator/results.md).
 
-## What remains UNVALIDATED
+## Final test — SINGLE ACCESS
 
-- The current rules-in-fusion change shown in
-  [fast/system_training.json](fast/system_training.json).
-- The complete current system on multiple validation seeds.
-- The held-out misuse pattern: the existing validation report says those shops
-  are all in the untouched final test partition.
-- Final test performance, real-world calibration, operational latency at real
-  scale, fairness on real merchants, and any production financial impact.
-
+At the matched 70-shop band budget, Jachai with rules achieved PR-AUC `0.584`,
+precision `0.614`, recall `0.606` and misuse-value recall `0.774`. Rules achieved
+PR-AUC `0.843`, precision `0.843`, recall `0.831` and value recall `0.894`.
+Held-out turnover-burst recall was `0.133` for Jachai and `0.600` for rules.
+The honest conclusion is that rules were stronger on this synthetic final test.
+Real-world calibration, operational latency at scale, fairness on real merchants
+and production financial impact remain unvalidated.

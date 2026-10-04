@@ -12,7 +12,7 @@ fee recovery or agent conversion. There is no real deployment data.
 The rules and synthetic misuse patterns were designed from the same typology
 descriptions. This makes normal-world rule performance unusually strong and can
 also reward learned models for reproducing generator choices. Rules outperform
-the previous fusion in the reported normal-world validation. Evasion and ring
+the current fusion in the reported normal-world validation. Evasion and ring
 checks reduce—but do not remove—this circularity.
 
 ## Small and unstable slices
@@ -24,17 +24,18 @@ only one of three seeds. The held-out pattern is confined to the final test and
 has no reported final count or metric yet. Subgroup rates and pattern recall can
 move sharply with one shop.
 
-## Unvalidated current fusion
+## Current fusion evidence
 
-The three-seed full-system report evaluates the previous fusion. Rules were
-later added as an explicit fusion input. The fast-profile artifact confirms the
-implementation but is only a single-seed development artifact. The current
-rules-in-fusion configuration is therefore **UNVALIDATED**; results from the
-previous fusion cannot be relabelled as its results.
+The current rules-in-fusion configuration has three-seed synthetic validation
+and one final synthetic test evaluation. It did not beat rules on the normal
+validation world or final test, although it was more robust in the configured
+non-round evasion test. This is evidence about the generator, not deployment.
 
 ## Test-set status
 
-The final test evaluation has not run. The access log records that an earlier
+The final test evaluation ran once after validation. It showed rules clearly
+outperforming Jachai overall and on the held-out turnover-burst pattern; no
+tuning may follow. The access log also records that an earlier
 network diagnostic inspected true pattern labels for all shops, including test
 shops, while debugging ring construction. It produced no test metric and tuned
 no threshold, but it weakens the ideal isolation story and must be disclosed.
@@ -90,4 +91,3 @@ for access control, backups or external immutable storage.
 Jachai is a synthetic-data prototype showing a configurable, explainable,
 human-in-the-loop workflow. It is not a proven detector for real upay traffic
 and never supports a claim of perfect detection or automatic guilt.
-

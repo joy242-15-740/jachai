@@ -38,17 +38,17 @@ template. The system recommends; a human records every decision and reason.
 
 ## AI approach and evidence
 
-On three synthetic validation seeds, the previous fusion reached shop PR-AUC
-`0.740 ± 0.068`; rules reached `0.899 ± 0.033`. This honestly weakens any claim
+On three synthetic validation seeds, the current fusion reached shop PR-AUC
+`0.774 ± 0.059`; rules reached `0.899 ± 0.033`. This honestly weakens any claim
 that fusion is always better: the generator and rules share typology definitions.
 At an equal 1,000-payment budget, weak labels plus dated cases achieved
 `0.726 ± 0.049` misuse-value recall versus `0.446 ± 0.037` for rules. Under the
-non-round evasion test, the previous fusion achieved `0.869 ± 0.019` value
-recall versus `0.754 ± 0.032` for rules at the same band budget.
+non-round evasion test, the current fusion achieved `0.893 ± 0.013` value
+recall versus `0.739 ± 0.053` for rules at the same band budget.
 
-These are synthetic validation findings, not real-world accuracy. The current
-rules-in-fusion change is **UNVALIDATED**, and the final test has not been run.
-The authoritative tables and evidence labels are in
+These are synthetic findings, not real-world accuracy. On the single final test,
+Jachai PR-AUC was `0.584` versus `0.843` for rules; no tuning follows that
+result. The authoritative tables and evidence labels are in
 [reports/summary.md](../reports/summary.md).
 
 ## Potential impact

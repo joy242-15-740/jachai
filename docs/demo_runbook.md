@@ -15,9 +15,9 @@
 5. **Policy simulator (30 seconds):** move analyst capacity or fee-rate sliders
    and compare the five policies. State clearly that displayed taka values are
    fast-profile synthetic demo outputs, not forecasts.
-6. **Trust page (20 seconds):** show fairness slices, limitations and the visible
-   UNVALIDATED badge. Say that rules win on the normal synthetic world while the
-   previous fusion is more robust in the tested non-round evasion scenario.
+6. **Trust page (20 seconds):** show fairness slices, limitations and final-test
+   evidence. Say that rules win on the normal synthetic world and final test,
+   while Jachai is more robust in the tested non-round evasion scenario.
 
 ## Local launch
 
@@ -63,6 +63,6 @@ calibration, fairness review, monitoring and appeal operations.
 look unusual. A person sees the context, records a reason and controls every
 action.
 
-**What remains unvalidated?** The current rules-in-fusion change and final test
-performance. Do not relabel earlier validation as evidence for the current
-fusion.
+**What remains unvalidated?** Real-world calibration, fairness, operational
+performance and financial impact. Current-fusion validation and the single final
+synthetic test exist, but they do not establish production performance.

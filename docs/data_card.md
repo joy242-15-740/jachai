@@ -64,7 +64,7 @@ The case-coverage experiment shows that more synthetic cases can help, but the
 
 Evaluation splits by shop and time. A shop does not appear across train and
 test, thresholds are frozen on validation, and one misuse pattern is held out
-from training. The final test set is reserved for one final evaluation. The
+from training. The final test set was accessed once after the system was frozen. The
 single-feature leakage report passes its configured 0.95 strength threshold,
 although amount-relative-to-category remains strong at 0.943 and deserves
 continued scrutiny.
@@ -98,4 +98,3 @@ Changes to generation assumptions belong in `configs/`, must update
 `data/ASSUMPTIONS.md`, and require regenerated reports with seed and config
 fingerprint recorded. Generated transaction data remains gitignored; summaries
 and assumptions are committed.
-

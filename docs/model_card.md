@@ -51,29 +51,28 @@ The payment model learns from weak-label votes and sparse dated past cases;
 hidden truth is not a training target. Shop and network components are fit or
 computed from synthetic history. Thresholds are selected on validation and
 then frozen. The held-out pattern is absent from training and validation and is
-reserved for the final test.
+reserved for the final test and was accessed once after the system was frozen.
 
 ## Evaluation status
 
-**Three-seed validation exists for the previous fusion configuration.** On the
-normal synthetic world, rules outperform that fusion; under round-amount
-evasion, the previous fusion is more robust at the matched band budget. The
+**Three-seed validation exists for the current rules-in-fusion configuration.**
+On the normal synthetic world, rules outperform it; under round-amount evasion,
+the current fusion is more robust at the matched band budget. The
 weak+cases payment model improves ranking over rules across three seeds, with
 the strongest fair comparison at equal analyst budget.
 
-**The current rules-in-fusion change is UNVALIDATED.** Its fast-profile artifact
-contains eight equal-weight inputs including `rules_flags_30d`, but no existing
-multi-seed report evaluates that current configuration. Final test performance
-does not exist. See [results summary](../reports/summary.md).
+The frozen system was evaluated once on the synthetic final test. Rules were
+stronger overall, including on the held-out turnover-burst pattern. No tuning may
+follow these results. See [results summary](../reports/summary.md).
 
 ## Reported metrics
 
-For the previous fusion on three validation seeds: shop PR-AUC is
-0.740 ± 0.068 and misuse-value recall at its band budget is 0.926 ± 0.009.
-Rules score 0.899 ± 0.033 PR-AUC and 0.971 ± 0.024 value recall on the same
-normal world. Under non-round evasion, fusion value recall is 0.869 ± 0.019
-versus rules at 0.754 ± 0.032. These are synthetic validation metrics, not final
-test or production metrics.
+For the current fusion on three validation seeds: shop PR-AUC is
+0.774 ± 0.059 and misuse-value recall at its band budget is 0.947 ± 0.005.
+Rules score 0.899 ± 0.033 PR-AUC and 0.968 ± 0.025 value recall on the same
+normal world. Under non-round evasion, fusion value recall is 0.893 ± 0.013
+versus rules at 0.739 ± 0.053. Final-test PR-AUC was 0.584 for Jachai and 0.843
+for rules. These are synthetic, not production, metrics.
 
 ## Explainability and human oversight
 
@@ -109,4 +108,3 @@ Primary evidence is in [reports/summary.md](../reports/summary.md),
 [validation_evaluation.md](../reports/validation_evaluation.md),
 [ablation.md](../reports/ablation.md), [circularity_note.md](../reports/circularity_note.md)
 and [test_access_log.md](../reports/test_access_log.md).
-

@@ -72,17 +72,16 @@ export default function TrustPage() {
       <div className="mb-5 grid gap-4 md:grid-cols-3">
         <div className="glass-panel rounded-2xl border-l-2 border-l-low p-5">
           <div className="eyebrow text-low">Validated on synthetic validation</div>
-          <h2 className="mt-2 font-semibold">Previous fusion · multi-seed</h2>
+          <h2 className="mt-2 font-semibold">Current fusion · multi-seed</h2>
           <p className="mt-2 text-sm leading-6 text-muted">
-            Matched-budget, evasion and label-source evidence exists. This is not final-test or
-            production evidence.
+            Matched-budget, evasion and label-source evidence exists for the frozen system.
           </p>
         </div>
         <div className="glass-panel rounded-2xl border-l-2 border-l-review p-5">
-          <div className="eyebrow text-review">Unvalidated</div>
-          <h2 className="mt-2 font-semibold">Current rules-in-fusion change</h2>
+          <div className="eyebrow text-review">Final test · single access</div>
+          <h2 className="mt-2 font-semibold">Rules were stronger</h2>
           <p className="mt-2 text-sm leading-6 text-muted">
-            Implemented in the fast profile, but the multi-seed check has not been run.
+            Jachai PR-AUC 0.584 vs rules 0.843. No tuning follows this result.
           </p>
         </div>
         <div className="glass-panel rounded-2xl border-l-2 border-l-high p-5">
