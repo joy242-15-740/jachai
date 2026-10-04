@@ -9,7 +9,7 @@ decision in human hands.
 
 `Synthetic data only` · `Human-in-the-loop` · `Bangla + English` · `Explainable AI`
 
-[Explore the dashboard](http://localhost:3000) · [Read the results](reports/summary.md) · [Project report](docs/project_report.md) · [Two-minute demo](docs/demo_runbook.md)
+[Explore the live dashboard](https://jachai-eta.vercel.app) · [Read the results](reports/summary.md) · [Project report](docs/project_report.md) · [Two-minute demo](docs/demo_runbook.md)
 
 </div>
 
@@ -227,7 +227,11 @@ too well on its own (threshold in `configs/thresholds.yaml`).
 
 ## 8. Live deployment URL
 
-**TODO**: not deployed yet.
+**Production dashboard:** [https://jachai-eta.vercel.app](https://jachai-eta.vercel.app)
+
+This Vercel deployment uses bundled, code-generated synthetic demo JSON. The
+local FastAPI service remains available for live scoring, decisions and dynamic
+simulator requests; the public dashboard stays fully browsable without it.
 
 For a local judge demo, follow [docs/demo_runbook.md](docs/demo_runbook.md).
 The submission-ready written report is [docs/project_report.md](docs/project_report.md).
