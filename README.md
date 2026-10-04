@@ -165,6 +165,7 @@ make demo-data    # world-fast + train-fast + sim-fast: data for a local demo
 
 # Long jobs (15-30+ minutes): only when explicitly decided
 make validate-full  # multi-seed validation + full ablation into reports/
+make eval-final     # ONE-TIME frozen-system test evaluation; refuses overwrite
 make format    # auto-fix lint and formatting
 make clean     # remove .venv and caches
 ```

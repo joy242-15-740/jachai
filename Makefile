@@ -8,7 +8,7 @@ BIN    := $(VENV)/bin
 # Stamp file: reinstall only when a pyproject changes.
 STAMP  := $(VENV)/.installed
 
-.PHONY: help install world train eval sim api-fast web web-install web-build web-check demo-json world-fast train-fast sim-fast demo-data validate-full api web test lint format clean
+.PHONY: help install world train eval eval-final sim api-fast web web-install web-build web-check demo-json world-fast train-fast sim-fast demo-data validate-full api web test lint format clean
 
 help:
 	@echo "make install  create .venv and install ml + backend packages"
@@ -21,6 +21,7 @@ help:
 	@echo "make world-fast / train-fast / demo-data   fast profile (small world, ~2 min each)"
 	@echo "make sim / sim-fast  policy simulator A-E into reports/simulator/ (needs train)"
 	@echo "make validate-full  multi-seed validation + full ablation (LONG, 15-30+ min)"
+	@echo "make eval-final  ONE-TIME frozen-system test evaluation; refuses overwrite"
 	@echo "make test     ruff lint + format check, then pytest"
 	@echo "make format   auto-fix lint and formatting"
 	@echo "make clean    remove .venv and caches"
@@ -72,6 +73,10 @@ sim: $(STAMP)
 validate-full: $(STAMP)
 	$(BIN)/python -m jachai.eval.ablation
 	$(BIN)/python -m jachai.eval.system_eval
+
+# Single-use final test access. Run only after the full system and thresholds are frozen.
+eval-final: $(STAMP)
+	$(BIN)/python -m jachai.eval.final_test
 
 # API on :8000 (docs at /docs). Uses MODEL_DIR / data from the active profile;
 # for a local demo: make demo-data && make api-fast
