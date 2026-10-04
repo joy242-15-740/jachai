@@ -22,3 +22,7 @@ the component.
 | threadpoolctl | 3.7.0 | BSD-3-Clause | Installed with scikit-learn |
 | LightGBM | 4.7.0 | MIT | Payment risk model (gradient-boosted trees) |
 | NetworkX | 3.7 | BSD-3-Clause | Payer-shop graph and Louvain communities for the network score |
+| FastAPI | 0.142.2 | MIT | Backend API framework |
+| Starlette | 1.7.0 | BSD-3-Clause | Installed with FastAPI (web toolkit, CORS middleware) |
+| Uvicorn | 0.54.0 | BSD-3-Clause | Runs the API server |
+| HTTPX | 0.28.1 | BSD-3-Clause | HTTP client used by FastAPI's test client (tests only) |

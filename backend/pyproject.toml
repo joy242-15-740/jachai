@@ -7,11 +7,15 @@ name = "jachai-backend"
 version = "0.1.0"
 description = "Jachai API: serves scores, reasons and case notes to the analyst dashboard"
 requires-python = ">=3.12"
-# FastAPI and Pydantic are added when the API is built, with rows in docs/third_party.md.
-dependencies = []
+# Also needs the `jachai` ml package (installed alongside by `make install`).
+dependencies = [
+    "fastapi>=0.142,<1",
+    "uvicorn>=0.54",
+    "pydantic>=2.13,<3",
+]
 
 [project.optional-dependencies]
-dev = ["pytest==9.1.1", "ruff==0.16.10"]
+dev = ["pytest==9.1.1", "ruff==0.16.10", "httpx>=0.28"]
 
 [tool.setuptools.packages.find]
 include = ["app*"]
