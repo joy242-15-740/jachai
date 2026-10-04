@@ -55,8 +55,8 @@
    "reasons": [
     {
      "code": "LARGE_FOR_CATEGORY",
-     "en": "Tk 11,000 is 34.6x the usual basket for this kind of shop.",
-     "bn": "৳১১,০০০, যা এই ধরনের দোকানের সাধারণ কেনাকাটার ৩৪.৬ গুণ।",
+     "en": "Amount Tk 11,000 (34.6x the usual basket for this kind of shop).",
+     "bn": "পরিমাণ ৳১১,০০০ (এই ধরনের দোকানের সাধারণ কেনাকাটার ৩৪.৬ গুণ)।",
      "weight": 5.5951
     },
     {
@@ -81,8 +81,8 @@
    "reasons": [
     {
      "code": "LARGE_FOR_CATEGORY",
-     "en": "Tk 12,000 is 37.2x the usual basket for this kind of shop.",
-     "bn": "৳১২,০০০, যা এই ধরনের দোকানের সাধারণ কেনাকাটার ৩৭.২ গুণ।",
+     "en": "Amount Tk 12,000 (37.2x the usual basket for this kind of shop).",
+     "bn": "পরিমাণ ৳১২,০০০ (এই ধরনের দোকানের সাধারণ কেনাকাটার ৩৭.২ গুণ)।",
      "weight": 5.4185
     },
     {
@@ -107,8 +107,8 @@
    "reasons": [
     {
      "code": "LARGE_FOR_CATEGORY",
-     "en": "Tk 16,000 is 50.8x the usual basket for this kind of shop.",
-     "bn": "৳১৬,০০০, যা এই ধরনের দোকানের সাধারণ কেনাকাটার ৫০.৮ গুণ।",
+     "en": "Amount Tk 16,000 (50.8x the usual basket for this kind of shop).",
+     "bn": "পরিমাণ ৳১৬,০০০ (এই ধরনের দোকানের সাধারণ কেনাকাটার ৫০.৮ গুণ)।",
      "weight": 5.5134
     },
     {
@@ -133,8 +133,8 @@
    "reasons": [
     {
      "code": "LARGE_FOR_CATEGORY",
-     "en": "Tk 15,000 is 47.6x the usual basket for this kind of shop.",
-     "bn": "৳১৫,০০০, যা এই ধরনের দোকানের সাধারণ কেনাকাটার ৪৭.৬ গুণ।",
+     "en": "Amount Tk 15,000 (47.6x the usual basket for this kind of shop).",
+     "bn": "পরিমাণ ৳১৫,০০০ (এই ধরনের দোকানের সাধারণ কেনাকাটার ৪৭.৬ গুণ)।",
      "weight": 5.5745
     },
     {
@@ -159,8 +159,8 @@
    "reasons": [
     {
      "code": "LARGE_FOR_CATEGORY",
-     "en": "Tk 11,000 is 35.5x the usual basket for this kind of shop.",
-     "bn": "৳১১,০০০, যা এই ধরনের দোকানের সাধারণ কেনাকাটার ৩৫.৫ গুণ।",
+     "en": "Amount Tk 11,000 (35.5x the usual basket for this kind of shop).",
+     "bn": "পরিমাণ ৳১১,০০০ (এই ধরনের দোকানের সাধারণ কেনাকাটার ৩৫.৫ গুণ)।",
      "weight": 5.6139
     },
     {

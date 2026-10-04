@@ -39,3 +39,6 @@ out/
 .DS_Store
 .idea/
 .vscode/
+
+# Local editor / assistant settings (machine-specific paths)
+.claude/

@@ -55,8 +55,8 @@
    "reasons": [
     {
      "code": "LARGE_FOR_CATEGORY",
-     "en": "Tk 32,000 is 3.1x the usual basket for this kind of shop.",
-     "bn": "৳৩২,০০০, যা এই ধরনের দোকানের সাধারণ কেনাকাটার ৩.১ গুণ।",
+     "en": "Amount Tk 32,000 (3.1x the usual basket for this kind of shop).",
+     "bn": "পরিমাণ ৳৩২,০০০ (এই ধরনের দোকানের সাধারণ কেনাকাটার ৩.১ গুণ)।",
      "weight": 3.6333
     },
     {
@@ -81,8 +81,8 @@
    "reasons": [
     {
      "code": "LARGE_FOR_CATEGORY",
-     "en": "Tk 35,000 is 3.6x the usual basket for this kind of shop.",
-     "bn": "৳৩৫,০০০, যা এই ধরনের দোকানের সাধারণ কেনাকাটার ৩.৬ গুণ।",
+     "en": "Amount Tk 35,000 (3.6x the usual basket for this kind of shop).",
+     "bn": "পরিমাণ ৳৩৫,০০০ (এই ধরনের দোকানের সাধারণ কেনাকাটার ৩.৬ গুণ)।",
      "weight": 4.0879
     },
     {
@@ -113,8 +113,8 @@
     },
     {
      "code": "LARGE_FOR_CATEGORY",
-     "en": "Tk 3,000 is 0.3x the usual basket for this kind of shop.",
-     "bn": "৳৩,০০০, যা এই ধরনের দোকানের সাধারণ কেনাকাটার ০.৩ গুণ।",
+     "en": "Amount Tk 3,000 (0.3x the usual basket for this kind of shop).",
+     "bn": "পরিমাণ ৳৩,০০০ (এই ধরনের দোকানের সাধারণ কেনাকাটার ০.৩ গুণ)।",
      "weight": 2.8286
     },
     {
@@ -133,8 +133,8 @@
    "reasons": [
     {
      "code": "LARGE_FOR_CATEGORY",
-     "en": "Tk 56,000 is 5.6x the usual basket for this kind of shop.",
-     "bn": "৳৫৬,০০০, যা এই ধরনের দোকানের সাধারণ কেনাকাটার ৫.৬ গুণ।",
+     "en": "Amount Tk 56,000 (5.6x the usual basket for this kind of shop).",
+     "bn": "পরিমাণ ৳৫৬,০০০ (এই ধরনের দোকানের সাধারণ কেনাকাটার ৫.৬ গুণ)।",
      "weight": 3.6728
     },
     {
@@ -159,8 +159,8 @@
    "reasons": [
     {
      "code": "LARGE_FOR_CATEGORY",
-     "en": "Tk 53,000 is 5.6x the usual basket for this kind of shop.",
-     "bn": "৳৫৩,০০০, যা এই ধরনের দোকানের সাধারণ কেনাকাটার ৫.৬ গুণ।",
+     "en": "Amount Tk 53,000 (5.6x the usual basket for this kind of shop).",
+     "bn": "পরিমাণ ৳৫৩,০০০ (এই ধরনের দোকানের সাধারণ কেনাকাটার ৫.৬ গুণ)।",
      "weight": 3.7586
     },
     {

@@ -61,8 +61,8 @@
     },
     {
      "code": "LARGE_FOR_CATEGORY",
-     "en": "Tk 2,000 is 6.6x the usual basket for this kind of shop.",
-     "bn": "৳২,০০০, যা এই ধরনের দোকানের সাধারণ কেনাকাটার ৬.৬ গুণ।",
+     "en": "Amount Tk 2,000 (6.6x the usual basket for this kind of shop).",
+     "bn": "পরিমাণ ৳২,০০০ (এই ধরনের দোকানের সাধারণ কেনাকাটার ৬.৬ গুণ)।",
      "weight": 3.0367
     },
     {
@@ -87,8 +87,8 @@
     },
     {
      "code": "LARGE_FOR_CATEGORY",
-     "en": "Tk 1,000 is 3.2x the usual basket for this kind of shop.",
-     "bn": "৳১,০০০, যা এই ধরনের দোকানের সাধারণ কেনাকাটার ৩.২ গুণ।",
+     "en": "Amount Tk 1,000 (3.2x the usual basket for this kind of shop).",
+     "bn": "পরিমাণ ৳১,০০০ (এই ধরনের দোকানের সাধারণ কেনাকাটার ৩.২ গুণ)।",
      "weight": 2.5767
     },
     {
@@ -107,8 +107,8 @@
    "reasons": [
     {
      "code": "LARGE_FOR_CATEGORY",
-     "en": "Tk 3,000 is 9.4x the usual basket for this kind of shop.",
-     "bn": "৳৩,০০০, যা এই ধরনের দোকানের সাধারণ কেনাকাটার ৯.৪ গুণ।",
+     "en": "Amount Tk 3,000 (9.4x the usual basket for this kind of shop).",
+     "bn": "পরিমাণ ৳৩,০০০ (এই ধরনের দোকানের সাধারণ কেনাকাটার ৯.৪ গুণ)।",
      "weight": 3.2047
     },
     {
@@ -133,8 +133,8 @@
    "reasons": [
     {
      "code": "LARGE_FOR_CATEGORY",
-     "en": "Tk 2,225 is 7.1x the usual basket for this kind of shop.",
-     "bn": "৳২,২২৫, যা এই ধরনের দোকানের সাধারণ কেনাকাটার ৭.১ গুণ।",
+     "en": "Amount Tk 2,225 (7.1x the usual basket for this kind of shop).",
+     "bn": "পরিমাণ ৳২,২২৫ (এই ধরনের দোকানের সাধারণ কেনাকাটার ৭.১ গুণ)।",
      "weight": 4.1163
     },
     {

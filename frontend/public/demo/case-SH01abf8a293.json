@@ -55,8 +55,8 @@
    "reasons": [
     {
      "code": "LARGE_FOR_CATEGORY",
-     "en": "Tk 1,898 is 47.5x the usual basket for this kind of shop.",
-     "bn": "৳১,৮৯৮, যা এই ধরনের দোকানের সাধারণ কেনাকাটার ৪৭.৫ গুণ।",
+     "en": "Amount Tk 1,898 (47.5x the usual basket for this kind of shop).",
+     "bn": "পরিমাণ ৳১,৮৯৮ (এই ধরনের দোকানের সাধারণ কেনাকাটার ৪৭.৫ গুণ)।",
      "weight": 5.415
     },
     {
@@ -81,8 +81,8 @@
    "reasons": [
     {
      "code": "LARGE_FOR_CATEGORY",
-     "en": "Tk 1,971 is 49.3x the usual basket for this kind of shop.",
-     "bn": "৳১,৯৭১, যা এই ধরনের দোকানের সাধারণ কেনাকাটার ৪৯.৩ গুণ।",
+     "en": "Amount Tk 1,971 (49.3x the usual basket for this kind of shop).",
+     "bn": "পরিমাণ ৳১,৯৭১ (এই ধরনের দোকানের সাধারণ কেনাকাটার ৪৯.৩ গুণ)।",
      "weight": 5.3156
     },
     {
@@ -107,8 +107,8 @@
    "reasons": [
     {
      "code": "LARGE_FOR_CATEGORY",
-     "en": "Tk 1,827 is 45.7x the usual basket for this kind of shop.",
-     "bn": "৳১,৮২৭, যা এই ধরনের দোকানের সাধারণ কেনাকাটার ৪৫.৭ গুণ।",
+     "en": "Amount Tk 1,827 (45.7x the usual basket for this kind of shop).",
+     "bn": "পরিমাণ ৳১,৮২৭ (এই ধরনের দোকানের সাধারণ কেনাকাটার ৪৫.৭ গুণ)।",
      "weight": 5.3636
     },
     {
@@ -133,8 +133,8 @@
    "reasons": [
     {
      "code": "LARGE_FOR_CATEGORY",
-     "en": "Tk 1,900 is 47.5x the usual basket for this kind of shop.",
-     "bn": "৳১,৯০০, যা এই ধরনের দোকানের সাধারণ কেনাকাটার ৪৭.৫ গুণ।",
+     "en": "Amount Tk 1,900 (47.5x the usual basket for this kind of shop).",
+     "bn": "পরিমাণ ৳১,৯০০ (এই ধরনের দোকানের সাধারণ কেনাকাটার ৪৭.৫ গুণ)।",
      "weight": 5.3676
     },
     {
@@ -159,8 +159,8 @@
    "reasons": [
     {
      "code": "LARGE_FOR_CATEGORY",
-     "en": "Tk 1,883 is 47.1x the usual basket for this kind of shop.",
-     "bn": "৳১,৮৮৩, যা এই ধরনের দোকানের সাধারণ কেনাকাটার ৪৭.১ গুণ।",
+     "en": "Amount Tk 1,883 (47.1x the usual basket for this kind of shop).",
+     "bn": "পরিমাণ ৳১,৮৮৩ (এই ধরনের দোকানের সাধারণ কেনাকাটার ৪৭.১ গুণ)।",
      "weight": 5.2838
     },
     {

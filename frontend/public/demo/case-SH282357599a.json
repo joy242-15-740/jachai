@@ -55,8 +55,8 @@
    "reasons": [
     {
      "code": "LARGE_FOR_CATEGORY",
-     "en": "Tk 14,220 is 45.1x the usual basket for this kind of shop.",
-     "bn": "৳১৪,২২০, যা এই ধরনের দোকানের সাধারণ কেনাকাটার ৪৫.১ গুণ।",
+     "en": "Amount Tk 14,220 (45.1x the usual basket for this kind of shop).",
+     "bn": "পরিমাণ ৳১৪,২২০ (এই ধরনের দোকানের সাধারণ কেনাকাটার ৪৫.১ গুণ)।",
      "weight": 7.1305
     },
     {
@@ -81,8 +81,8 @@
    "reasons": [
     {
      "code": "LARGE_FOR_CATEGORY",
-     "en": "Tk 11,040 is 35.6x the usual basket for this kind of shop.",
-     "bn": "৳১১,০৪০, যা এই ধরনের দোকানের সাধারণ কেনাকাটার ৩৫.৬ গুণ।",
+     "en": "Amount Tk 11,040 (35.6x the usual basket for this kind of shop).",
+     "bn": "পরিমাণ ৳১১,০৪০ (এই ধরনের দোকানের সাধারণ কেনাকাটার ৩৫.৬ গুণ)।",
      "weight": 6.901
     },
     {
@@ -107,8 +107,8 @@
    "reasons": [
     {
      "code": "LARGE_FOR_CATEGORY",
-     "en": "Tk 4,060 is 12.6x the usual basket for this kind of shop.",
-     "bn": "৳৪,০৬০, যা এই ধরনের দোকানের সাধারণ কেনাকাটার ১২.৬ গুণ।",
+     "en": "Amount Tk 4,060 (12.6x the usual basket for this kind of shop).",
+     "bn": "পরিমাণ ৳৪,০৬০ (এই ধরনের দোকানের সাধারণ কেনাকাটার ১২.৬ গুণ)।",
      "weight": 6.3507
     },
     {
@@ -133,8 +133,8 @@
    "reasons": [
     {
      "code": "LARGE_FOR_CATEGORY",
-     "en": "Tk 5,700 is 17.8x the usual basket for this kind of shop.",
-     "bn": "৳৫,৭০০, যা এই ধরনের দোকানের সাধারণ কেনাকাটার ১৭.৮ গুণ।",
+     "en": "Amount Tk 5,700 (17.8x the usual basket for this kind of shop).",
+     "bn": "পরিমাণ ৳৫,৭০০ (এই ধরনের দোকানের সাধারণ কেনাকাটার ১৭.৮ গুণ)।",
      "weight": 6.8913
     },
     {
@@ -159,8 +159,8 @@
    "reasons": [
     {
      "code": "LARGE_FOR_CATEGORY",
-     "en": "Tk 3,850 is 12.0x the usual basket for this kind of shop.",
-     "bn": "৳৩,৮৫০, যা এই ধরনের দোকানের সাধারণ কেনাকাটার ১২.০ গুণ।",
+     "en": "Amount Tk 3,850 (12.0x the usual basket for this kind of shop).",
+     "bn": "পরিমাণ ৳৩,৮৫০ (এই ধরনের দোকানের সাধারণ কেনাকাটার ১২.০ গুণ)।",
      "weight": 6.1869
     },
     {

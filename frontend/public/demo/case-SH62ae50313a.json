@@ -55,8 +55,8 @@
    "reasons": [
     {
      "code": "LARGE_FOR_CATEGORY",
-     "en": "Tk 14,000 is 1.3x the usual basket for this kind of shop.",
-     "bn": "৳১৪,০০০, যা এই ধরনের দোকানের সাধারণ কেনাকাটার ১.৩ গুণ।",
+     "en": "Amount Tk 14,000 (1.3x the usual basket for this kind of shop).",
+     "bn": "পরিমাণ ৳১৪,০০০ (এই ধরনের দোকানের সাধারণ কেনাকাটার ১.৩ গুণ)।",
      "weight": 4.3586
     },
     {
@@ -81,8 +81,8 @@
    "reasons": [
     {
      "code": "LARGE_FOR_CATEGORY",
-     "en": "Tk 14,000 is 1.4x the usual basket for this kind of shop.",
-     "bn": "৳১৪,০০০, যা এই ধরনের দোকানের সাধারণ কেনাকাটার ১.৪ গুণ।",
+     "en": "Amount Tk 14,000 (1.4x the usual basket for this kind of shop).",
+     "bn": "পরিমাণ ৳১৪,০০০ (এই ধরনের দোকানের সাধারণ কেনাকাটার ১.৪ গুণ)।",
      "weight": 4.4559
     },
     {
@@ -107,8 +107,8 @@
    "reasons": [
     {
      "code": "LARGE_FOR_CATEGORY",
-     "en": "Tk 6,000 is 0.6x the usual basket for this kind of shop.",
-     "bn": "৳৬,০০০, যা এই ধরনের দোকানের সাধারণ কেনাকাটার ০.৬ গুণ।",
+     "en": "Amount Tk 6,000 (0.6x the usual basket for this kind of shop).",
+     "bn": "পরিমাণ ৳৬,০০০ (এই ধরনের দোকানের সাধারণ কেনাকাটার ০.৬ গুণ)।",
      "weight": 4.1554
     },
     {
@@ -133,8 +133,8 @@
    "reasons": [
     {
      "code": "LARGE_FOR_CATEGORY",
-     "en": "Tk 11,000 is 1.1x the usual basket for this kind of shop.",
-     "bn": "৳১১,০০০, যা এই ধরনের দোকানের সাধারণ কেনাকাটার ১.১ গুণ।",
+     "en": "Amount Tk 11,000 (1.1x the usual basket for this kind of shop).",
+     "bn": "পরিমাণ ৳১১,০০০ (এই ধরনের দোকানের সাধারণ কেনাকাটার ১.১ গুণ)।",
      "weight": 4.0162
     },
     {
@@ -159,8 +159,8 @@
    "reasons": [
     {
      "code": "LARGE_FOR_CATEGORY",
-     "en": "Tk 11,000 is 1.0x the usual basket for this kind of shop.",
-     "bn": "৳১১,০০০, যা এই ধরনের দোকানের সাধারণ কেনাকাটার ১.০ গুণ।",
+     "en": "Amount Tk 11,000 (1.0x the usual basket for this kind of shop).",
+     "bn": "পরিমাণ ৳১১,০০০ (এই ধরনের দোকানের সাধারণ কেনাকাটার ১.০ গুণ)।",
      "weight": 4.2234
     },
     {

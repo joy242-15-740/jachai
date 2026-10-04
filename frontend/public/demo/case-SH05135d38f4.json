@@ -55,8 +55,8 @@
    "reasons": [
     {
      "code": "LARGE_FOR_CATEGORY",
-     "en": "Tk 12,000 is 300.0x the usual basket for this kind of shop.",
-     "bn": "৳১২,০০০, যা এই ধরনের দোকানের সাধারণ কেনাকাটার ৩০০.০ গুণ।",
+     "en": "Amount Tk 12,000 (300.0x the usual basket for this kind of shop).",
+     "bn": "পরিমাণ ৳১২,০০০ (এই ধরনের দোকানের সাধারণ কেনাকাটার ৩০০.০ গুণ)।",
      "weight": 6.1146
     },
     {
@@ -81,8 +81,8 @@
    "reasons": [
     {
      "code": "LARGE_FOR_CATEGORY",
-     "en": "Tk 16,000 is 400.0x the usual basket for this kind of shop.",
-     "bn": "৳১৬,০০০, যা এই ধরনের দোকানের সাধারণ কেনাকাটার ৪০০.০ গুণ।",
+     "en": "Amount Tk 16,000 (400.0x the usual basket for this kind of shop).",
+     "bn": "পরিমাণ ৳১৬,০০০ (এই ধরনের দোকানের সাধারণ কেনাকাটার ৪০০.০ গুণ)।",
      "weight": 6.0817
     },
     {
@@ -107,8 +107,8 @@
    "reasons": [
     {
      "code": "LARGE_FOR_CATEGORY",
-     "en": "Tk 17,000 is 425.0x the usual basket for this kind of shop.",
-     "bn": "৳১৭,০০০, যা এই ধরনের দোকানের সাধারণ কেনাকাটার ৪২৫.০ গুণ।",
+     "en": "Amount Tk 17,000 (425.0x the usual basket for this kind of shop).",
+     "bn": "পরিমাণ ৳১৭,০০০ (এই ধরনের দোকানের সাধারণ কেনাকাটার ৪২৫.০ গুণ)।",
      "weight": 6.0664
     },
     {
@@ -133,8 +133,8 @@
    "reasons": [
     {
      "code": "LARGE_FOR_CATEGORY",
-     "en": "Tk 11,000 is 275.0x the usual basket for this kind of shop.",
-     "bn": "৳১১,০০০, যা এই ধরনের দোকানের সাধারণ কেনাকাটার ২৭৫.০ গুণ।",
+     "en": "Amount Tk 11,000 (275.0x the usual basket for this kind of shop).",
+     "bn": "পরিমাণ ৳১১,০০০ (এই ধরনের দোকানের সাধারণ কেনাকাটার ২৭৫.০ গুণ)।",
      "weight": 6.111
     },
     {
@@ -159,8 +159,8 @@
    "reasons": [
     {
      "code": "LARGE_FOR_CATEGORY",
-     "en": "Tk 14,000 is 350.0x the usual basket for this kind of shop.",
-     "bn": "৳১৪,০০০, যা এই ধরনের দোকানের সাধারণ কেনাকাটার ৩৫০.০ গুণ।",
+     "en": "Amount Tk 14,000 (350.0x the usual basket for this kind of shop).",
+     "bn": "পরিমাণ ৳১৪,০০০ (এই ধরনের দোকানের সাধারণ কেনাকাটার ৩৫০.০ গুণ)।",
      "weight": 6.075
     },
     {
