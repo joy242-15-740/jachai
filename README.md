@@ -50,13 +50,14 @@ They do not prove real-world accuracy.
   [reports/leakage_check.md](reports/leakage_check.md),
   [reports/probe.md](reports/probe.md).
 
-Planned:
-
-- Payment risk score, shop risk score and payer–shop network score. **TODO**
-- Fused risk band (low / review / high) with the top reasons for each case.
-  **TODO**
-- Case notes in English and merchant notices in Bangla. An LLM only rewords
-  structured evidence, with a template fallback. **TODO**
+- Payment, shop and payer–shop network scores, fused into low / review / high
+  risk bands with top evidence-based reasons (done).
+- English analyst case notes and a polite Bangla merchant-notice preview
+  (done). Without an API key both use deterministic templates. With
+  `LLM_API_KEY`, only the English note may be reworded; a validator rejects
+  invented numbers, accusations and promises. Bangla merchant text is never
+  sent to the LLM. The notice invites an appeal and does not send or store it;
+  a future messaging integration would require analyst approval.
 - **Policy simulator** (done): replays one month of a separate replay world (not
   the test set) under five policies: do nothing, blanket merchant limit,
   rules-only review, Jachai-targeted review, and Jachai + convert to agents.
@@ -72,14 +73,17 @@ Planned:
   area type, shop size, category on validation shops), `GET /metrics` (existing
   reports, nothing recomputed). Interactive docs at `/docs`. The API recommends;
   analysts decide; nothing is blocked automatically.
-- Analyst dashboard. **TODO**
+- **Analyst dashboard** (in progress): alert queue, case detail and decision
+  history, merchant-notice preview, and interactive five-policy simulator are
+  implemented. The trust and limitations page remains **TODO**. When the API
+  is unavailable the dashboard uses bundled, code-generated fast-profile JSON.
 
 ## 3. Technology stack
 
 - **ML and data:** Python 3.12+, pandas, NumPy, scikit-learn, LightGBM,
-  NetworkX, SHAP (planned)
-- **Backend:** FastAPI, Pydantic v2 (planned)
-- **Frontend:** Next.js, TypeScript, Tailwind, Recharts (planned)
+  NetworkX, SHAP
+- **Backend:** FastAPI, Pydantic v2
+- **Frontend:** Next.js, TypeScript, Tailwind, Recharts
 - **Quality:** pytest, ruff, GitHub Actions CI
 
 Every external component and its licence is listed in
@@ -91,7 +95,7 @@ Every external component and its licence is listed in
   SciPy 1.18 need 3.12.
 - GNU Make
 - Git
-- Node.js (version TBD) for the frontend. **TODO**
+- Node.js 20 or newer and npm for the frontend.
 
 ## 5. Installation and setup
 
@@ -112,9 +116,9 @@ Copy `.env.example` to `.env`. Never commit `.env`. All values in
 
 | Variable | Purpose | Example |
 | --- | --- | --- |
-| `LLM_PROVIDER` | Optional LLM provider for rewording notes. Empty = template fallback. | *(empty)* |
-| `LLM_API_KEY` | API key for that provider. | `your-llm-api-key-here` |
-| `LLM_MODEL` | Model name for that provider. | *(empty)* |
+| `LLM_PROVIDER` | Optional provider label; currently `openai`. | `openai` |
+| `LLM_API_KEY` | Optional OpenAI API key for English analyst-note rewording. Empty = template fallback. | `your-llm-api-key-here` |
+| `LLM_MODEL` | OpenAI model used only when `LLM_API_KEY` is set. | `gpt-5-mini` |
 | `JACHAI_SEED` | Random seed for the synthetic world. | `42` |
 | `JACHAI_DATA_DIR` | Where generated data is written. | `data` |
 | `JACHAI_REPORTS_DIR` | Where metrics and figures are written. | `reports` |
@@ -138,7 +142,7 @@ make sim       # policy simulator A-E into reports/simulator/ (after make train)
 make eval      # baselines, probe, leakage check into reports/ (after make world)
 make api       # run the API on :8000 (docs at /docs), reference artifacts
 make api-fast  # the API on fast-profile artifacts (after make demo-data)
-make web       # run Next.js on :3000            (TODO)
+make web       # run Next.js dashboard on :3000
 make test      # ruff + pytest (small in-memory fixtures, under a minute)
 
 # Fast development profile (about 2 minutes or less each)
@@ -158,9 +162,6 @@ turns on the P2P QR what-if scenario.
 
 `make eval` exits with an error if any single feature predicts the true label
 too well on its own (threshold in `configs/thresholds.yaml`).
-
-Targets marked TODO are stubs: they print "not implemented yet" and exit
-with an error, so an empty run is never mistaken for real output.
 
 ## 8. Live deployment URL
 

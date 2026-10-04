@@ -102,6 +102,18 @@ export default function CasePage() {
       </div>
       <SourceNote source={source} />
 
+      <div className="mb-4">
+        <Panel title="Analyst case note">
+          <div className="whitespace-pre-line text-sm leading-6">{data.brief.analyst_note}</div>
+          <div className="mt-3 flex flex-wrap items-center gap-2 text-xs text-muted">
+            <span className="rounded-full bg-page px-2 py-1">
+              Source: {data.brief.analyst_note_source === "llm" ? "LLM rewording" : "validated template"}
+            </span>
+            <span>Evidence only · no automatic decision</span>
+          </div>
+        </Panel>
+      </div>
+
       <div className="grid gap-4 lg:grid-cols-3">
         <ScoreCard
           title="Payment score"

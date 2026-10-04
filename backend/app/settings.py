@@ -6,6 +6,8 @@ JACHAI_DATA_DIR  generated world; default: the profile's data dir, else data/
 REPORTS_DIR      existing reports served by GET /metrics; default: reports/
 AUDIT_DB_PATH    SQLite file for the append-only decision log
 ALLOWED_ORIGINS  comma-separated origins allowed by CORS (the dashboard URL)
+LLM_API_KEY      optional; absent means deterministic template notes
+LLM_MODEL        optional OpenAI model name used only for English analyst notes
 """
 
 from __future__ import annotations
@@ -34,4 +36,8 @@ class Settings:
     )
     allowed_origins: list[str] = field(
         default_factory=lambda: _origins(os.environ.get("ALLOWED_ORIGINS", "http://localhost:3000"))
+    )
+    llm_api_key: str = field(default_factory=lambda: os.environ.get("LLM_API_KEY", "").strip())
+    llm_model: str = field(
+        default_factory=lambda: os.environ.get("LLM_MODEL", "gpt-5-mini").strip()
     )

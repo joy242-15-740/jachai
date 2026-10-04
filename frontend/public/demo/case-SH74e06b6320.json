@@ -426,5 +426,12 @@
    "flagged": 0.0
   }
  ],
+ "brief": {
+  "analyst_note": "Shop SH74e06b6320 needs human review. Its fused risk score is 0.7371 and its current band is review.\n\nEvidence: Existing rules flagged 24 of its payments in the last 30 days. 48% of its payers in the last 30 days live far away. 40% of its payments in the last 7 days were flagged.\n\nThis is model-generated evidence from synthetic data, not a finding. An analyst should check the timeline, linked shops and merchant explanation before deciding.",
+  "analyst_note_source": "template",
+  "merchant_notice_bn": "প্রিয় দোকান মালিক,\n\nআপনার দোকানের সাম্প্রতিক কিছু QR লেনদেন আমাদের নিয়মিত পর্যালোচনার অংশ হিসেবে দেখা হচ্ছে। এটি কোনো অভিযোগ নয়, এবং এখনো কোনো সিদ্ধান্ত নেওয়া হয়নি।\n\nআমরা যা লক্ষ্য করেছি:\n• গত ৩০ দিনে বিদ্যমান নিয়মে এর ২৪টি পেমেন্ট চিহ্নিত হয়েছে।\n• গত ৩০ দিনে এর ৪৮% গ্রাহক দূরে থাকেন।\n• গত ৭ দিনে এর ৪০% পেমেন্ট চিহ্নিত হয়েছে।\n\nএর কোনো স্বাভাবিক কারণ থাকলে, যেমন পাইকারি বিক্রি, উৎসবের ভিড় বা নতুন দোকান, অনুগ্রহ করে আপনার ব্যাখ্যা জানান। একজন বিশ্লেষক তা মনোযোগ দিয়ে দেখবেন।\n\nআপনার সহযোগিতার জন্য ধন্যবাদ।\n\nupay মার্চেন্ট সাপোর্ট",
+  "merchant_notice_source": "template",
+  "llm_output_rejected": null
+ },
  "decisions": []
 }

@@ -21,6 +21,7 @@ from app import __version__
 from app.audit import DECISIONS, AuditLog
 from app.settings import Settings
 from app.store import Store
+from jachai.explain.brief import build_brief, openai_reworder
 
 
 class DecisionIn(BaseModel):
@@ -89,6 +90,9 @@ def create_app(settings: Settings | None = None, store: Store | None = None) -> 
     app.state.settings = settings
     app.state.store = store
     app.state.audit = AuditLog(settings.audit_db_path)
+    app.state.brief_llm = (
+        openai_reworder(settings.llm_api_key, settings.llm_model) if settings.llm_api_key else None
+    )
     app.add_middleware(
         CORSMiddleware,
         allow_origins=settings.allowed_origins,
@@ -156,7 +160,12 @@ def create_app(settings: Settings | None = None, store: Store | None = None) -> 
         store = get_store(request)
         if not store.has_shop(case_id):
             raise HTTPException(404, f"unknown case {case_id}")
-        return {**store.case_detail(case_id), "decisions": app.state.audit.history(case_id)}
+        detail = store.case_detail(case_id)
+        return {
+            **detail,
+            "brief": build_brief(detail, app.state.brief_llm),
+            "decisions": app.state.audit.history(case_id),
+        }
 
     @app.post("/cases/{case_id}/decision", status_code=201)
     def decide(case_id: str, body: DecisionIn, request: Request) -> dict:

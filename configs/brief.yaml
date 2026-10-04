@@ -1,0 +1,18 @@
+analyst_note:
+  forbidden_terms:
+    - criminal
+    - fraud
+    - fraudster
+    - guilty
+    - illegal
+    - money laundering
+    - scammer
+    - thief
+  forbidden_promises:
+    - we promise
+    - we guarantee
+    - will definitely
+    - will be approved
+    - will be cleared
+    - no action will be taken
+

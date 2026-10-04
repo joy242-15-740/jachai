@@ -426,5 +426,12 @@
    "flagged": 3
   }
  ],
+ "brief": {
+  "analyst_note": "Shop SH01abf8a293 needs human review. Its fused risk score is 0.6999 and its current band is review.\n\nEvidence: Received about Tk 5,337/day vs about Tk 404/day expected for a shop like this. Existing rules flagged 12 of its payments in the last 30 days. Its riskiest recent payments score 0.78 out of 1 on the payment model.\n\nThis is model-generated evidence from synthetic data, not a finding. An analyst should check the timeline, linked shops and merchant explanation before deciding.",
+  "analyst_note_source": "template",
+  "merchant_notice_bn": "প্রিয় দোকান মালিক,\n\nআপনার দোকানের সাম্প্রতিক কিছু QR লেনদেন আমাদের নিয়মিত পর্যালোচনার অংশ হিসেবে দেখা হচ্ছে। এটি কোনো অভিযোগ নয়, এবং এখনো কোনো সিদ্ধান্ত নেওয়া হয়নি।\n\nআমরা যা লক্ষ্য করেছি:\n• দিনে প্রায় ৳৫,৩৩৭ পেয়েছে, যেখানে এ ধরনের দোকানে প্রত্যাশিত প্রায় ৳৪০৪।\n• গত ৩০ দিনে বিদ্যমান নিয়মে এর ১২টি পেমেন্ট চিহ্নিত হয়েছে।\n• এর সাম্প্রতিক সবচেয়ে ঝুঁকিপূর্ণ পেমেন্টগুলোর স্কোর ১-এর মধ্যে ০.৭৮।\n\nএর কোনো স্বাভাবিক কারণ থাকলে, যেমন পাইকারি বিক্রি, উৎসবের ভিড় বা নতুন দোকান, অনুগ্রহ করে আপনার ব্যাখ্যা জানান। একজন বিশ্লেষক তা মনোযোগ দিয়ে দেখবেন।\n\nআপনার সহযোগিতার জন্য ধন্যবাদ।\n\nupay মার্চেন্ট সাপোর্ট",
+  "merchant_notice_source": "template",
+  "llm_output_rejected": null
+ },
  "decisions": []
 }

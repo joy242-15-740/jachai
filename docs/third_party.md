@@ -34,3 +34,4 @@ the component.
 | Recharts | 3.10.1 | MIT | Dashboard charts (simulator, timeline) |
 | @fontsource/noto-sans-bengali (Noto Sans Bengali font) | 5.3.0 | OFL-1.1 | Self-hosted Bangla font (works offline) |
 | @types/react, @types/react-dom, @types/node | 19.3.0 / 19.3.0 / 26.6.4 | MIT | TypeScript type definitions |
+| OpenAI Responses API / GPT-5 mini | Optional service / configured model | Proprietary; OpenAI Service Terms | Optional English analyst-note rewording only; templates work without it and merchant text is never sent |

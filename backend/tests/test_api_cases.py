@@ -21,11 +21,22 @@ def test_case_detail_has_every_part(api):
     client, _, _ = api
     case_id = client.get("/cases").json()["cases"][0]["case_id"]
     d = client.get(f"/cases/{case_id}").json()
-    assert set(d) >= {"scores", "reasons", "riskiest_payments", "neighbourhood", "timeline"}
+    assert set(d) >= {
+        "scores",
+        "reasons",
+        "riskiest_payments",
+        "neighbourhood",
+        "timeline",
+        "brief",
+    }
     assert 1 <= len(d["reasons"]) <= 3
     assert all(r["en"] and r["bn"] for r in d["reasons"])
     assert d["scores"]["status"].startswith("needs review")
     assert len(d["timeline"]) > 0
+    assert d["brief"]["analyst_note_source"] == "template"
+    assert d["brief"]["merchant_notice_source"] == "template"
+    assert d["brief"]["analyst_note"]
+    assert d["brief"]["merchant_notice_bn"]
     assert client.get("/cases/NOPE").status_code == 404
 
 

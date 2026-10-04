@@ -68,5 +68,48 @@ export interface CaseDetail {
     linked_shops: { shop_id: string; shared_payers: number; category: string; band: Band; risk: number }[];
   };
   timeline: TimelineDay[];
+  brief: {
+    analyst_note: string;
+    analyst_note_source: "template" | "llm";
+    merchant_notice_bn: string;
+    merchant_notice_source: "template";
+    llm_output_rejected: string[] | null;
+  };
   decisions: Decision[];
+}
+
+export interface PolicyResult {
+  policy: "A" | "B" | "C" | "D" | "E";
+  name: string;
+  days: number;
+  misuse_taka_total: number;
+  misuse_taka_stopped: number;
+  misuse_taka_rerouted: number;
+  misuse_taka_still_flowing: number;
+  fees_recaptured: number;
+  honest_shops_restricted: number;
+  blocked_genuine_sales: number;
+  blocked_sales_at_misuse_shops: number;
+  analyst_alerts_per_day: number;
+  agent_leads: number;
+  agents_signed: number;
+  genuine_commerce_share: number;
+  fee_rate: number;
+}
+
+export interface SimulateResponse {
+  params: Record<string, number | number[] | string[] | null> & {
+    misuse_scale: number;
+    analyst_capacity_per_day: number;
+    limit_level: number;
+    displaced_to_agents_share: number;
+  };
+  replay: { seed: number; days: number };
+  results: PolicyResult[];
+  note: string;
+}
+
+export interface SimulateGrid {
+  axes: { misuse_scale: number[]; analyst_capacity_per_day: number[]; limit_level: number[] };
+  runs: SimulateResponse[];
 }
