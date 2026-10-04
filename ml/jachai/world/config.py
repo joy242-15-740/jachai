@@ -256,6 +256,41 @@ class PatternsConfig(_Strict):
         return self
 
 
+PROFILE_ENV = "JACHAI_PROFILE"
+
+
+def _deep_merge(base: dict[str, Any], override: dict[str, Any]) -> dict[str, Any]:
+    out = dict(base)
+    for key, value in override.items():
+        if isinstance(value, dict) and isinstance(out.get(key), dict):
+            out[key] = _deep_merge(out[key], value)
+        else:
+            out[key] = value
+    return out
+
+
+def active_profile() -> dict[str, Any]:
+    """The profile named by JACHAI_PROFILE (e.g. "fast"), or {} for the normal configs."""
+    name = os.environ.get(PROFILE_ENV, "").strip()
+    if not name:
+        return {}
+    path = DEFAULT_CONFIG_DIR / "profiles" / f"{name}.yaml"
+    if not path.exists():
+        raise FileNotFoundError(f"{PROFILE_ENV}={name!r} but {path} does not exist")
+    with path.open(encoding="utf-8") as f:
+        return yaml.safe_load(f) or {}
+
+
+def apply_profile(section: str, data: dict[str, Any]) -> dict[str, Any]:
+    """Deep-merge the active profile's overrides for one config file."""
+    return _deep_merge(data, active_profile().get(section, {}))
+
+
+def profile_path(key: str, default: str) -> str:
+    """A path from the active profile's `paths` section, else `default`."""
+    return active_profile().get("paths", {}).get(key, default)
+
+
 def _read_yaml(path: Path) -> dict[str, Any]:
     with path.open(encoding="utf-8") as f:
         data = yaml.safe_load(f)
@@ -266,7 +301,7 @@ def _read_yaml(path: Path) -> dict[str, Any]:
 
 def load_world_config(path: Path | None = None) -> WorldConfig:
     """Load world.yaml. The JACHAI_SEED env var, if set, overrides `seed`."""
-    data = _read_yaml(path or DEFAULT_CONFIG_DIR / "world.yaml")
+    data = apply_profile("world", _read_yaml(path or DEFAULT_CONFIG_DIR / "world.yaml"))
     env_seed = os.environ.get("JACHAI_SEED")
     if env_seed:
         data["seed"] = int(env_seed)

@@ -17,11 +17,9 @@ from jachai.labels.config import load_rules
 from jachai.models.config import load_models_config
 from jachai.models.train import validation_report
 from jachai.system import train_system
-from jachai.world.config import REPO_ROOT, load_world_config
+from jachai.world.config import load_world_config
 from jachai.world.generate import read_world_tables
-from jachai.world.summary import default_report_path, default_world_dir
-
-MODELS_DIR = REPO_ROOT / "models"
+from jachai.world.summary import default_model_dir, default_report_path, default_world_dir
 
 
 def main() -> None:
@@ -35,9 +33,10 @@ def main() -> None:
     shop_day = build_features(tables, cfg, thr.features)["shop_day"]
     system, scored = train_system(tables, shop_day, cfg, thr, rules, models)
 
-    system.payment.save(MODELS_DIR)
-    joblib.dump(system.shop, MODELS_DIR / "shop_model.joblib")
-    system.fusion.save(MODELS_DIR / "fusion.json")
+    model_dir = default_model_dir()
+    system.payment.save(model_dir)
+    joblib.dump(system.shop, model_dir / "shop_model.joblib")
+    system.fusion.save(model_dir / "fusion.json")
 
     val = scored.shop_day[scored.shop_day["split"] == "validation"]
     report = {
@@ -62,9 +61,10 @@ def main() -> None:
         },
     }
     path = default_report_path().parent / "system_training.json"
+    path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(report, indent=2, default=float) + "\n", encoding="utf-8")
     print(json.dumps(report, indent=2, default=float))
-    print(f"System saved to {MODELS_DIR}; report {path}")
+    print(f"System saved to {model_dir}; report {path}")
 
 
 if __name__ == "__main__":

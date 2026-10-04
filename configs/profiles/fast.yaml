@@ -1,0 +1,27 @@
+# Fast development profile: `JACHAI_PROFILE=fast` (the *-fast make targets set it).
+# Deep-merged into the normal configs BEFORE validation, so the same code and the
+# same patterns / hard negatives run, only smaller and shorter. Every command in
+# this profile should finish in about 2 minutes or less.
+# Results from this profile are for development checks only; reference results
+# use the normal configs (and `make validate-full` for multi-seed validation).
+
+world:
+  population: { n_shops: 300, n_customers: 3000, n_agents: 60 }
+  calendar: { start: 2026-09-16, days: 30 } # 16 Sep - 15 Oct, includes 1 Oct
+  scenario: { p2p_qr_start: 2026-10-05 }
+  areas:
+    dhaka_urban: { n_zones: 4 }
+    district_town: { n_zones: 6 }
+    rural_haat: { n_zones: 10 }
+
+thresholds:
+  eval: { warmup_days: 5, ablation_seeds: [42] }
+  split: { train_end: 2026-10-05, validation_end: 2026-10-10 } # test: 11-15 Oct
+
+models:
+  payment_model: { lightgbm: { num_boost_round: 150, early_stopping_rounds: 20 } }
+  shop_model: { isolation_forest: { min_peer_shops: 5, n_estimators: 50 } }
+  network: { window_days: 14 }
+
+# Where this profile reads and writes (so it never overwrites reference outputs).
+paths: { data_dir: data/fast, reports_dir: reports/fast, model_dir: models/fast }

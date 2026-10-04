@@ -105,6 +105,8 @@ Copy `.env.example` to `.env`. Never commit `.env`. All values in
 | `JACHAI_SEED` | Random seed for the synthetic world. | `42` |
 | `JACHAI_DATA_DIR` | Where generated data is written. | `data` |
 | `JACHAI_REPORTS_DIR` | Where metrics and figures are written. | `reports` |
+| `JACHAI_PROFILE` | Config profile; `fast` = small dev world (see section 10). Empty = reference configs. | *(empty)* |
+| `MODEL_DIR` | Where trained models are saved and loaded. | `models` |
 | `API_HOST` | Backend bind host. | `127.0.0.1` |
 | `API_PORT` | Backend port. | `8000` |
 | `NEXT_PUBLIC_API_URL` | Backend URL used by the dashboard. | `http://localhost:8000` |
@@ -115,11 +117,20 @@ Copy `.env.example` to `.env`. Never commit `.env`. All values in
 make help      # list all commands
 make install   # create .venv and install packages
 make world     # generate synthetic data into data/world, summary into reports/
-make train     # train all models                (TODO)
+make train     # train the full system (payment, shop, network, fusion) into models/
 make eval      # baselines, probe, leakage check into reports/ (after make world)
 make api       # run FastAPI on :8000            (TODO)
 make web       # run Next.js on :3000            (TODO)
-make test      # ruff + pytest
+make test      # ruff + pytest (small in-memory fixtures, under a minute)
+
+# Fast development profile (about 2 minutes or less each)
+make world-fast   # small world into data/fast/
+make train-fast   # train the system on it into models/fast/
+make demo-data    # world-fast + train-fast: data for a local API/dashboard demo
+make sim-fast     # policy simulator on the fast profile (TODO: not built yet)
+
+# Long jobs (15-30+ minutes): only when explicitly decided
+make validate-full  # multi-seed validation + full ablation into reports/
 make format    # auto-fix lint and formatting
 make clean     # remove .venv and caches
 ```
@@ -151,6 +162,20 @@ and that no value looks like a phone number or NID. GitHub Actions runs the same
 on every push and pull request (`.github/workflows/ci.yml`).
 
 ## 10. Other configuration
+
+### Fast development profile
+
+`JACHAI_PROFILE=fast` (set by every `*-fast` make target) loads
+`configs/profiles/fast.yaml` and deep-merges its overrides into the normal
+configs before they are validated. It keeps the same code, patterns and hard
+negatives but shrinks the world: about 300 shops and 3,000 customers over 30
+days (16 Sep to 15 Oct 2026, including the 1 Oct regime change), one seed, with
+split dates and model sizes scaled to match. It reads and writes `data/fast/`,
+`models/fast/` and `reports/fast/` (gitignored), so it never overwrites the
+reference outputs. Use it for every development check; fast-profile numbers are
+not results. Reference results come from the normal configs, and multi-seed
+validation from `make validate-full`, which is a long job run only on purpose.
+
 
 - Business rules and world settings live in `configs/*.yaml`, never inside
   model code or LLM prompts. `world.yaml` (calendar, regulation, population,

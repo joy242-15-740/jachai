@@ -1,6 +1,8 @@
 # Generated data: ignore everything in data/ except the assumptions file
 data/*
 !data/ASSUMPTIONS.md
+# Fast-profile reports are dev outputs; reference reports in reports/ are committed.
+reports/fast/
 
 # Secrets
 .env

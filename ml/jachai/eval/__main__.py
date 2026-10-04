@@ -61,6 +61,7 @@ def main() -> None:
     tables = read_world_tables(default_world_dir())
     feats = build_features(tables, cfg, thr.features)
     reports = default_report_path().parent
+    reports.mkdir(parents=True, exist_ok=True)
 
     baselines = run_baselines(tables, feats, cfg, thr, rules)
     text = "\n\n".join(

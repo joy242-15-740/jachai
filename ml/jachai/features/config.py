@@ -7,7 +7,7 @@ from pathlib import Path
 
 from pydantic import Field, model_validator
 
-from jachai.world.config import DEFAULT_CONFIG_DIR, _read_yaml, _Strict
+from jachai.world.config import DEFAULT_CONFIG_DIR, _read_yaml, _Strict, apply_profile
 
 
 class FeatureThresholds(_Strict):
@@ -70,6 +70,5 @@ class ThresholdsConfig(_Strict):
 
 
 def load_thresholds(path: Path | None = None) -> ThresholdsConfig:
-    return ThresholdsConfig.model_validate(
-        _read_yaml(path or DEFAULT_CONFIG_DIR / "thresholds.yaml")
-    )
+    data = _read_yaml(path or DEFAULT_CONFIG_DIR / "thresholds.yaml")
+    return ThresholdsConfig.model_validate(apply_profile("thresholds", data))

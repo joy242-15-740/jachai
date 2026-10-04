@@ -15,7 +15,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from jachai.world.config import REPO_ROOT
+from jachai.world.config import REPO_ROOT, profile_path
 from jachai.world.generate import read_world_tables
 from jachai.world.world import TRUE_LABEL, TRUE_PATTERN
 
@@ -128,11 +128,20 @@ def render(world_dir: Path) -> str:
 
 
 def default_world_dir() -> Path:
-    return REPO_ROOT / os.environ.get("JACHAI_DATA_DIR", "data") / "world"
+    """data/world, or the profile's data dir; JACHAI_DATA_DIR overrides both."""
+    base = os.environ.get("JACHAI_DATA_DIR") or profile_path("data_dir", "data")
+    return REPO_ROOT / base / "world"
 
 
 def default_report_path() -> Path:
-    return REPO_ROOT / os.environ.get("JACHAI_REPORTS_DIR", "reports") / "world_summary.md"
+    """reports/world_summary.md, or the profile's reports dir; JACHAI_REPORTS_DIR overrides."""
+    base = os.environ.get("JACHAI_REPORTS_DIR") or profile_path("reports_dir", "reports")
+    return REPO_ROOT / base / "world_summary.md"
+
+
+def default_model_dir() -> Path:
+    """models/, or the profile's model dir; MODEL_DIR overrides both."""
+    return REPO_ROOT / (os.environ.get("MODEL_DIR") or profile_path("model_dir", "models"))
 
 
 def main(argv: list[str] | None = None) -> None:

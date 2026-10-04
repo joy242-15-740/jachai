@@ -7,7 +7,7 @@ from typing import Literal
 
 from pydantic import Field, model_validator
 
-from jachai.world.config import DEFAULT_CONFIG_DIR, _read_yaml, _Strict
+from jachai.world.config import DEFAULT_CONFIG_DIR, _read_yaml, _Strict, apply_profile
 
 
 class LightGBMParams(_Strict):
@@ -84,4 +84,5 @@ class ModelsConfig(_Strict):
 
 
 def load_models_config(path: Path | None = None) -> ModelsConfig:
-    return ModelsConfig.model_validate(_read_yaml(path or DEFAULT_CONFIG_DIR / "models.yaml"))
+    data = _read_yaml(path or DEFAULT_CONFIG_DIR / "models.yaml")
+    return ModelsConfig.model_validate(apply_profile("models", data))
