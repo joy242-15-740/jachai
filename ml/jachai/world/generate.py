@@ -10,6 +10,7 @@ import hashlib
 import json
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 
 from jachai.world.cases import make_cases
@@ -30,7 +31,7 @@ from jachai.world.events import (
 from jachai.world.ids import random_ids
 from jachai.world.patterns import run_patterns
 from jachai.world.rng import stream
-from jachai.world.world import ALL_TABLES, EVENT_ID, EVENT_TABLES, World
+from jachai.world.world import ALL_TABLES, EVENT_ID, EVENT_TABLES, TRUE_LABEL, World
 
 
 def build_base(cfg: WorldConfig, patterns: PatternsConfig | None = None) -> World:
@@ -67,10 +68,30 @@ def finalize(world: World) -> World:
     return world
 
 
+def apply_evasion(world: World) -> None:
+    """Evasion test: lower every misuse payment by Tk 1-99 so none is round.
+
+    Uses its own random stream, so the rest of the world stays identical to the
+    normal world with the same seed."""
+    if world.patterns is None or not world.patterns.evasion.remove_round_amounts:
+        return
+    rng = stream(world.config.seed, "evasion")
+    for table in ("qr_payments", "p2p_transfers"):
+        df = world.tables[table]
+        misuse = (df[TRUE_LABEL] == 1).to_numpy()
+        shave = rng.integers(1, 100, int(misuse.sum()))
+        amount = df["amount"].to_numpy().copy()
+        amount[misuse] = np.maximum(1, amount[misuse] - shave)
+        # A shave can land on a round number (e.g. 1,050 - 50); shave one more taka.
+        amount[misuse & (amount % 100 == 0)] -= 1
+        df["amount"] = amount
+
+
 def generate_world(cfg: WorldConfig, patterns: PatternsConfig | None = None) -> World:
     """The full world. Without a patterns config, only honest activity is generated."""
     world = build_base(cfg, patterns)
     run_patterns(world)
+    apply_evasion(world)
     world = finalize(world)
     world.tables["cases"] = make_cases(world)
     return world

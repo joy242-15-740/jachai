@@ -238,7 +238,12 @@ class PatternSpec(_Strict):
     params: dict[str, Any] = Field(default_factory=dict)
 
 
+class EvasionCfg(_Strict):
+    remove_round_amounts: bool = False
+
+
 class PatternsConfig(_Strict):
+    evasion: EvasionCfg = EvasionCfg()
     cases: CasesCfg
     patterns: list[PatternSpec]
 

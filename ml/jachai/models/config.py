@@ -69,11 +69,17 @@ class FusionConfig(_Strict):
         return self
 
 
+class AblationConfig(_Strict):
+    payment_feature_groups: dict[str, list[str]]
+    fusion_groups: dict[str, list[str]]
+
+
 class ModelsConfig(_Strict):
     payment_model: PaymentModelConfig
     shop_model: ShopModelConfig
     network: NetworkConfig
     fusion: FusionConfig
+    ablation: AblationConfig
 
 
 def load_models_config(path: Path | None = None) -> ModelsConfig:

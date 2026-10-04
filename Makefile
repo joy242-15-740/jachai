@@ -8,7 +8,7 @@ BIN    := $(VENV)/bin
 # Stamp file: reinstall only when a pyproject changes.
 STAMP  := $(VENV)/.installed
 
-.PHONY: help install world train eval ablation api web test lint format clean
+.PHONY: help install world train eval ablation validate api web test lint format clean
 
 help:
 	@echo "make install  create .venv and install ml + backend packages"
@@ -18,6 +18,7 @@ help:
 	@echo "make api      run FastAPI on :8000              (not built yet)"
 	@echo "make web      run Next.js on :3000              (not built yet)"
 	@echo "make ablation label-source ablation on validation into reports/ (~2 min)"
+	@echo "make validate full system on validation: components, ablations, evasion (~15 min)"
 	@echo "make test     ruff lint + format check, then pytest"
 	@echo "make format   auto-fix lint and formatting"
 	@echo "make clean    remove .venv and caches"
@@ -44,6 +45,9 @@ train: $(STAMP)
 
 ablation: $(STAMP)
 	$(BIN)/python -m jachai.eval.ablation
+
+validate: $(STAMP)
+	$(BIN)/python -m jachai.eval.system_eval
 
 # Stubs: fail loudly so nobody mistakes an empty run for real output.
 api web:

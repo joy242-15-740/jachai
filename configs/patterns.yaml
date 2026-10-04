@@ -10,6 +10,14 @@
 # Shop counts are shares of all shops (at least 1), so tests can use a small world.
 # A shop gets at most one pattern, so labels stay unambiguous.
 
+evasion:
+  # Evasion test (off for the normal world). When on, every misuse QR or P2P
+  # payment is lowered by Tk 1-99 so no misuse amount is round: what a cash-desk
+  # owner would do once they learn round amounts get noticed. Lowering (never
+  # raising) keeps incentive-splitting payments under the cap. Same seed, so
+  # everything else in the world is identical.
+  remove_round_amounts: false
+
 cases:
   # Past investigations: SPARSE and SHOP-LEVEL, like real ones. Written to the
   # observable `cases` table (one row per investigated shop). True labels stay in

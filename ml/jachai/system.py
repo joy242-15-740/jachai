@@ -79,6 +79,22 @@ def build_components(
     return proba, comp
 
 
+QUOTED = [  # shop features that reason texts quote (e.g. actual turnover)
+    "turnover_7d",
+    "turnover_vs_peers_7d",
+    "round_1000_share_30d",
+    "after_hours_share_30d",
+    "first_visit_share_30d",
+]
+
+
+def _components(system_payment, shop, tables, data, shop_day, cfg, thr, rules, models):
+    proba, comp = build_components(tables, data, system_payment, cfg, thr, rules, models, shop_day)
+    shop_scores = shop.score(shop_day)
+    comp = comp.join(shop_scores[["turnover_z", "peer_anomaly", "expected_daily_turnover"]])
+    return proba, comp
+
+
 def train_system(
     tables: dict,
     shop_day: pd.DataFrame,
@@ -89,29 +105,44 @@ def train_system(
 ) -> tuple[System, Scored]:
     data = prepare_payment_data(tables, cfg, thr, rules)
     payment = train_from_data(data, models, rules.training_target, cfg.seed)
-
     split = shop_day_split(shop_day, tables, cfg, thr)
     shop = ShopModel(models.shop_model, cfg.seed).fit(shop_day, split == "train")
-    shop_scores = shop.score(shop_day)
-
-    proba, comp = build_components(tables, data, payment, cfg, thr, rules, models, shop_day)
-    comp = comp.join(shop_scores[["turnover_z", "peer_anomaly", "expected_daily_turnover"]])
+    proba, comp = _components(payment, shop, tables, data, shop_day, cfg, thr, rules, models)
 
     fusion = Fusion(models.fusion).fit_ranks(comp, split == "train")
     risk = fusion.risk(comp)
     fusion.freeze_bands(risk[split == "validation"], thr.bands)
-
-    # Keep the shop features that reason texts quote (e.g. actual turnover).
-    quoted = [
-        "turnover_7d",
-        "turnover_vs_peers_7d",
-        "round_1000_share_30d",
-        "after_hours_share_30d",
-        "first_visit_share_30d",
-    ]
     scored = (
-        shop_day[["shop_id", "day", *quoted]]
+        shop_day[["shop_id", "day", *QUOTED]]
         .join(comp)
         .assign(risk=risk, band=fusion.band(risk), split=split)
     )
     return System(payment, shop, fusion), Scored(data, proba, scored)
+
+
+def score_system(
+    system: System,
+    tables: dict,
+    shop_day: pd.DataFrame,
+    cfg: WorldConfig,
+    thr: ThresholdsConfig,
+    rules: RulesConfig,
+    models: ModelsConfig,
+) -> Scored:
+    """Score a world with an already-trained system: nothing is refitted (used by the
+    evasion test, and later by the final test evaluation and the API)."""
+    data = prepare_payment_data(tables, cfg, thr, rules)
+    proba, comp = _components(
+        system.payment, system.shop, tables, data, shop_day, cfg, thr, rules, models
+    )
+    risk = system.fusion.risk(comp)
+    scored = (
+        shop_day[["shop_id", "day", *QUOTED]]
+        .join(comp)
+        .assign(
+            risk=risk,
+            band=system.fusion.band(risk),
+            split=shop_day_split(shop_day, tables, cfg, thr),
+        )
+    )
+    return Scored(data, proba, scored)

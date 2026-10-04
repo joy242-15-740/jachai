@@ -66,3 +66,20 @@ fusion:
     linking_payers: 0.10 # payers linking it to others on same heavy days
     ring_flag: 0.10 # part of a small, tight ring
     distant_payer_share: 0.10 # payers living far away
+
+ablation:
+  # Payment-model feature groups, named by reason codes (configs/reason_codes.yaml),
+  # so "amount" means the same thing in explanations and in the ablation.
+  payment_feature_groups:
+    amount: [ROUND_AMOUNT, LARGE_FOR_CATEGORY, JUST_UNDER_CAP]
+    timing: [AFTER_HOURS]
+    payer_day: [NEAR_LIMIT]
+    money_in_then_out: [AFTER_INFLOW]
+    who_and_where: [DISTANT_PAYER, NEW_PAYER]
+    payer_history: [PAYER_HISTORY]
+    shop_history: [SHOP_BUSY, SHOP_ROUND, SHOP_NIGHT, SHOP_STRANGERS, SHOP_PROFILE]
+  # Fusion component groups.
+  fusion_groups:
+    payment: [payment_top3_7d, payment_flag_share_7d]
+    shop: [turnover_z, peer_anomaly]
+    network: [linking_payers, ring_flag, distant_payer_share]
