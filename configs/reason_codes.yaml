@@ -1,0 +1,109 @@
+# Human-readable reason codes for explanations (English + Bangla).
+#
+# Payment reasons: model features are grouped into codes; a payment's SHAP values
+# are summed per code and the 3 codes pushing most towards misuse are shown.
+# Shop reasons: each fusion component maps to a code.
+# Placeholders like {amount} are filled by code (ml/jachai/explain/reasons.py)
+# from the data. Templates never contain hand-typed result numbers.
+# Bangla text should be reviewed by a native speaker before use with merchants.
+
+payment_features:
+  ROUND_AMOUNT: [is_round_100, is_round_500, is_round_1000]
+  LARGE_FOR_CATEGORY: [amount, amount_vs_category_median]
+  AFTER_HOURS: [after_hours, hour, is_friday]
+  NEAR_LIMIT: [payer_day_total, payer_day_total_vs_limit, near_limit, payer_day_shops]
+  JUST_UNDER_CAP: [just_under_cap, payer_day_payments_here, after_regime_change]
+  AFTER_INFLOW:
+    - inflow_recent
+    - paid_share_of_recent_inflow
+    - remittance_recent
+    - paid_share_of_recent_remittance
+    - payer_inflow_7d
+    - payer_bank_topups_7d
+  DISTANT_PAYER: [payer_shop_distance_km, far_payer_share_30d]
+  NEW_PAYER: [first_visit, payer_first_visit_share_7d]
+  PAYER_HISTORY: [payer_payments_7d, payer_amount_7d, payer_shop_days_7d, payer_round_share_7d, payer_account_age_days, on_us]
+  SHOP_BUSY:
+    - turnover_7d
+    - payments_7d
+    - turnover_vs_peers_7d
+    - last_day_vs_own_median_30d
+    - unique_payers_per_day_7d
+  SHOP_ROUND: [round_1000_share_30d]
+  SHOP_NIGHT: [after_hours_share_30d]
+  SHOP_STRANGERS: [first_visit_share_30d]
+  SHOP_PROFILE: [qr_codes_per_account, shop_age_days, is_open, owner_p2p_senders_7d]
+
+shop_components:
+  payment_top3_7d: PAYMENT_RISK
+  payment_flag_share_7d: FLAGGED_SHARE
+  turnover_z: TURNOVER_IMPLAUSIBLE
+  peer_anomaly: PEER_ANOMALY
+  linking_payers: LINKING_PAYERS
+  ring_flag: RING
+  distant_payer_share: DISTANT_PAYERS
+
+templates:
+  ROUND_AMOUNT:
+    en: "Round amount: Tk {amount}."
+    bn: "রাউন্ড অঙ্কের পেমেন্ট: ৳{amount}।"
+  LARGE_FOR_CATEGORY:
+    en: "Tk {amount} is {basket_ratio}x the usual basket for this kind of shop."
+    bn: "৳{amount}, যা এই ধরনের দোকানের সাধারণ কেনাকাটার {basket_ratio} গুণ।"
+  AFTER_HOURS:
+    en: "Paid at {hour}:00, outside the shop's usual hours."
+    bn: "দোকানের স্বাভাবিক সময়ের বাইরে, {hour}টায় পেমেন্ট।"
+  NEAR_LIMIT:
+    en: "Payer's QR total today: Tk {payer_day_total} at {payer_day_shops} shops ({limit_pct}% of the Tk {limit} daily limit)."
+    bn: "আজ এই গ্রাহকের মোট QR পেমেন্ট ৳{payer_day_total}, {payer_day_shops}টি দোকানে (দৈনিক ৳{limit} সীমার {limit_pct}%)।"
+  JUST_UNDER_CAP:
+    en: "Tk {amount}, just under the Tk {cap} incentive cap; payment {payments_here} at this shop today."
+    bn: "৳{amount}, প্রণোদনার ৳{cap} সীমার ঠিক নিচে; আজ এই দোকানে {payments_here} নম্বর পেমেন্ট।"
+  AFTER_INFLOW:
+    en: "Spent {inflow_pct}% of money received shortly before (remittance or top-up)."
+    bn: "কিছুক্ষণ আগে পাওয়া টাকার (রেমিট্যান্স বা অ্যাড-মানি) {inflow_pct}% খরচ করা হয়েছে।"
+  DISTANT_PAYER:
+    en: "Payer lives {distance_km} km from the shop."
+    bn: "গ্রাহক দোকান থেকে {distance_km} কিমি দূরে থাকেন।"
+  NEW_PAYER:
+    en: "First payment by this payer at this shop."
+    bn: "এই দোকানে এই গ্রাহকের প্রথম পেমেন্ট।"
+  PAYER_HISTORY:
+    en: "Payer's recent activity is unusual: {payer_payments_7d} payments in the last 7 days."
+    bn: "গ্রাহকের সাম্প্রতিক লেনদেন অস্বাভাবিক: গত ৭ দিনে {payer_payments_7d}টি পেমেন্ট।"
+  SHOP_BUSY:
+    en: "Shop's last-7-day turnover is {peer_ratio}x that of similar shops."
+    bn: "গত ৭ দিনে দোকানের লেনদেন একই ধরনের দোকানের {peer_ratio} গুণ।"
+  SHOP_ROUND:
+    en: "{round_pct}% of the shop's receipts in the last 30 days were round Tk 1,000s."
+    bn: "গত ৩০ দিনে দোকানের প্রাপ্ত পেমেন্টের {round_pct}% ছিল ৳১,০০০-এর রাউন্ড অঙ্ক।"
+  SHOP_NIGHT:
+    en: "{night_pct}% of the shop's payments in the last 30 days came outside opening hours."
+    bn: "গত ৩০ দিনে দোকানের {night_pct}% পেমেন্ট খোলার সময়ের বাইরে এসেছে।"
+  SHOP_STRANGERS:
+    en: "{stranger_pct}% of the shop's payments in the last 30 days came from first-time payers."
+    bn: "গত ৩০ দিনে দোকানের {stranger_pct}% পেমেন্ট এসেছে নতুন গ্রাহকদের কাছ থেকে।"
+  SHOP_PROFILE:
+    en: "Shop profile is unusual ({qr_codes} QR codes, open {shop_age_days} days)."
+    bn: "দোকানের প্রোফাইল অস্বাভাবিক ({qr_codes}টি QR কোড, {shop_age_days} দিন ধরে চালু)।"
+  PAYMENT_RISK:
+    en: "Its riskiest recent payments score {top3} out of 1 on the payment model."
+    bn: "এর সাম্প্রতিক সবচেয়ে ঝুঁকিপূর্ণ পেমেন্টগুলোর স্কোর ১-এর মধ্যে {top3}।"
+  FLAGGED_SHARE:
+    en: "{flag_pct}% of its payments in the last 7 days were flagged."
+    bn: "গত ৭ দিনে এর {flag_pct}% পেমেন্ট চিহ্নিত হয়েছে।"
+  TURNOVER_IMPLAUSIBLE:
+    en: "Received about Tk {actual_daily}/day vs about Tk {expected_daily}/day expected for a shop like this."
+    bn: "দিনে প্রায় ৳{actual_daily} পেয়েছে, যেখানে এ ধরনের দোকানে প্রত্যাশিত প্রায় ৳{expected_daily}।"
+  PEER_ANOMALY:
+    en: "Behaves unlike similar shops (receipts, hours and payers)."
+    bn: "একই ধরনের দোকানের তুলনায় আচরণ অস্বাভাবিক (পেমেন্ট, সময় ও গ্রাহক)।"
+  LINKING_PAYERS:
+    en: "{linking_payers} payers paid this shop and others on days they went past the daily limit."
+    bn: "{linking_payers} জন গ্রাহক দৈনিক সীমা ছাড়ানোর দিনে এই দোকানসহ অন্য দোকানেও পেমেন্ট করেছেন।"
+  RING:
+    en: "Part of a group of {community_size} nearby shops sharing payers who go past the daily limit."
+    bn: "কাছাকাছি {community_size}টি দোকানের একটি দলের অংশ, যাদের গ্রাহকরা দৈনিক সীমা ছাড়িয়ে যান।"
+  DISTANT_PAYERS:
+    en: "{distant_pct}% of its payers in the last 30 days live far away."
+    bn: "গত ৩০ দিনে এর {distant_pct}% গ্রাহক দূরে থাকেন।"

@@ -101,8 +101,16 @@ def train_system(
     risk = fusion.risk(comp)
     fusion.freeze_bands(risk[split == "validation"], thr.bands)
 
+    # Keep the shop features that reason texts quote (e.g. actual turnover).
+    quoted = [
+        "turnover_7d",
+        "turnover_vs_peers_7d",
+        "round_1000_share_30d",
+        "after_hours_share_30d",
+        "first_visit_share_30d",
+    ]
     scored = (
-        shop_day[["shop_id", "day"]]
+        shop_day[["shop_id", "day", *quoted]]
         .join(comp)
         .assign(risk=risk, band=fusion.band(risk), split=split)
     )
