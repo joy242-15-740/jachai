@@ -149,3 +149,16 @@ def score_system(
         )
     )
     return Scored(data, proba, scored)
+
+
+def load_system(model_dir, models: ModelsConfig) -> System:
+    """Load a system saved by `make train` (payment model, shop model, fusion)."""
+    import joblib  # local import: only needed when loading saved artifacts
+
+    from jachai.models.fusion import Fusion as _Fusion
+
+    return System(
+        payment=PaymentModel.load(model_dir),
+        shop=joblib.load(model_dir / "shop_model.joblib"),
+        fusion=_Fusion.load(model_dir / "fusion.json", models.fusion),
+    )

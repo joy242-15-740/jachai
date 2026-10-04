@@ -23,5 +23,8 @@ models:
   shop_model: { isolation_forest: { min_peer_shops: 5, n_estimators: 50 } }
   network: { window_days: 14 }
 
+simulator:
+  replay: { days: 15 } # the fast world is 30 days; its first days lack history
+
 # Where this profile reads and writes (so it never overwrites reference outputs).
 paths: { data_dir: data/fast, reports_dir: reports/fast, model_dir: models/fast }

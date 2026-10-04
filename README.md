@@ -57,7 +57,12 @@ Planned:
   **TODO**
 - Case notes in English and merchant notices in Bangla. An LLM only rewords
   structured evidence, with a template fallback. **TODO**
-- Policy simulator that replays one month under five policies. **TODO**
+- **Policy simulator** (done): replays one month of a separate replay world (not
+  the test set) under five policies: do nothing, blanket merchant limit,
+  rules-only review, Jachai-targeted review, and Jachai + convert to agents.
+  Reports misuse taka stopped or rerouted, fees recaptured, honest shops
+  restricted, alerts per day and agent leads. Parameters in
+  `configs/simulator.yaml`, overridable per run.
 - Analyst dashboard. The analyst makes every decision; nothing is blocked
   automatically. **TODO**
 
@@ -118,6 +123,7 @@ make help      # list all commands
 make install   # create .venv and install packages
 make world     # generate synthetic data into data/world, summary into reports/
 make train     # train the full system (payment, shop, network, fusion) into models/
+make sim       # policy simulator A-E into reports/simulator/ (after make train)
 make eval      # baselines, probe, leakage check into reports/ (after make world)
 make api       # run FastAPI on :8000            (TODO)
 make web       # run Next.js on :3000            (TODO)
@@ -126,8 +132,8 @@ make test      # ruff + pytest (small in-memory fixtures, under a minute)
 # Fast development profile (about 2 minutes or less each)
 make world-fast   # small world into data/fast/
 make train-fast   # train the system on it into models/fast/
-make demo-data    # world-fast + train-fast: data for a local API/dashboard demo
-make sim-fast     # policy simulator on the fast profile (TODO: not built yet)
+make sim-fast     # policy simulator on the fast world into reports/fast/simulator/
+make demo-data    # world-fast + train-fast + sim-fast: data for a local demo
 
 # Long jobs (15-30+ minutes): only when explicitly decided
 make validate-full  # multi-seed validation + full ablation into reports/

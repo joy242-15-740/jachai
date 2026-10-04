@@ -137,3 +137,39 @@ def test_fee_rate_slider_and_default(params):
 def test_bad_override_is_rejected(params):
     with pytest.raises(ValidationError):
         params.with_overrides({"analyst_recall": 2.0})
+
+
+# --- Replay inputs from a scored world -------------------------------------------------
+
+
+def test_inputs_from_a_scored_world_run_consistently(small_system, params):
+    from jachai.simulate.inputs import inputs_from_scored
+
+    world, _, scored = small_system
+    inputs = inputs_from_scored(scored, world.tables, days=10, fee_rate=0.0185)
+    assert inputs.payments["day"].nunique() == 10
+    assert set(inputs.shop_day["day"]) == set(inputs.payments["day"])
+    assert inputs.payments["misuse"].sum() > 0
+    for r in run_all(inputs, params):
+        total = (
+            r["misuse_taka_stopped"] + r["misuse_taka_rerouted"] + r["misuse_taka_still_flowing"]
+        )
+        assert total == pytest.approx(r["misuse_taka_total"])
+
+
+def test_cache_is_reused_only_for_the_same_key(tmp_path):
+    from jachai.simulate.inputs import cached_inputs
+
+    calls = []
+
+    def build():
+        calls.append(1)
+        return month()
+
+    key = {"system": "abc", "replay_seed": 1, "replay_days": 4, "fee_rate": 0.0185}
+    first = cached_inputs(tmp_path, key, build)
+    again = cached_inputs(tmp_path, key, build)
+    assert len(calls) == 1
+    pd.testing.assert_frame_equal(first.payments, again.payments, check_dtype=False)
+    cached_inputs(tmp_path, {**key, "system": "other"}, build)
+    assert len(calls) == 2  # a different trained system rebuilds the inputs

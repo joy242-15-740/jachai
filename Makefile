@@ -8,7 +8,7 @@ BIN    := $(VENV)/bin
 # Stamp file: reinstall only when a pyproject changes.
 STAMP  := $(VENV)/.installed
 
-.PHONY: help install world train eval world-fast train-fast sim-fast demo-data validate-full api web test lint format clean
+.PHONY: help install world train eval sim world-fast train-fast sim-fast demo-data validate-full api web test lint format clean
 
 help:
 	@echo "make install  create .venv and install ml + backend packages"
@@ -18,7 +18,7 @@ help:
 	@echo "make api      run FastAPI on :8000              (not built yet)"
 	@echo "make web      run Next.js on :3000              (not built yet)"
 	@echo "make world-fast / train-fast / demo-data   fast profile (small world, ~2 min each)"
-	@echo "make sim-fast policy simulator on the fast profile (not built yet)"
+	@echo "make sim / sim-fast  policy simulator A-E into reports/simulator/ (needs train)"
 	@echo "make validate-full  multi-seed validation + full ablation (LONG, 15-30+ min)"
 	@echo "make test     ruff lint + format check, then pytest"
 	@echo "make format   auto-fix lint and formatting"
@@ -54,12 +54,16 @@ world-fast: $(STAMP)
 train-fast: $(STAMP)
 	$(FAST) $(BIN)/python -m jachai.models
 
-sim-fast:
-	@echo "make sim-fast: not implemented yet (the policy simulator is the next step)" >&2
-	@exit 1
+sim-fast: $(STAMP)
+	$(FAST) $(BIN)/python -m jachai.simulate $(SIM_ARGS)
 
 # Everything the API / dashboard needs for a local demo, on the fast profile.
-demo-data: world-fast train-fast
+demo-data: world-fast train-fast sim-fast
+
+# Policy simulator on the reference world (needs make train). Overrides:
+# make sim SIM_ARGS="--set limit_level=50000 --set analyst_capacity_per_day=10"
+sim: $(STAMP)
+	$(BIN)/python -m jachai.simulate $(SIM_ARGS)
 
 # --- Long jobs: multi-seed validation and full ablation (15-30+ min). ---------------
 # Not part of everyday development; run only when explicitly decided.
