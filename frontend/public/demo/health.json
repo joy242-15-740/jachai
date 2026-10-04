@@ -1,0 +1,7 @@
+{
+ "status": "ok",
+ "version": "0.1.0",
+ "model_dir_exists": true,
+ "world_dir_exists": true,
+ "demo": true
+}

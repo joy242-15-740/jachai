@@ -1,0 +1,614 @@
+{
+ "as_of": "2026-10-15",
+ "count": 32,
+ "cases": [
+  {
+   "case_id": "SHf5c811dbc8",
+   "shop_id": "SHf5c811dbc8",
+   "category": "wholesaler",
+   "size_tier": "large",
+   "area_type": "rural_haat",
+   "zone_id": "RH04",
+   "n_qr_codes": 4,
+   "opened_on": "2026-09-16T00:00:00",
+   "risk": 0.8959,
+   "band": "high",
+   "status": "needs review (high priority)",
+   "top_reason": {
+    "code": "TURNOVER_IMPLAUSIBLE",
+    "en": "Received about Tk 75,054/day vs about Tk 13,952/day expected for a shop like this.",
+    "bn": "দিনে প্রায় ৳৭৫,০৫৪ পেয়েছে, যেখানে এ ধরনের দোকানে প্রত্যাশিত প্রায় ৳১৩,৯৫২।",
+    "weight": 0.1234
+   }
+  },
+  {
+   "case_id": "SH7027526b18",
+   "shop_id": "SH7027526b18",
+   "category": "clothing",
+   "size_tier": "small",
+   "area_type": "dhaka_urban",
+   "zone_id": "DU04",
+   "n_qr_codes": 1,
+   "opened_on": "2026-09-16T00:00:00",
+   "risk": 0.8896,
+   "band": "review",
+   "status": "needs review",
+   "top_reason": {
+    "code": "LINKING_PAYERS",
+    "en": "8 payers paid this shop and others on days they went past the daily limit.",
+    "bn": "৮ জন গ্রাহক দৈনিক সীমা ছাড়ানোর দিনে এই দোকানসহ অন্য দোকানেও পেমেন্ট করেছেন।",
+    "weight": 0.1241
+   }
+  },
+  {
+   "case_id": "SHa5ebb21c37",
+   "shop_id": "SHa5ebb21c37",
+   "category": "tea_stall",
+   "size_tier": "medium",
+   "area_type": "dhaka_urban",
+   "zone_id": "DU04",
+   "n_qr_codes": 5,
+   "opened_on": "2026-09-16T00:00:00",
+   "risk": 0.8852,
+   "band": "review",
+   "status": "needs review",
+   "top_reason": {
+    "code": "TURNOVER_IMPLAUSIBLE",
+    "en": "Received about Tk 17,840/day vs about Tk 1,057/day expected for a shop like this.",
+    "bn": "দিনে প্রায় ৳১৭,৮৪০ পেয়েছে, যেখানে এ ধরনের দোকানে প্রত্যাশিত প্রায় ৳১,০৫৭।",
+    "weight": 0.125
+   }
+  },
+  {
+   "case_id": "SH2d8c2174fb",
+   "shop_id": "SH2d8c2174fb",
+   "category": "pharmacy",
+   "size_tier": "medium",
+   "area_type": "dhaka_urban",
+   "zone_id": "DU04",
+   "n_qr_codes": 1,
+   "opened_on": "2026-09-16T00:00:00",
+   "risk": 0.8836,
+   "band": "review",
+   "status": "needs review",
+   "top_reason": {
+    "code": "RULES_FLAGS",
+    "en": "Existing rules flagged 24 of its payments in the last 30 days.",
+    "bn": "গত ৩০ দিনে বিদ্যমান নিয়মে এর ২৪টি পেমেন্ট চিহ্নিত হয়েছে।",
+    "weight": 0.1247
+   }
+  },
+  {
+   "case_id": "SH08a76421aa",
+   "shop_id": "SH08a76421aa",
+   "category": "wholesaler",
+   "size_tier": "small",
+   "area_type": "rural_haat",
+   "zone_id": "RH03",
+   "n_qr_codes": 5,
+   "opened_on": "2026-09-16T00:00:00",
+   "risk": 0.8811,
+   "band": "review",
+   "status": "needs review",
+   "top_reason": {
+    "code": "FLAGGED_SHARE",
+    "en": "65% of its payments in the last 7 days were flagged.",
+    "bn": "গত ৭ দিনে এর ৬৫% পেমেন্ট চিহ্নিত হয়েছে।",
+    "weight": 0.1248
+   }
+  },
+  {
+   "case_id": "SH5bf3bcc92f",
+   "shop_id": "SH5bf3bcc92f",
+   "category": "grocery",
+   "size_tier": "small",
+   "area_type": "rural_haat",
+   "zone_id": "RH03",
+   "n_qr_codes": 1,
+   "opened_on": "2026-09-16T00:00:00",
+   "risk": 0.8744,
+   "band": "review",
+   "status": "needs review",
+   "top_reason": {
+    "code": "TURNOVER_IMPLAUSIBLE",
+    "en": "Received about Tk 33,786/day vs about Tk 2,017/day expected for a shop like this.",
+    "bn": "দিনে প্রায় ৳৩৩,৭৮৬ পেয়েছে, যেখানে এ ধরনের দোকানে প্রত্যাশিত প্রায় ৳২,০১৭।",
+    "weight": 0.125
+   }
+  },
+  {
+   "case_id": "SH972c47014c",
+   "shop_id": "SH972c47014c",
+   "category": "pharmacy",
+   "size_tier": "small",
+   "area_type": "dhaka_urban",
+   "zone_id": "DU04",
+   "n_qr_codes": 5,
+   "opened_on": "2026-09-16T00:00:00",
+   "risk": 0.8709,
+   "band": "review",
+   "status": "needs review",
+   "top_reason": {
+    "code": "RULES_FLAGS",
+    "en": "Existing rules flagged 18 of its payments in the last 30 days.",
+    "bn": "গত ৩০ দিনে বিদ্যমান নিয়মে এর ১৮টি পেমেন্ট চিহ্নিত হয়েছে।",
+    "weight": 0.1241
+   }
+  },
+  {
+   "case_id": "SH9e4b15b446",
+   "shop_id": "SH9e4b15b446",
+   "category": "clothing",
+   "size_tier": "small",
+   "area_type": "rural_haat",
+   "zone_id": "RH10",
+   "n_qr_codes": 1,
+   "opened_on": "2026-09-16T00:00:00",
+   "risk": 0.8638,
+   "band": "review",
+   "status": "needs review",
+   "top_reason": {
+    "code": "TURNOVER_IMPLAUSIBLE",
+    "en": "Received about Tk 33,501/day vs about Tk 1,969/day expected for a shop like this.",
+    "bn": "দিনে প্রায় ৳৩৩,৫০১ পেয়েছে, যেখানে এ ধরনের দোকানে প্রত্যাশিত প্রায় ৳১,৯৬৯।",
+    "weight": 0.125
+   }
+  },
+  {
+   "case_id": "SH4a4280e478",
+   "shop_id": "SH4a4280e478",
+   "category": "wholesaler",
+   "size_tier": "medium",
+   "area_type": "rural_haat",
+   "zone_id": "RH04",
+   "n_qr_codes": 4,
+   "opened_on": "2026-09-16T00:00:00",
+   "risk": 0.7987,
+   "band": "review",
+   "status": "needs review",
+   "top_reason": {
+    "code": "RING",
+    "en": "Part of a group of 3 nearby shops sharing payers who go past the daily limit.",
+    "bn": "কাছাকাছি ৩টি দোকানের একটি দলের অংশ, যাদের গ্রাহকরা দৈনিক সীমা ছাড়িয়ে যান।",
+    "weight": 0.1226
+   }
+  },
+  {
+   "case_id": "SH3def02ea8a",
+   "shop_id": "SH3def02ea8a",
+   "category": "electronics",
+   "size_tier": "small",
+   "area_type": "dhaka_urban",
+   "zone_id": "DU04",
+   "n_qr_codes": 1,
+   "opened_on": "2026-09-16T00:00:00",
+   "risk": 0.7802,
+   "band": "review",
+   "status": "needs review",
+   "top_reason": {
+    "code": "RULES_FLAGS",
+    "en": "Existing rules flagged 23 of its payments in the last 30 days.",
+    "bn": "গত ৩০ দিনে বিদ্যমান নিয়মে এর ২৩টি পেমেন্ট চিহ্নিত হয়েছে।",
+    "weight": 0.1246
+   }
+  },
+  {
+   "case_id": "SH62ae50313a",
+   "shop_id": "SH62ae50313a",
+   "category": "wholesaler",
+   "size_tier": "small",
+   "area_type": "dhaka_urban",
+   "zone_id": "DU04",
+   "n_qr_codes": 3,
+   "opened_on": "2026-09-16T00:00:00",
+   "risk": 0.7556,
+   "band": "review",
+   "status": "needs review",
+   "top_reason": {
+    "code": "LINKING_PAYERS",
+    "en": "7 payers paid this shop and others on days they went past the daily limit.",
+    "bn": "৭ জন গ্রাহক দৈনিক সীমা ছাড়ানোর দিনে এই দোকানসহ অন্য দোকানেও পেমেন্ট করেছেন।",
+    "weight": 0.1237
+   }
+  },
+  {
+   "case_id": "SH05135d38f4",
+   "shop_id": "SH05135d38f4",
+   "category": "tea_stall",
+   "size_tier": "small",
+   "area_type": "dhaka_urban",
+   "zone_id": "DU04",
+   "n_qr_codes": 1,
+   "opened_on": "2026-09-16T00:00:00",
+   "risk": 0.7454,
+   "band": "review",
+   "status": "needs review",
+   "top_reason": {
+    "code": "RULES_FLAGS",
+    "en": "Existing rules flagged 148 of its payments in the last 30 days.",
+    "bn": "গত ৩০ দিনে বিদ্যমান নিয়মে এর ১৪৮টি পেমেন্ট চিহ্নিত হয়েছে।",
+    "weight": 0.125
+   }
+  },
+  {
+   "case_id": "SHc72b273871",
+   "shop_id": "SHc72b273871",
+   "category": "grocery",
+   "size_tier": "small",
+   "area_type": "district_town",
+   "zone_id": "DT01",
+   "n_qr_codes": 2,
+   "opened_on": "2026-09-16T00:00:00",
+   "risk": 0.7434,
+   "band": "review",
+   "status": "needs review",
+   "top_reason": {
+    "code": "RULES_FLAGS",
+    "en": "Existing rules flagged 44 of its payments in the last 30 days.",
+    "bn": "গত ৩০ দিনে বিদ্যমান নিয়মে এর ৪৪টি পেমেন্ট চিহ্নিত হয়েছে।",
+    "weight": 0.125
+   }
+  },
+  {
+   "case_id": "SH282357599a",
+   "shop_id": "SH282357599a",
+   "category": "grocery",
+   "size_tier": "small",
+   "area_type": "district_town",
+   "zone_id": "DT04",
+   "n_qr_codes": 5,
+   "opened_on": "2026-09-16T00:00:00",
+   "risk": 0.7372,
+   "band": "review",
+   "status": "needs review",
+   "top_reason": {
+    "code": "RULES_FLAGS",
+    "en": "Existing rules flagged 44 of its payments in the last 30 days.",
+    "bn": "গত ৩০ দিনে বিদ্যমান নিয়মে এর ৪৪টি পেমেন্ট চিহ্নিত হয়েছে।",
+    "weight": 0.125
+   }
+  },
+  {
+   "case_id": "SH74e06b6320",
+   "shop_id": "SH74e06b6320",
+   "category": "clothing",
+   "size_tier": "small",
+   "area_type": "district_town",
+   "zone_id": "DT05",
+   "n_qr_codes": 3,
+   "opened_on": "2026-09-16T00:00:00",
+   "risk": 0.7371,
+   "band": "review",
+   "status": "needs review",
+   "top_reason": {
+    "code": "RULES_FLAGS",
+    "en": "Existing rules flagged 24 of its payments in the last 30 days.",
+    "bn": "গত ৩০ দিনে বিদ্যমান নিয়মে এর ২৪টি পেমেন্ট চিহ্নিত হয়েছে।",
+    "weight": 0.1247
+   }
+  },
+  {
+   "case_id": "SH6f9e89c811",
+   "shop_id": "SH6f9e89c811",
+   "category": "grocery",
+   "size_tier": "medium",
+   "area_type": "district_town",
+   "zone_id": "DT06",
+   "n_qr_codes": 4,
+   "opened_on": "2026-09-16T00:00:00",
+   "risk": 0.7361,
+   "band": "review",
+   "status": "needs review",
+   "top_reason": {
+    "code": "RULES_FLAGS",
+    "en": "Existing rules flagged 43 of its payments in the last 30 days.",
+    "bn": "গত ৩০ দিনে বিদ্যমান নিয়মে এর ৪৩টি পেমেন্ট চিহ্নিত হয়েছে।",
+    "weight": 0.125
+   }
+  },
+  {
+   "case_id": "SH9a69a06f4c",
+   "shop_id": "SH9a69a06f4c",
+   "category": "pharmacy",
+   "size_tier": "small",
+   "area_type": "dhaka_urban",
+   "zone_id": "DU01",
+   "n_qr_codes": 5,
+   "opened_on": "2026-09-16T00:00:00",
+   "risk": 0.7349,
+   "band": "review",
+   "status": "needs review",
+   "top_reason": {
+    "code": "RULES_FLAGS",
+    "en": "Existing rules flagged 52 of its payments in the last 30 days.",
+    "bn": "গত ৩০ দিনে বিদ্যমান নিয়মে এর ৫২টি পেমেন্ট চিহ্নিত হয়েছে।",
+    "weight": 0.125
+   }
+  },
+  {
+   "case_id": "SH9e6856cf11",
+   "shop_id": "SH9e6856cf11",
+   "category": "grocery",
+   "size_tier": "small",
+   "area_type": "rural_haat",
+   "zone_id": "RH08",
+   "n_qr_codes": 5,
+   "opened_on": "2026-09-16T00:00:00",
+   "risk": 0.7345,
+   "band": "review",
+   "status": "needs review",
+   "top_reason": {
+    "code": "RULES_FLAGS",
+    "en": "Existing rules flagged 62 of its payments in the last 30 days.",
+    "bn": "গত ৩০ দিনে বিদ্যমান নিয়মে এর ৬২টি পেমেন্ট চিহ্নিত হয়েছে।",
+    "weight": 0.125
+   }
+  },
+  {
+   "case_id": "SHba2bc44f84",
+   "shop_id": "SHba2bc44f84",
+   "category": "grocery",
+   "size_tier": "medium",
+   "area_type": "dhaka_urban",
+   "zone_id": "DU02",
+   "n_qr_codes": 4,
+   "opened_on": "2026-09-16T00:00:00",
+   "risk": 0.7334,
+   "band": "review",
+   "status": "needs review",
+   "top_reason": {
+    "code": "RULES_FLAGS",
+    "en": "Existing rules flagged 31 of its payments in the last 30 days.",
+    "bn": "গত ৩০ দিনে বিদ্যমান নিয়মে এর ৩১টি পেমেন্ট চিহ্নিত হয়েছে।",
+    "weight": 0.125
+   }
+  },
+  {
+   "case_id": "SH68e4049b69",
+   "shop_id": "SH68e4049b69",
+   "category": "grocery",
+   "size_tier": "large",
+   "area_type": "rural_haat",
+   "zone_id": "RH09",
+   "n_qr_codes": 4,
+   "opened_on": "2026-09-16T00:00:00",
+   "risk": 0.7289,
+   "band": "review",
+   "status": "needs review",
+   "top_reason": {
+    "code": "RULES_FLAGS",
+    "en": "Existing rules flagged 37 of its payments in the last 30 days.",
+    "bn": "গত ৩০ দিনে বিদ্যমান নিয়মে এর ৩৭টি পেমেন্ট চিহ্নিত হয়েছে।",
+    "weight": 0.125
+   }
+  },
+  {
+   "case_id": "SH3f07976e59",
+   "shop_id": "SH3f07976e59",
+   "category": "grocery",
+   "size_tier": "large",
+   "area_type": "dhaka_urban",
+   "zone_id": "DU04",
+   "n_qr_codes": 4,
+   "opened_on": "2026-09-16T00:00:00",
+   "risk": 0.7184,
+   "band": "review",
+   "status": "needs review",
+   "top_reason": {
+    "code": "RING",
+    "en": "Part of a group of 8 nearby shops sharing payers who go past the daily limit.",
+    "bn": "কাছাকাছি ৮টি দোকানের একটি দলের অংশ, যাদের গ্রাহকরা দৈনিক সীমা ছাড়িয়ে যান।",
+    "weight": 0.1226
+   }
+  },
+  {
+   "case_id": "SH01abf8a293",
+   "shop_id": "SH01abf8a293",
+   "category": "tea_stall",
+   "size_tier": "small",
+   "area_type": "district_town",
+   "zone_id": "DT01",
+   "n_qr_codes": 1,
+   "opened_on": "2026-09-16T00:00:00",
+   "risk": 0.6999,
+   "band": "review",
+   "status": "needs review",
+   "top_reason": {
+    "code": "TURNOVER_IMPLAUSIBLE",
+    "en": "Received about Tk 5,337/day vs about Tk 404/day expected for a shop like this.",
+    "bn": "দিনে প্রায় ৳৫,৩৩৭ পেয়েছে, যেখানে এ ধরনের দোকানে প্রত্যাশিত প্রায় ৳৪০৪।",
+    "weight": 0.1246
+   }
+  },
+  {
+   "case_id": "SH2c99c5b375",
+   "shop_id": "SH2c99c5b375",
+   "category": "tea_stall",
+   "size_tier": "large",
+   "area_type": "district_town",
+   "zone_id": "DT03",
+   "n_qr_codes": 2,
+   "opened_on": "2026-09-16T00:00:00",
+   "risk": 0.6921,
+   "band": "review",
+   "status": "needs review",
+   "top_reason": {
+    "code": "RULES_FLAGS",
+    "en": "Existing rules flagged 17 of its payments in the last 30 days.",
+    "bn": "গত ৩০ দিনে বিদ্যমান নিয়মে এর ১৭টি পেমেন্ট চিহ্নিত হয়েছে।",
+    "weight": 0.124
+   }
+  },
+  {
+   "case_id": "SH819f3258bf",
+   "shop_id": "SH819f3258bf",
+   "category": "grocery",
+   "size_tier": "medium",
+   "area_type": "rural_haat",
+   "zone_id": "RH04",
+   "n_qr_codes": 4,
+   "opened_on": "2026-09-16T00:00:00",
+   "risk": 0.6747,
+   "band": "review",
+   "status": "needs review",
+   "top_reason": {
+    "code": "RING",
+    "en": "Part of a group of 3 nearby shops sharing payers who go past the daily limit.",
+    "bn": "কাছাকাছি ৩টি দোকানের একটি দলের অংশ, যাদের গ্রাহকরা দৈনিক সীমা ছাড়িয়ে যান।",
+    "weight": 0.1226
+   }
+  },
+  {
+   "case_id": "SH986fbe78d0",
+   "shop_id": "SH986fbe78d0",
+   "category": "electronics",
+   "size_tier": "medium",
+   "area_type": "rural_haat",
+   "zone_id": "RH05",
+   "n_qr_codes": 2,
+   "opened_on": "2026-09-16T00:00:00",
+   "risk": 0.6711,
+   "band": "review",
+   "status": "needs review",
+   "top_reason": {
+    "code": "FLAGGED_SHARE",
+    "en": "33% of its payments in the last 7 days were flagged.",
+    "bn": "গত ৭ দিনে এর ৩৩% পেমেন্ট চিহ্নিত হয়েছে।",
+    "weight": 0.1222
+   }
+  },
+  {
+   "case_id": "SH7d7a8b30bc",
+   "shop_id": "SH7d7a8b30bc",
+   "category": "grocery",
+   "size_tier": "small",
+   "area_type": "dhaka_urban",
+   "zone_id": "DU01",
+   "n_qr_codes": 5,
+   "opened_on": "2026-09-16T00:00:00",
+   "risk": 0.6483,
+   "band": "review",
+   "status": "needs review",
+   "top_reason": {
+    "code": "PAYMENT_RISK",
+    "en": "Its riskiest recent payments score 0.78 out of 1 on the payment model.",
+    "bn": "এর সাম্প্রতিক সবচেয়ে ঝুঁকিপূর্ণ পেমেন্টগুলোর স্কোর ১-এর মধ্যে ০.৭৮।",
+    "weight": 0.1199
+   }
+  },
+  {
+   "case_id": "SH6cb7a239ad",
+   "shop_id": "SH6cb7a239ad",
+   "category": "grocery",
+   "size_tier": "large",
+   "area_type": "district_town",
+   "zone_id": "DT05",
+   "n_qr_codes": 2,
+   "opened_on": "2026-09-16T00:00:00",
+   "risk": 0.6463,
+   "band": "review",
+   "status": "needs review",
+   "top_reason": {
+    "code": "PAYMENT_RISK",
+    "en": "Its riskiest recent payments score 0.89 out of 1 on the payment model.",
+    "bn": "এর সাম্প্রতিক সবচেয়ে ঝুঁকিপূর্ণ পেমেন্টগুলোর স্কোর ১-এর মধ্যে ০.৮৯।",
+    "weight": 0.1207
+   }
+  },
+  {
+   "case_id": "SHff308839da",
+   "shop_id": "SHff308839da",
+   "category": "clothing",
+   "size_tier": "medium",
+   "area_type": "district_town",
+   "zone_id": "DT02",
+   "n_qr_codes": 4,
+   "opened_on": "2026-09-16T00:00:00",
+   "risk": 0.6427,
+   "band": "review",
+   "status": "needs review",
+   "top_reason": {
+    "code": "RULES_FLAGS",
+    "en": "Existing rules flagged 15 of its payments in the last 30 days.",
+    "bn": "গত ৩০ দিনে বিদ্যমান নিয়মে এর ১৫টি পেমেন্ট চিহ্নিত হয়েছে।",
+    "weight": 0.1235
+   }
+  },
+  {
+   "case_id": "SHbf3898fbd0",
+   "shop_id": "SHbf3898fbd0",
+   "category": "mobile_phone_shop",
+   "size_tier": "small",
+   "area_type": "district_town",
+   "zone_id": "DT05",
+   "n_qr_codes": 1,
+   "opened_on": "2026-09-16T00:00:00",
+   "risk": 0.6297,
+   "band": "review",
+   "status": "needs review",
+   "top_reason": {
+    "code": "TURNOVER_IMPLAUSIBLE",
+    "en": "Received about Tk 8,961/day vs about Tk 4,354/day expected for a shop like this.",
+    "bn": "দিনে প্রায় ৳৮,৯৬১ পেয়েছে, যেখানে এ ধরনের দোকানে প্রত্যাশিত প্রায় ৳৪,৩৫৪।",
+    "weight": 0.1192
+   }
+  },
+  {
+   "case_id": "SH3c956f02d2",
+   "shop_id": "SH3c956f02d2",
+   "category": "wholesaler",
+   "size_tier": "small",
+   "area_type": "dhaka_urban",
+   "zone_id": "DU02",
+   "n_qr_codes": 5,
+   "opened_on": "2026-09-16T00:00:00",
+   "risk": 0.6056,
+   "band": "review",
+   "status": "needs review",
+   "top_reason": {
+    "code": "FLAGGED_SHARE",
+    "en": "31% of its payments in the last 7 days were flagged.",
+    "bn": "গত ৭ দিনে এর ৩১% পেমেন্ট চিহ্নিত হয়েছে।",
+    "weight": 0.122
+   }
+  },
+  {
+   "case_id": "SH4e429cbba8",
+   "shop_id": "SH4e429cbba8",
+   "category": "clothing",
+   "size_tier": "medium",
+   "area_type": "dhaka_urban",
+   "zone_id": "DU04",
+   "n_qr_codes": 5,
+   "opened_on": "2026-09-16T00:00:00",
+   "risk": 0.6046,
+   "band": "review",
+   "status": "needs review",
+   "top_reason": {
+    "code": "PEER_ANOMALY",
+    "en": "Behaves unlike similar shops (receipts, hours and payers).",
+    "bn": "একই ধরনের দোকানের তুলনায় আচরণ অস্বাভাবিক (পেমেন্ট, সময় ও গ্রাহক)।",
+    "weight": 0.1147
+   }
+  },
+  {
+   "case_id": "SH8fe1d3a4b1",
+   "shop_id": "SH8fe1d3a4b1",
+   "category": "electronics",
+   "size_tier": "large",
+   "area_type": "district_town",
+   "zone_id": "DT05",
+   "n_qr_codes": 2,
+   "opened_on": "2026-09-16T00:00:00",
+   "risk": 0.6009,
+   "band": "review",
+   "status": "needs review",
+   "top_reason": {
+    "code": "RULES_FLAGS",
+    "en": "Existing rules flagged 4 of its payments in the last 30 days.",
+    "bn": "গত ৩০ দিনে বিদ্যমান নিয়মে এর ৪টি পেমেন্ট চিহ্নিত হয়েছে।",
+    "weight": 0.1201
+   }
+  }
+ ]
+}

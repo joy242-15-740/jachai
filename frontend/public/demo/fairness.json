@@ -1,0 +1,108 @@
+{
+ "evaluated_on": "validation shops on 2026-10-10 (test set not used)",
+ "overall": {
+  "group": "all",
+  "honest_shops": 49,
+  "false_alarms": 1,
+  "false_alarm_rate": 0.0204,
+  "small_sample": false
+ },
+ "by_area_type": [
+  {
+   "group": "dhaka_urban",
+   "honest_shops": 14,
+   "false_alarms": 0,
+   "false_alarm_rate": 0.0,
+   "small_sample": true
+  },
+  {
+   "group": "district_town",
+   "honest_shops": 26,
+   "false_alarms": 1,
+   "false_alarm_rate": 0.0385,
+   "small_sample": false
+  },
+  {
+   "group": "rural_haat",
+   "honest_shops": 9,
+   "false_alarms": 0,
+   "false_alarm_rate": 0.0,
+   "small_sample": true
+  }
+ ],
+ "by_size_tier": [
+  {
+   "group": "large",
+   "honest_shops": 3,
+   "false_alarms": 0,
+   "false_alarm_rate": 0.0,
+   "small_sample": true
+  },
+  {
+   "group": "medium",
+   "honest_shops": 13,
+   "false_alarms": 0,
+   "false_alarm_rate": 0.0,
+   "small_sample": true
+  },
+  {
+   "group": "small",
+   "honest_shops": 33,
+   "false_alarms": 1,
+   "false_alarm_rate": 0.0303,
+   "small_sample": false
+  }
+ ],
+ "by_category": [
+  {
+   "group": "clothing",
+   "honest_shops": 5,
+   "false_alarms": 0,
+   "false_alarm_rate": 0.0,
+   "small_sample": true
+  },
+  {
+   "group": "electronics",
+   "honest_shops": 4,
+   "false_alarms": 0,
+   "false_alarm_rate": 0.0,
+   "small_sample": true
+  },
+  {
+   "group": "grocery",
+   "honest_shops": 12,
+   "false_alarms": 0,
+   "false_alarm_rate": 0.0,
+   "small_sample": true
+  },
+  {
+   "group": "mobile_phone_shop",
+   "honest_shops": 6,
+   "false_alarms": 0,
+   "false_alarm_rate": 0.0,
+   "small_sample": true
+  },
+  {
+   "group": "pharmacy",
+   "honest_shops": 12,
+   "false_alarms": 0,
+   "false_alarm_rate": 0.0,
+   "small_sample": true
+  },
+  {
+   "group": "tea_stall",
+   "honest_shops": 8,
+   "false_alarms": 0,
+   "false_alarm_rate": 0.0,
+   "small_sample": true
+  },
+  {
+   "group": "wholesaler",
+   "honest_shops": 2,
+   "false_alarms": 1,
+   "false_alarm_rate": 0.5,
+   "small_sample": true
+  }
+ ],
+ "note": "Synthetic data. Small groups (small_sample) give unstable rates."
+}

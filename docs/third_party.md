@@ -26,3 +26,11 @@ the component.
 | Starlette | 1.7.0 | BSD-3-Clause | Installed with FastAPI (web toolkit, CORS middleware) |
 | Uvicorn | 0.54.0 | BSD-3-Clause | Runs the API server |
 | HTTPX | 0.28.1 | BSD-3-Clause | HTTP client used by FastAPI's test client (tests only) |
+| Next.js | 16.3.8 | MIT | Dashboard framework (frontend/) |
+| React / React DOM | 19.3.0 | MIT | Dashboard UI |
+| TypeScript | 5.9.3 | Apache-2.0 | Dashboard type checking |
+| Tailwind CSS (+ @tailwindcss/postcss) | 4.3.3 | MIT | Dashboard styling |
+| PostCSS | 8.5.28 | MIT | CSS build step for Tailwind |
+| Recharts | 3.10.1 | MIT | Dashboard charts (simulator, timeline) |
+| @fontsource/noto-sans-bengali (Noto Sans Bengali font) | 5.3.0 | OFL-1.1 | Self-hosted Bangla font (works offline) |
+| @types/react, @types/react-dom, @types/node | 19.3.0 / 19.3.0 / 26.6.4 | MIT | TypeScript type definitions |

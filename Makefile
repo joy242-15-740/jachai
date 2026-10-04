@@ -8,7 +8,7 @@ BIN    := $(VENV)/bin
 # Stamp file: reinstall only when a pyproject changes.
 STAMP  := $(VENV)/.installed
 
-.PHONY: help install world train eval sim api-fast world-fast train-fast sim-fast demo-data validate-full api web test lint format clean
+.PHONY: help install world train eval sim api-fast web web-install web-build web-check demo-json world-fast train-fast sim-fast demo-data validate-full api web test lint format clean
 
 help:
 	@echo "make install  create .venv and install ml + backend packages"
@@ -16,7 +16,8 @@ help:
 	@echo "make train    train the payment model into models/ (needs make world)"
 	@echo "make eval     baselines + leakage check into reports/ (needs make world)"
 	@echo "make api / api-fast  run FastAPI on :8000 (docs at /docs)"
-	@echo "make web      run Next.js on :3000              (not built yet)"
+	@echo "make web / web-build / web-check   dashboard dev server, build, type check"
+	@echo "make demo-json  dashboard demo-mode JSON from the fast-profile API"
 	@echo "make world-fast / train-fast / demo-data   fast profile (small world, ~2 min each)"
 	@echo "make sim / sim-fast  policy simulator A-E into reports/simulator/ (needs train)"
 	@echo "make validate-full  multi-seed validation + full ablation (LONG, 15-30+ min)"
@@ -59,6 +60,7 @@ sim-fast: $(STAMP)
 
 # Everything the API / dashboard needs for a local demo, on the fast profile.
 demo-data: world-fast train-fast sim-fast
+	$(MAKE) demo-json
 
 # Policy simulator on the reference world (needs make train). Overrides:
 # make sim SIM_ARGS="--set limit_level=50000 --set analyst_capacity_per_day=10"
@@ -79,10 +81,22 @@ api: $(STAMP)
 api-fast: $(STAMP)
 	$(FAST) $(BIN)/uvicorn app.main:app --app-dir backend --host 127.0.0.1 --port 8000
 
-# Stubs: fail loudly so nobody mistakes an empty run for real output.
-web:
-	@echo "make $@: not implemented yet (see README, section 7)" >&2
-	@exit 1
+# --- Frontend (Next.js in frontend/) ---------------------------------------------
+web-install:
+	cd frontend && npm install --no-audit --no-fund
+
+web: ## dev server on :3000 (uses NEXT_PUBLIC_API_URL, falls back to demo JSON)
+	cd frontend && npm run dev
+
+web-build:
+	cd frontend && npm run build
+
+web-check: ## TypeScript type check
+	cd frontend && npm run typecheck
+
+# Demo-mode JSON for the dashboard, from the real API on fast-profile artifacts.
+demo-json: $(STAMP)
+	$(FAST) $(BIN)/python -m app.export_demo
 
 test: lint
 	$(BIN)/pytest

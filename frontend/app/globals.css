@@ -1,0 +1,45 @@
+@import "tailwindcss";
+
+/* Colour tokens (light, with a dark variant). Risk colours are calm, not alarming. */
+@theme {
+  --color-ink: #1f2933;
+  --color-muted: #616e7c;
+  --color-line: #e4e7eb;
+  --color-panel: #ffffff;
+  --color-page: #f5f7fa;
+  --color-accent: #0b6e4f;
+  --color-accent-soft: #e3f3ec;
+  --color-review: #b7791f;
+  --color-review-soft: #fdf3e1;
+  --color-high: #b83232;
+  --color-high-soft: #fbe9e9;
+  --color-low: #3e7c59;
+  --color-low-soft: #e8f3ec;
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Noto Sans Bengali", sans-serif;
+  --font-bangla: "Noto Sans Bengali", ui-sans-serif, system-ui, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-ink: #e4e7eb;
+    --color-muted: #9aa5b1;
+    --color-line: #323f4b;
+    --color-panel: #1f2933;
+    --color-page: #13191f;
+    --color-accent-soft: #10362a;
+    --color-review-soft: #3a2c12;
+    --color-high-soft: #3d1a1a;
+    --color-low-soft: #16301f;
+  }
+}
+
+body {
+  background: var(--color-page);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+.bangla {
+  font-family: var(--font-bangla);
+  line-height: 1.7;
+}
