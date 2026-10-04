@@ -24,7 +24,7 @@ function fmt(x: number | null | undefined, digits = 2) {
 
 function ScoreCard({ title, value, lines }: { title: string; value: string; lines: string[] }) {
   return (
-    <div className="rounded-lg border border-line p-4">
+    <div className="glass-inset rounded-2xl p-4">
       <div className="text-xs uppercase tracking-wide text-muted">{title}</div>
       <div className="mt-1 text-2xl font-semibold tabular-nums">{value}</div>
       <ul className="mt-2 space-y-0.5 text-xs text-muted">

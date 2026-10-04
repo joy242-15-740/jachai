@@ -16,7 +16,8 @@ const BAND_LABEL: Record<Band, string> = {
 
 export function BandBadge({ band }: { band: Band }) {
   return (
-    <span className={`inline-block rounded-full border px-2.5 py-0.5 text-xs font-medium ${BAND_STYLE[band]}`}>
+    <span className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-semibold ${BAND_STYLE[band]}`}>
+      <span className="h-1.5 w-1.5 rounded-full bg-current opacity-70" />
       {BAND_LABEL[band]}
     </span>
   );
@@ -24,10 +25,10 @@ export function BandBadge({ band }: { band: Band }) {
 
 export function Panel({ title, children, right }: { title?: string; children: ReactNode; right?: ReactNode }) {
   return (
-    <section className="rounded-xl border border-line bg-panel p-5 shadow-sm">
+    <section className="glass-panel rounded-2xl p-5 lg:p-6">
       {(title || right) && (
-        <div className="mb-3 flex items-center justify-between gap-3">
-          {title && <h2 className="text-sm font-semibold uppercase tracking-wide text-muted">{title}</h2>}
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+          {title && <h2 className="text-xs font-semibold uppercase tracking-[0.12em] text-muted">{title}</h2>}
           {right}
         </div>
       )}
@@ -39,18 +40,22 @@ export function Panel({ title, children, right }: { title?: string; children: Re
 export function SourceNote({ source }: { source: Source | null }) {
   if (source !== "demo") return null;
   return (
-    <div className="mb-4 rounded-lg border border-review/30 bg-review-soft px-4 py-2 text-sm text-review">
-      Demo mode: the API is not reachable, so this page shows bundled sample data (fast synthetic
-      world). Actions are not saved.
+    <div className="glass-inset mb-5 flex items-start gap-3 rounded-xl px-4 py-3 text-sm text-review">
+      <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-review-soft text-xs font-bold">i</span>
+      <span>
+        Demo mode: the API is not reachable, so this page shows bundled sample data (fast synthetic
+        world). Actions are not saved.
+      </span>
     </div>
   );
 }
 
 export function PageTitle({ title, subtitle }: { title: string; subtitle?: string }) {
   return (
-    <div className="mb-6">
-      <h1 className="text-2xl font-semibold tracking-tight">{title}</h1>
-      {subtitle && <p className="mt-1 max-w-3xl text-sm text-muted">{subtitle}</p>}
+    <div className="mb-7">
+      <div className="eyebrow mb-2">Integrity workspace</div>
+      <h1 className="text-3xl font-semibold tracking-[-0.035em] sm:text-4xl">{title}</h1>
+      {subtitle && <p className="mt-2 max-w-3xl text-sm leading-6 text-muted sm:text-[15px]">{subtitle}</p>}
     </div>
   );
 }

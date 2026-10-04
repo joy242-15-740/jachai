@@ -1,45 +1,146 @@
 @import "tailwindcss";
 
-/* Colour tokens (light, with a dark variant). Risk colours are calm, not alarming. */
 @theme {
-  --color-ink: #1f2933;
-  --color-muted: #616e7c;
-  --color-line: #e4e7eb;
-  --color-panel: #ffffff;
-  --color-page: #f5f7fa;
-  --color-accent: #0b6e4f;
-  --color-accent-soft: #e3f3ec;
-  --color-review: #b7791f;
-  --color-review-soft: #fdf3e1;
-  --color-high: #b83232;
-  --color-high-soft: #fbe9e9;
-  --color-low: #3e7c59;
-  --color-low-soft: #e8f3ec;
-  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Noto Sans Bengali", sans-serif;
+  --color-ink: #17202f;
+  --color-muted: #667085;
+  --color-line: rgba(50, 65, 90, 0.13);
+  --color-panel: rgba(255, 255, 255, 0.72);
+  --color-page: #eef3f8;
+  --color-accent: #087f6b;
+  --color-accent-soft: rgba(8, 127, 107, 0.1);
+  --color-review: #a56107;
+  --color-review-soft: rgba(245, 158, 11, 0.12);
+  --color-high: #b8324a;
+  --color-high-soft: rgba(225, 29, 72, 0.1);
+  --color-low: #287a55;
+  --color-low-soft: rgba(34, 197, 94, 0.1);
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter,
+    "Segoe UI", "Noto Sans Bengali", sans-serif;
   --font-bangla: "Noto Sans Bengali", ui-sans-serif, system-ui, sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-ink: #e4e7eb;
-    --color-muted: #9aa5b1;
-    --color-line: #323f4b;
-    --color-panel: #1f2933;
-    --color-page: #13191f;
-    --color-accent-soft: #10362a;
-    --color-review-soft: #3a2c12;
-    --color-high-soft: #3d1a1a;
-    --color-low-soft: #16301f;
+    --color-ink: #edf4f8;
+    --color-muted: #93a4b7;
+    --color-line: rgba(190, 218, 235, 0.13);
+    --color-panel: rgba(16, 29, 41, 0.7);
+    --color-page: #071018;
+    --color-accent: #38d3b5;
+    --color-accent-soft: rgba(56, 211, 181, 0.11);
+    --color-review: #f3b34c;
+    --color-review-soft: rgba(243, 179, 76, 0.11);
+    --color-high: #ff7188;
+    --color-high-soft: rgba(255, 113, 136, 0.1);
+    --color-low: #63d69a;
+    --color-low-soft: rgba(99, 214, 154, 0.1);
   }
 }
 
+* { box-sizing: border-box; }
+html { min-width: 320px; background: var(--color-page); }
+
 body {
-  background: var(--color-page);
+  min-height: 100vh;
   color: var(--color-ink);
   font-family: var(--font-sans);
+  background:
+    radial-gradient(circle at 8% -4%, rgba(64, 222, 193, 0.16), transparent 28rem),
+    radial-gradient(circle at 94% 4%, rgba(73, 133, 255, 0.14), transparent 31rem),
+    radial-gradient(circle at 48% 105%, rgba(93, 76, 255, 0.09), transparent 30rem),
+    var(--color-page);
+  background-attachment: fixed;
 }
 
-.bangla {
-  font-family: var(--font-bangla);
-  line-height: 1.7;
+body::before {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  content: "";
+  opacity: 0.38;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: linear-gradient(to bottom, black, transparent 78%);
+}
+
+::selection { color: white; background: #087f6b; }
+
+a, button, input, select, textarea {
+  transition: border-color 160ms ease, background-color 160ms ease, color 160ms ease,
+    box-shadow 160ms ease, transform 160ms ease, opacity 160ms ease;
+}
+
+button:not(:disabled) { cursor: pointer; }
+button:not(:disabled):active { transform: scale(0.98); }
+
+input, select, textarea {
+  border-color: var(--color-line) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  outline: none;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: color-mix(in srgb, var(--color-accent) 55%, transparent) !important;
+  box-shadow: 0 0 0 3px var(--color-accent-soft);
+}
+
+:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--color-accent) 65%, transparent);
+  outline-offset: 3px;
+}
+
+.bangla { font-family: var(--font-bangla); line-height: 1.75; }
+
+.glass-panel {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--color-line);
+  background: var(--color-panel);
+  box-shadow: 0 18px 55px rgba(17, 38, 60, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(24px) saturate(145%);
+  -webkit-backdrop-filter: blur(24px) saturate(145%);
+}
+
+.glass-panel::before {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 1px;
+  pointer-events: none;
+  content: "";
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+}
+
+.glass-inset {
+  border: 1px solid var(--color-line);
+  background: color-mix(in srgb, var(--color-panel) 55%, transparent);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(14px);
+}
+
+.eyebrow {
+  color: var(--color-accent);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.soft-grid {
+  background-image: radial-gradient(circle, color-mix(in srgb, var(--color-muted) 24%, transparent) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .enter { animation: enter 420ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+  @keyframes enter {
+    from { opacity: 0; transform: translateY(8px); }
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .glass-panel {
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  }
 }

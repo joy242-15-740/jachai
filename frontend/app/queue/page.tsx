@@ -40,19 +40,19 @@ export default function QueuePage() {
       <Panel
         title={data ? `${rows.length} shops · as of ${data.as_of}` : "Loading…"}
         right={
-          <div className="flex items-center gap-2 text-sm">
+          <div className="flex flex-wrap items-center justify-end gap-2 text-sm">
             {(["all", "high", "review"] as Filter[]).map((f) => (
               <button
                 key={f}
                 onClick={() => setFilter(f)}
-                className={`rounded-md px-3 py-1 ${filter === f ? "bg-accent text-white" : "text-muted hover:bg-accent-soft"}`}
+                className={`rounded-full px-3 py-1.5 text-xs font-semibold ${filter === f ? "bg-accent text-white shadow-sm" : "text-muted hover:bg-accent-soft"}`}
               >
                 {f === "all" ? "All alerts" : f === "high" ? "High priority" : "Review"}
               </button>
             ))}
             <button
               onClick={() => setBangla((b) => !b)}
-              className="ml-2 rounded-md border border-line px-3 py-1 text-muted hover:text-ink"
+              className="rounded-full border border-line bg-panel/50 px-3 py-1.5 text-xs font-semibold text-muted hover:text-ink"
             >
               {bangla ? "English" : "বাংলা"}
             </button>
@@ -60,7 +60,7 @@ export default function QueuePage() {
         }
       >
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm">
+          <table className="min-w-[900px] w-full text-left text-sm">
             <thead className="text-xs uppercase text-muted">
               <tr className="border-b border-line">
                 <th className="py-2 pr-3">Shop</th>
@@ -73,7 +73,7 @@ export default function QueuePage() {
             </thead>
             <tbody>
               {rows.map((c) => (
-                <tr key={c.case_id} className="border-b border-line/60 align-top hover:bg-page">
+                <tr key={c.case_id} className="border-b border-line/60 align-top hover:bg-accent-soft/40">
                   <td className="py-2 pr-3 font-mono text-xs">
                     <Link href={`/cases/${c.case_id}`} className="text-accent hover:underline">
                       {c.case_id}

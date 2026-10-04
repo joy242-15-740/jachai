@@ -79,7 +79,8 @@ function Slider(props: {
 function PolicyCard({ r, best }: { r: PolicyResult; best: boolean }) {
   const caught = r.misuse_taka_total ? (r.misuse_taka_stopped + r.misuse_taka_rerouted) / r.misuse_taka_total : 0;
   return (
-    <div className={`rounded-xl border p-4 ${best ? "border-accent bg-accent-soft" : "border-line bg-panel"}`}>
+    <div className={`relative overflow-hidden rounded-2xl border p-4 shadow-sm ${best ? "border-accent/50 bg-accent-soft" : "border-line bg-panel/50"}`}>
+      {best && <div className="absolute right-3 top-3 rounded-full bg-accent px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white">Top capture</div>}
       <div className="text-sm font-semibold">{POLICY_LABEL[r.policy].short}</div>
       <div className="mt-0.5 min-h-8 text-xs text-muted">{POLICY_LABEL[r.policy].long}</div>
       <div className="mt-3 text-3xl font-semibold tabular-nums">{pct(caught)}</div>

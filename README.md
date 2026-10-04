@@ -73,10 +73,11 @@ They do not prove real-world accuracy.
   area type, shop size, category on validation shops), `GET /metrics` (existing
   reports, nothing recomputed). Interactive docs at `/docs`. The API recommends;
   analysts decide; nothing is blocked automatically.
-- **Analyst dashboard** (in progress): alert queue, case detail and decision
-  history, merchant-notice preview, and interactive five-policy simulator are
-  implemented. The trust and limitations page remains **TODO**. When the API
-  is unavailable the dashboard uses bundled, code-generated fast-profile JSON.
+- **Analyst dashboard** (done): premium responsive workspace with alert queue,
+  case detail and decision history, merchant-notice preview, interactive
+  five-policy simulator, and a trust center for evidence status, fairness and
+  limitations. When the API is unavailable the dashboard uses bundled,
+  code-generated fast-profile JSON.
 
 ## 3. Technology stack
 
