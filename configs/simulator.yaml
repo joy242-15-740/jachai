@@ -1,0 +1,25 @@
+# Policy simulator: replay one synthetic month under five policies.
+# Every value is [assumption] unless tagged [brief]; all can be overridden per
+# run (POST /simulate, UI sliders). The replay uses a SEPARATE world (its own
+# seed) scored by the already-trained system, so the reserved test set is never
+# used. Outcomes are measured against that replay world's hidden truth.
+
+replay:
+  seed: 1042 # replay world seed (not the training seed, not the test set)
+  days: 30 # the month replayed: the last N days of the replay world
+
+params:
+  # Sliders
+  misuse_scale: 1.0 # keep this share of misuse shops (0-1]; 1 = as generated
+  fee_rate: null # null = regulation.agent_cash_out_fee_rate from world.yaml [brief]
+  analyst_capacity_per_day: 20 # shops an analyst team can review per day
+  limit_level: 100000 # policy B: daily QR cap per merchant, Tk
+  # Behaviour assumptions
+  analyst_recall: 0.9 # a reviewed misuse shop is confirmed
+  analyst_false_confirm: 0.02 # a reviewed honest shop is wrongly confirmed (restricted)
+  rules_min_flags: 3 # policy C: rule-flagged payments in 30 days to raise an alert
+  jachai_bands: [review, high] # policies D/E: bands that raise an alert
+  convert_min_monthly_taka: 100000 # policy E: cash-out demand worth an agent offer
+  offer_acceptance: 0.4 # policy E: share of offered shops that sign an agent contract
+  displaced_to_agents_share: 0.5 # stopped cash-out customers who go to licensed agents
+  seed: 7 # random draws for review outcomes and offer acceptance

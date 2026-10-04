@@ -15,6 +15,7 @@ calendar:
 regulation:
   cash_out_limit_daily: 30000 # [brief] cash-out limit referenced in reporting, Tk per day
   qr_incentive_cap: 2000 # [brief] incentive applies to payments up to this amount after regime_change
+  agent_cash_out_fee_rate: 0.0185 # [brief] agent cash-out charge Tk 13-18.50 per Tk 1,000; upper end
 
 scenario:
   # [brief] P2P Bangla QR starts 1 Nov 2026, after our window. When enabled, this

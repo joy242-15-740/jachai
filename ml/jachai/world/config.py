@@ -63,6 +63,7 @@ class Calendar(_Strict):
 class Regulation(_Strict):
     cash_out_limit_daily: float = Field(gt=0)
     qr_incentive_cap: float = Field(gt=0)
+    agent_cash_out_fee_rate: float = Field(gt=0, lt=1)
 
 
 class Scenario(_Strict):
