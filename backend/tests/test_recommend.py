@@ -47,3 +47,17 @@ def test_case_detail_includes_a_recommendation(api):
     rec = client.get(f"/cases/{case_id}").json()["recommendation"]
     assert rec["action"] in {"clear", "monitor", "educate", "convert", "escalate"}
     assert rec["en"] and rec["bn"]
+
+
+def test_convert_is_never_offered_to_a_ring_or_escalated_case():
+    ring = recommend(detail("high", ring=True, timeline=BIG), CFG)
+    assert ring["action"] == "escalate" and ring["convert_offer"] == "none"
+    review_ring = recommend(detail("review", ring=True, timeline=BIG), CFG)
+    assert review_ring["convert_offer"] == "none"
+
+
+def test_convert_offer_levels():
+    assert recommend(detail("high", timeline=BIG), CFG)["convert_offer"] == "recommended"
+    assert recommend(detail("review", timeline=BIG), CFG)["convert_offer"] == "secondary"
+    assert recommend(detail("high", timeline=SMALL), CFG)["convert_offer"] == "none"
+    assert recommend(detail("low"), CFG)["convert_offer"] == "none"

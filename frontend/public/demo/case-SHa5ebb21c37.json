@@ -489,6 +489,7 @@
   "bn": "সম্ভাব্য সীমা-এড়ানো চক্র: ১০ জন গ্রাহক একে কাছাকাছি ৮টি দোকানের সাথে যুক্ত করেছেন। পুরো দলটি একজন সিনিয়র বিশ্লেষকের দেখা উচিত।",
   "estimated_cash_out_demand_30d": 43663,
   "convert_eligible": false,
+  "convert_offer": "none",
   "note": "Recommendation only: the analyst decides."
  },
  "decisions": []

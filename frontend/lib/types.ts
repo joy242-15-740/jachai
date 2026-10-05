@@ -81,6 +81,7 @@ export interface CaseDetail {
     bn: string;
     estimated_cash_out_demand_30d: number;
     convert_eligible: boolean;
+    convert_offer: "recommended" | "secondary" | "none";
     note: string;
   };
   decisions: Decision[];

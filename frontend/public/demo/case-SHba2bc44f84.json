@@ -439,6 +439,7 @@
   "bn": "কিছু অস্বাভাবিক লক্ষণ আছে। সিদ্ধান্তের আগে দুই সপ্তাহ পর্যবেক্ষণ করুন।",
   "estimated_cash_out_demand_30d": 164647,
   "convert_eligible": true,
+  "convert_offer": "secondary",
   "note": "Recommendation only: the analyst decides."
  },
  "decisions": []

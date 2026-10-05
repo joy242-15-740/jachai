@@ -48,5 +48,17 @@ def recommend(detail: dict, cfg: Recommendation) -> dict:
         "bn": rule.bn.format(**values).translate(BANGLA_DIGITS),
         "estimated_cash_out_demand_30d": round(demand),
         "convert_eligible": demand >= cfg.convert_min_monthly_demand,
+        # Never offer an agent contract to a ring or an escalated case: that would
+        # reward organised misuse. Offer it as the recommendation, or as a secondary
+        # option on non-ring cases with real cash-out demand.
+        "convert_offer": (
+            "recommended"
+            if rule.action == "convert"
+            else "secondary"
+            if demand >= cfg.convert_min_monthly_demand
+            and not facts["ring"]
+            and rule.action != "escalate"
+            else "none"
+        ),
         "note": "Recommendation only: the analyst decides.",
     }

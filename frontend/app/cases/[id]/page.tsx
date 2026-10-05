@@ -263,8 +263,14 @@ export default function CasePage() {
                 <p className="mt-2 text-xs text-muted">{rec.note}</p>
               </Panel>
             )}
-            {rec?.convert_eligible && (
-              <Panel title="Turn the leak into a licensed agent">
+            {rec && rec.convert_offer !== "none" && (
+              <Panel
+                title={
+                  rec.convert_offer === "recommended"
+                    ? "Turn the leak into a licensed agent"
+                    : "Possible agent lead, not the recommendation"
+                }
+              >
                 <p className="text-sm leading-6">
                   Estimated cash-out demand at this shop: about <strong>{taka(rec.estimated_cash_out_demand_30d)}</strong> of
                   flagged payments in 30 days. If the analyst confirms cash-out, an agent contract moves that demand into
