@@ -86,6 +86,11 @@ api: $(STAMP)
 api-fast: $(STAMP)
 	$(FAST) $(BIN)/uvicorn app.main:app --app-dir backend --host 127.0.0.1 --port 8000
 
+# docs/report.md -> docs/report.pdf (A4, max 3 pages; needs Google Chrome)
+report-pdf: $(STAMP)
+	$(BIN)/pip install --quiet -e "ml[docs]"
+	$(BIN)/python scripts/report_pdf.py
+
 # --- Frontend (Next.js in frontend/) ---------------------------------------------
 web-install:
 	cd frontend && npm install --no-audit --no-fund

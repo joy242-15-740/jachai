@@ -22,6 +22,7 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = ["pytest==9.1.1", "ruff==0.16.10"]
+docs = ["markdown>=3.11"]  # make report-pdf (also needs Google Chrome installed)
 
 [tool.setuptools.packages.find]
 include = ["jachai*"]

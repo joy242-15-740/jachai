@@ -9,7 +9,7 @@ decision in human hands.
 
 `Synthetic data only` · `Human-in-the-loop` · `Bangla + English` · `Explainable AI`
 
-[Explore the live dashboard](https://jachai-eta.vercel.app) · [Read the results](reports/summary.md) · [Project report](docs/project_report.md) · [Two-minute demo](docs/demo_runbook.md)
+[Explore the live dashboard](https://jachai-eta.vercel.app) · [Read the results](reports/summary.md) · [Project report](docs/report.md) · [Two-minute demo](docs/demo_runbook.md)
 
 </div>
 
@@ -240,7 +240,7 @@ reset between function instances. Use the local API for the complete frozen
 model path and durable demo-session behavior.
 
 For a local judge demo, follow [docs/demo_runbook.md](docs/demo_runbook.md).
-The submission-ready written report is [docs/project_report.md](docs/project_report.md).
+The submission-ready written report is [docs/report.md](docs/report.md).
 
 ## 9. Testing instructions
 
