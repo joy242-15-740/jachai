@@ -7,7 +7,7 @@ import { getData, taka } from "@/lib/api";
 import { type ExampleKey, loadExample, loadManifest, type ReferenceManifest } from "@/lib/reference";
 import type { CaseDetail, SimulateGrid } from "@/lib/types";
 
-// A guided six-step tour for judges. Every number in an "expected" line is read
+// A guided six-step product demo. Every number in an "expected" line is read
 // from the data the step opens (reference examples, simulator run, validation
 // report); nothing is typed by hand.
 
@@ -134,14 +134,14 @@ export function JudgeWalkthrough() {
   const next = [0, 1, 2, 3, 4, 5].find((i) => !done.includes(i));
 
   return (
-    <div className="fixed bottom-4 right-4 z-[60] flex max-h-[85vh] w-[min(26rem,calc(100vw-2rem))] flex-col items-end gap-2">
+    <div className="fixed bottom-4 right-4 z-[60] flex max-h-[calc(100dvh-2rem)] w-[min(26rem,calc(100vw-2rem))] flex-col items-end gap-2">
       {open && (
         <section
-          aria-label="Judge walkthrough"
-          className="glass-panel w-full overflow-y-auto rounded-2xl border border-line bg-panel/95 p-4 shadow-xl"
+          aria-label="Demo walkthrough"
+          className="glass-panel min-h-0 w-full flex-1 touch-pan-y overflow-y-auto overscroll-contain rounded-2xl border border-line bg-panel/95 p-4 shadow-xl [scrollbar-gutter:stable]"
         >
           <div className="mb-2 flex items-center justify-between">
-            <h2 className="font-semibold">Judge walkthrough · 6 steps</h2>
+            <h2 className="font-semibold">Demo walkthrough · 6 steps</h2>
             <span className="text-xs text-muted">{done.length}/6 done</span>
           </div>
           {error && <p className="text-sm text-high">{error}</p>}
@@ -187,7 +187,7 @@ export function JudgeWalkthrough() {
         {open
           ? "Close walkthrough"
           : done.length === 0
-            ? "Judge walkthrough"
+            ? "Demo walkthrough"
             : next === undefined
               ? "Walkthrough · all 6 done"
               : `Walkthrough · next: step ${next + 1}`}

@@ -302,17 +302,3 @@ frontend/       Next.js dashboard
 reports/        generated metrics, figures, summary.md
 docs/           report, data card, model card, third_party.md, ai_usage.md
 ```
-
-## Changes after the initial submission
-
-The version submitted for the first evaluation is tagged
-[`submission-v1`](https://github.com/kmsajid044-ship-it/jachai/releases/tag/submission-v1).
-Later changes improve presentation and demo flow only; no model, data, threshold
-or reported result changed.
-
-- 2026-10-05: Case view reorganised as What happened / Why risky / What next, with a config-driven recommended next step (`configs/rules.yaml`).
-- 2026-10-05: The agent-contract (convert) option is never shown on ring-linked or escalated cases.
-- 2026-10-05: Small reference-world walkthrough set (`frontend/public/demo/reference/`, `make demo-reference`): four example cases chosen from validation shops only, labelled with their world.
-- 2026-10-05: `reports/system_training.json` was regenerated on 5 Oct from the unchanged frozen config of the final-test commit `466e621`; the old file predated rules-in-fusion. Retraining from `466e621` itself gives the same payment-model fingerprint (`3ae301c40694e10b`) and the same band cut-offs; since then only an API-only `recommendation` section was added to `configs/rules.yaml`, which training does not read. Reports now record a config hash, git commit and model fingerprint.
-- 2026-10-05: Next.js agent notes written by `next dev` committed (`frontend/AGENTS.md`, `frontend/CLAUDE.md`); `AGENTS.md` added for Codex.
-- 2026-10-05: Judge walkthrough: a six-step guided tour on every page (ring, honest look-alike, cash desk with Bangla notice, convert lead with nearby agents, blanket limit vs Jachai, evasion toggle on the Trust page), with expected outcomes read from the data; agent leads are never offered to cleared, escalated or ring-linked shops.
