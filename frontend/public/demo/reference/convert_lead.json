@@ -1,0 +1,446 @@
+{
+ "case_id": "SH5e9a82d0f1",
+ "shop": {
+  "shop_id": "SH5e9a82d0f1",
+  "category": "tea_stall",
+  "size_tier": "small",
+  "area_type": "rural_haat",
+  "zone_id": "RH57",
+  "n_qr_codes": 2,
+  "opened_on": "2026-07-01T00:00:00"
+ },
+ "scores": {
+  "as_of": "2026-10-28",
+  "risk": 0.7457,
+  "band": "high",
+  "status": "needs review (high priority)",
+  "components": {
+   "payment_top3_7d": 1.0,
+   "payment_flag_share_7d": 0.40384615384615385,
+   "rules_flags_30d": 72.0,
+   "turnover_z": 11.507902382946346,
+   "peer_anomaly": 0.743821472776412,
+   "linking_payers": 0.0,
+   "ring_flag": 0.0,
+   "distant_payer_share": 0.6047904191616766
+  },
+  "expected_daily_turnover": 310.0
+ },
+ "reasons": [
+  {
+   "code": "TURNOVER_IMPLAUSIBLE",
+   "en": "Received about Tk 18,037/day vs about Tk 310/day expected for a shop like this.",
+   "bn": "দিনে প্রায় ৳১৮,০৩৭ পেয়েছে, যেখানে এ ধরনের দোকানে প্রত্যাশিত প্রায় ৳৩১০।",
+   "weight": 0.125
+  },
+  {
+   "code": "RULES_FLAGS",
+   "en": "Existing rules flagged 72 of its payments in the last 30 days.",
+   "bn": "গত ৩০ দিনে বিদ্যমান নিয়মে এর ৭২টি পেমেন্ট চিহ্নিত হয়েছে।",
+   "weight": 0.1249
+  },
+  {
+   "code": "DISTANT_PAYERS",
+   "en": "60% of its payers in the last 30 days live far away.",
+   "bn": "গত ৩০ দিনে এর ৬০% গ্রাহক দূরে থাকেন।",
+   "weight": 0.1247
+  }
+ ],
+ "riskiest_payments": [
+  {
+   "payment_id": "QP71578342c133",
+   "ts": "2026-10-13T14:16:39",
+   "amount": 5000,
+   "score": 1.0,
+   "reasons": [
+    {
+     "code": "LARGE_FOR_CATEGORY",
+     "en": "Amount Tk 5,000 (125.0x the usual basket for this kind of shop).",
+     "bn": "পরিমাণ ৳৫,০০০ (এই ধরনের দোকানের সাধারণ কেনাকাটার ১২৫.০ গুণ)।",
+     "weight": 7.8148
+    },
+    {
+     "code": "DISTANT_PAYER",
+     "en": "Payer lives 112 km from the shop.",
+     "bn": "গ্রাহক দোকান থেকে ১১২ কিমি দূরে থাকেন।",
+     "weight": 5.8555
+    },
+    {
+     "code": "ROUND_AMOUNT",
+     "en": "Round amount: Tk 5,000.",
+     "bn": "রাউন্ড অঙ্কের পেমেন্ট: ৳৫,০০০।",
+     "weight": 5.1343
+    }
+   ]
+  },
+  {
+   "payment_id": "QP369446af48b3",
+   "ts": "2026-10-15T16:39:07",
+   "amount": 7400,
+   "score": 1.0,
+   "reasons": [
+    {
+     "code": "LARGE_FOR_CATEGORY",
+     "en": "Amount Tk 7,400 (185.0x the usual basket for this kind of shop).",
+     "bn": "পরিমাণ ৳৭,৪০০ (এই ধরনের দোকানের সাধারণ কেনাকাটার ১৮৫.০ গুণ)।",
+     "weight": 8.7525
+    },
+    {
+     "code": "DISTANT_PAYER",
+     "en": "Payer lives 210 km from the shop.",
+     "bn": "গ্রাহক দোকান থেকে ২১০ কিমি দূরে থাকেন।",
+     "weight": 6.0892
+    },
+    {
+     "code": "NEW_PAYER",
+     "en": "First payment by this payer at this shop.",
+     "bn": "এই দোকানে এই গ্রাহকের প্রথম পেমেন্ট।",
+     "weight": 1.9812
+    }
+   ]
+  },
+  {
+   "payment_id": "QP145e365d98af",
+   "ts": "2026-10-16T04:30:02",
+   "amount": 2000,
+   "score": 1.0,
+   "reasons": [
+    {
+     "code": "LARGE_FOR_CATEGORY",
+     "en": "Amount Tk 2,000 (50.0x the usual basket for this kind of shop).",
+     "bn": "পরিমাণ ৳২,০০০ (এই ধরনের দোকানের সাধারণ কেনাকাটার ৫০.০ গুণ)।",
+     "weight": 7.7508
+    },
+    {
+     "code": "ROUND_AMOUNT",
+     "en": "Round amount: Tk 2,000.",
+     "bn": "রাউন্ড অঙ্কের পেমেন্ট: ৳২,০০০।",
+     "weight": 5.5131
+    },
+    {
+     "code": "DISTANT_PAYER",
+     "en": "Payer lives 200 km from the shop.",
+     "bn": "গ্রাহক দোকান থেকে ২০০ কিমি দূরে থাকেন।",
+     "weight": 5.3371
+    }
+   ]
+  },
+  {
+   "payment_id": "QP992a3668bf6b",
+   "ts": "2026-10-16T05:44:15",
+   "amount": 1500,
+   "score": 1.0,
+   "reasons": [
+    {
+     "code": "LARGE_FOR_CATEGORY",
+     "en": "Amount Tk 1,500 (37.5x the usual basket for this kind of shop).",
+     "bn": "পরিমাণ ৳১,৫০০ (এই ধরনের দোকানের সাধারণ কেনাকাটার ৩৭.৫ গুণ)।",
+     "weight": 8.2384
+    },
+    {
+     "code": "DISTANT_PAYER",
+     "en": "Payer lives 89 km from the shop.",
+     "bn": "গ্রাহক দোকান থেকে ৮৯ কিমি দূরে থাকেন।",
+     "weight": 5.5165
+    },
+    {
+     "code": "NEW_PAYER",
+     "en": "First payment by this payer at this shop.",
+     "bn": "এই দোকানে এই গ্রাহকের প্রথম পেমেন্ট।",
+     "weight": 2.1619
+    }
+   ]
+  },
+  {
+   "payment_id": "QPf3d84555e331",
+   "ts": "2026-10-06T13:16:44",
+   "amount": 10185,
+   "score": 1.0,
+   "reasons": [
+    {
+     "code": "LARGE_FOR_CATEGORY",
+     "en": "Amount Tk 10,185 (254.6x the usual basket for this kind of shop).",
+     "bn": "পরিমাণ ৳১০,১৮৫ (এই ধরনের দোকানের সাধারণ কেনাকাটার ২৫৪.৬ গুণ)।",
+     "weight": 8.5804
+    },
+    {
+     "code": "DISTANT_PAYER",
+     "en": "Payer lives 79 km from the shop.",
+     "bn": "গ্রাহক দোকান থেকে ৭৯ কিমি দূরে থাকেন।",
+     "weight": 5.9143
+    },
+    {
+     "code": "NEW_PAYER",
+     "en": "First payment by this payer at this shop.",
+     "bn": "এই দোকানে এই গ্রাহকের প্রথম পেমেন্ট।",
+     "weight": 1.9888
+    }
+   ]
+  }
+ ],
+ "neighbourhood": {
+  "community_size": 1.0,
+  "ring_flag": false,
+  "linking_payers": 0.0,
+  "linked_shops": []
+ },
+ "timeline": [
+  {
+   "day": "2026-09-29",
+   "risk": 0.7452799487247052,
+   "band": "high",
+   "payments": 10,
+   "turnover": 39590,
+   "flagged": 4
+  },
+  {
+   "day": "2026-09-30",
+   "risk": 0.7452096679063943,
+   "band": "review",
+   "payments": 3,
+   "turnover": 300,
+   "flagged": 0
+  },
+  {
+   "day": "2026-10-01",
+   "risk": 0.7447855761822268,
+   "band": "review",
+   "payments": 8,
+   "turnover": 350,
+   "flagged": 0
+  },
+  {
+   "day": "2026-10-02",
+   "risk": 0.743990272328115,
+   "band": "review",
+   "payments": 3,
+   "turnover": 1560,
+   "flagged": 1
+  },
+  {
+   "day": "2026-10-03",
+   "risk": 0.7439281270998603,
+   "band": "review",
+   "payments": 16,
+   "turnover": 59705,
+   "flagged": 9
+  },
+  {
+   "day": "2026-10-04",
+   "risk": 0.7449349120214592,
+   "band": "review",
+   "payments": 10,
+   "turnover": 42525,
+   "flagged": 8
+  },
+  {
+   "day": "2026-10-05",
+   "risk": 0.7455028318220457,
+   "band": "high",
+   "payments": 6,
+   "turnover": 10290,
+   "flagged": 1
+  },
+  {
+   "day": "2026-10-06",
+   "risk": 0.7451636151995316,
+   "band": "review",
+   "payments": 5,
+   "turnover": 20735,
+   "flagged": 3
+  },
+  {
+   "day": "2026-10-07",
+   "risk": 0.7452453056449364,
+   "band": "review",
+   "payments": 15,
+   "turnover": 32455,
+   "flagged": 4
+  },
+  {
+   "day": "2026-10-08",
+   "risk": 0.7452774252128471,
+   "band": "high",
+   "payments": 6,
+   "turnover": 1585,
+   "flagged": 1
+  },
+  {
+   "day": "2026-10-09",
+   "risk": 0.7453442724818258,
+   "band": "high",
+   "payments": 8,
+   "turnover": 20030,
+   "flagged": 5
+  },
+  {
+   "day": "2026-10-10",
+   "risk": 0.7455835267058062,
+   "band": "high",
+   "payments": 8,
+   "turnover": 5805,
+   "flagged": 4
+  },
+  {
+   "day": "2026-10-11",
+   "risk": 0.7454955019030691,
+   "band": "high",
+   "payments": 2,
+   "turnover": 55,
+   "flagged": 0
+  },
+  {
+   "day": "2026-10-12",
+   "risk": 0.7450723977239451,
+   "band": "review",
+   "payments": 16,
+   "turnover": 27500,
+   "flagged": 7
+  },
+  {
+   "day": "2026-10-13",
+   "risk": 0.7452880525238306,
+   "band": "high",
+   "payments": 20,
+   "turnover": 84845,
+   "flagged": 10
+  },
+  {
+   "day": "2026-10-14",
+   "risk": 0.7458363183695467,
+   "band": "high",
+   "payments": 13,
+   "turnover": 37110,
+   "flagged": 7
+  },
+  {
+   "day": "2026-10-15",
+   "risk": 0.7458626066117413,
+   "band": "high",
+   "payments": 12,
+   "turnover": 28830,
+   "flagged": 7
+  },
+  {
+   "day": "2026-10-16",
+   "risk": 0.7461247360458032,
+   "band": "high",
+   "payments": 11,
+   "turnover": 14800,
+   "flagged": 5
+  },
+  {
+   "day": "2026-10-17",
+   "risk": 0.7460334258681666,
+   "band": "high",
+   "payments": 10,
+   "turnover": 29260,
+   "flagged": 5
+  },
+  {
+   "day": "2026-10-18",
+   "risk": 0.7461528211518643,
+   "band": "high",
+   "payments": 7,
+   "turnover": 6975,
+   "flagged": 3
+  },
+  {
+   "day": "2026-10-19",
+   "risk": 0.7461751050481462,
+   "band": "high",
+   "payments": 2,
+   "turnover": 75,
+   "flagged": 0
+  },
+  {
+   "day": "2026-10-20",
+   "risk": 0.7461886941711264,
+   "band": "high",
+   "payments": 10,
+   "turnover": 18285,
+   "flagged": 5
+  },
+  {
+   "day": "2026-10-21",
+   "risk": 0.7460417080776975,
+   "band": "high",
+   "payments": 4,
+   "turnover": 10215,
+   "flagged": 1
+  },
+  {
+   "day": "2026-10-22",
+   "risk": 0.7458044839326763,
+   "band": "high",
+   "payments": 9,
+   "turnover": 45220,
+   "flagged": 5
+  },
+  {
+   "day": "2026-10-23",
+   "risk": 0.7458614493808875,
+   "band": "high",
+   "payments": 10,
+   "turnover": 8215,
+   "flagged": 4
+  },
+  {
+   "day": "2026-10-24",
+   "risk": 0.7456912258581287,
+   "band": "high",
+   "payments": 1,
+   "turnover": 20,
+   "flagged": 0
+  },
+  {
+   "day": "2026-10-25",
+   "risk": 0.745595383026254,
+   "band": "high",
+   "payments": 5,
+   "turnover": 245,
+   "flagged": 0
+  },
+  {
+   "day": "2026-10-26",
+   "risk": 0.7452547621743835,
+   "band": "review",
+   "payments": 13,
+   "turnover": 32940,
+   "flagged": 7
+  },
+  {
+   "day": "2026-10-27",
+   "risk": 0.7456782625847516,
+   "band": "high",
+   "payments": 10,
+   "turnover": 29405,
+   "flagged": 4
+  },
+  {
+   "day": "2026-10-28",
+   "risk": 0.7457239050500286,
+   "band": "high",
+   "payments": 5,
+   "turnover": 365,
+   "flagged": 0
+  }
+ ],
+ "brief": {
+  "analyst_note": "Shop SH5e9a82d0f1 needs human review. Its fused risk score is 0.7457 and its current band is high.\n\nEvidence: Received about Tk 18,037/day vs about Tk 310/day expected for a shop like this. Existing rules flagged 72 of its payments in the last 30 days. 60% of its payers in the last 30 days live far away.\n\nThis is model-generated evidence from synthetic data, not a finding. An analyst should check the timeline, linked shops and merchant explanation before deciding.",
+  "analyst_note_source": "template",
+  "merchant_notice_bn": "প্রিয় দোকান মালিক,\n\nআপনার দোকানের সাম্প্রতিক কিছু QR লেনদেন আমাদের নিয়মিত পর্যালোচনার অংশ হিসেবে দেখা হচ্ছে। এটি কোনো অভিযোগ নয়, এবং এখনো কোনো সিদ্ধান্ত নেওয়া হয়নি।\n\nআমরা যা লক্ষ্য করেছি:\n• দিনে প্রায় ৳১৮,০৩৭ পেয়েছে, যেখানে এ ধরনের দোকানে প্রত্যাশিত প্রায় ৳৩১০।\n• গত ৩০ দিনে বিদ্যমান নিয়মে এর ৭২টি পেমেন্ট চিহ্নিত হয়েছে।\n• গত ৩০ দিনে এর ৬০% গ্রাহক দূরে থাকেন।\n\nএর কোনো স্বাভাবিক কারণ থাকলে, যেমন পাইকারি বিক্রি, উৎসবের ভিড় বা নতুন দোকান, অনুগ্রহ করে আপনার ব্যাখ্যা জানান। একজন বিশ্লেষক তা মনোযোগ দিয়ে দেখবেন।\n\nআপনার সহযোগিতার জন্য ধন্যবাদ।\n\nupay মার্চেন্ট সাপোর্ট",
+  "merchant_notice_source": "template",
+  "llm_output_rejected": null
+ },
+ "recommendation": {
+  "action": "convert",
+  "en": "Strong cash-out demand (about Tk 307,660 of flagged payments in 30 days). If confirmed, offer an agent contract so customers get licensed cash-out.",
+  "bn": "নগদ উত্তোলনের চাহিদা বেশি (৩০ দিনে প্রায় ৳৩০৭,৬৬০ চিহ্নিত পেমেন্ট)। নিশ্চিত হলে এজেন্ট চুক্তির প্রস্তাব দিন, যাতে গ্রাহকরা লাইসেন্সপ্রাপ্ত পথে নগদ পান।",
+  "estimated_cash_out_demand_30d": 307660,
+  "convert_eligible": true,
+  "convert_offer": "recommended",
+  "note": "Recommendation only: the analyst decides."
+ },
+ "decisions": []
+}

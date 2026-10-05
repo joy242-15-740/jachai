@@ -302,3 +302,14 @@ frontend/       Next.js dashboard
 reports/        generated metrics, figures, summary.md
 docs/           report, data card, model card, third_party.md, ai_usage.md
 ```
+
+## Changes after the initial submission
+
+The version submitted for the first evaluation is tagged
+[`submission-v1`](https://github.com/kmsajid044-ship-it/jachai/releases/tag/submission-v1).
+Later changes improve presentation and demo flow only; no model, data, threshold
+or reported result changed.
+
+- 2026-10-05: Case view reorganised as What happened / Why risky / What next, with a config-driven recommended next step (`configs/rules.yaml`).
+- 2026-10-05: The agent-contract (convert) option is never shown on ring-linked or escalated cases.
+- 2026-10-05: Small reference-world walkthrough set (`frontend/public/demo/reference/`, `make demo-reference`): four example cases chosen from validation shops only, labelled with their world.

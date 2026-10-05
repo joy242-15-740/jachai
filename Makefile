@@ -8,7 +8,7 @@ BIN    := $(VENV)/bin
 # Stamp file: reinstall only when a pyproject changes.
 STAMP  := $(VENV)/.installed
 
-.PHONY: onsite-refresh report-pdf help install world train eval eval-final sim api-fast web web-install web-build web-check demo-json world-fast train-fast sim-fast demo-data validate-full api web test lint format clean
+.PHONY: demo-reference onsite-refresh report-pdf help install world train eval eval-final sim api-fast web web-install web-build web-check demo-json world-fast train-fast sim-fast demo-data validate-full api web test lint format clean
 
 help:
 	@echo "make install  create .venv and install ml + backend packages"
@@ -108,6 +108,10 @@ web-build:
 
 web-check: ## TypeScript type check
 	cd frontend && npm run typecheck
+
+# Walkthrough examples from the REFERENCE world (needs make world + make train).
+demo-reference: $(STAMP)
+	$(BIN)/python -m app.export_reference_demo
 
 # Demo-mode JSON for the dashboard, from the real API on fast-profile artifacts.
 demo-json: $(STAMP)
