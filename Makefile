@@ -8,7 +8,7 @@ BIN    := $(VENV)/bin
 # Stamp file: reinstall only when a pyproject changes.
 STAMP  := $(VENV)/.installed
 
-.PHONY: help install world train eval eval-final sim api-fast web web-install web-build web-check demo-json world-fast train-fast sim-fast demo-data validate-full api web test lint format clean
+.PHONY: onsite-refresh report-pdf help install world train eval eval-final sim api-fast web web-install web-build web-check demo-json world-fast train-fast sim-fast demo-data validate-full api web test lint format clean
 
 help:
 	@echo "make install  create .venv and install ml + backend packages"
@@ -67,6 +67,11 @@ demo-data: world-fast train-fast sim-fast
 # make sim SIM_ARGS="--set limit_level=50000 --set analyst_capacity_per_day=10"
 sim: $(STAMP)
 	$(BIN)/python -m jachai.simulate $(SIM_ARGS)
+
+# On-site changes (docs/onsite_playbook.md): rebuild every fast-profile artifact the
+# dashboard and API use, then run the test suite. Target: under ~2 minutes.
+onsite-refresh: world-fast train-fast sim-fast demo-json test
+	@echo "onsite-refresh: done (fast profile rebuilt, demo JSON refreshed, tests passed)"
 
 # --- Long jobs: multi-seed validation and full ablation (15-30+ min). ---------------
 # Not part of everyday development; run only when explicitly decided.
