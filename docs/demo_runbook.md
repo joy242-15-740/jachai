@@ -1,23 +1,26 @@
 # Jachai demo and submission runbook
 
-## Two-minute judge demo
+## Three-minute live demo
 
-1. **Homepage (15 seconds):** say, “Jachai prioritizes synthetic Bangla QR
-   merchant activity for human review; it never declares guilt or blocks
-   automatically.” Point to the animated evidence and policy summaries.
-2. **Alert queue (20 seconds):** filter by review/high band and explain that the
-   queue is ranked by fused risk with a neutral top reason.
-3. **Case view (40 seconds):** open one case; show payment, shop and network
-   scores, top-three evidence reasons, timeline and graph. Record a decision
-   with a reason and show the append-only history.
-4. **Merchant notice (15 seconds):** show the polite Bangla notice and appeal
-   route. Explain that merchant text never goes to an LLM.
-5. **Policy simulator (30 seconds):** move analyst capacity or fee-rate sliders
-   and compare the five policies. State clearly that displayed taka values are
-   fast-profile synthetic demo outputs, not forecasts.
-6. **Trust page (20 seconds):** show fairness slices, limitations and final-test
-   evidence. Say that rules win on the normal synthetic world and final test,
-   while Jachai is more robust in the tested non-round evasion scenario.
+Use this exact sequence. It tells one coherent story and avoids turning the demo
+into a dashboard tour.
+
+| Time | Screen | One thing to say |
+| --- | --- | --- |
+| 0:00–0:25 | Homepage | “A merchant QR payment can hide a cash-out. Jachai protects honest shops by reviewing the few that need context—not by limiting everyone.” |
+| 0:25–0:50 | Alert queue | “This queue uses payment, shop and network evidence. It says ‘needs review’, never fraud.” |
+| 0:50–1:25 | One case | “Open the evidence: payment behaviour, implausible turnover and linked payers combine into a priority. The analyst sees reasons and a timeline.” |
+| 1:25–1:45 | Merchant notice | “Before any action, the merchant gets a respectful Bangla explanation and an appeal route. The system does not accuse or block automatically.” |
+| 1:45–2:20 | Policy simulator | “Compare five choices with the same synthetic replay. A blanket limit can harm honest shops; targeted review makes the trade-off visible.” |
+| 2:20–2:50 | Trust page | “Rules are stronger on our normal synthetic world. Under our configured non-round evasion test, Jachai is more robust because it adds shop and network context. We show both results.” |
+| 2:50–3:00 | Homepage | “Jachai: don’t restrict every merchant; review the few that need context. A human makes every decision.” |
+
+The production dashboard uses cached, code-generated fast-profile cases for
+reliable demonstration. Do not call it live production ML serving; all displayed
+data is synthetic and the full local model path is described in the README.
+
+Each member should rehearse the [30-second explanation card](team_brief.md)
+before the demo.
 
 ## Local launch
 

@@ -18,6 +18,21 @@ decision in human hands.
 > validation and one single-access final synthetic test. Results demonstrate the
 > workflow—not real-world accuracy. The dashboard and fast-profile demo API are live.
 
+## At a glance
+
+> **Don’t restrict every merchant; review the few that need context.**
+
+| Problem | Jachai’s response | Evidence boundary | Try it live |
+| --- | --- | --- | --- |
+| A QR payment can conceal an unlicensed cash-out while honest merchants can look unusual too. | Combines **payment**, **shop** and **payer–shop network** evidence into a review priority and clear reasons. | Synthetic-data prototype only. Rules rank better on the normal synthetic world; Jachai is more robust in the configured non-round evasion check. | [Dashboard](https://jachai-eta.vercel.app) · [Demo API](https://jachai-api.vercel.app) |
+
+Every outcome remains with a human analyst: Jachai recommends review, never
+declares guilt or automatically blocks a merchant. The public dashboard serves
+cached, code-generated fast-profile demo data; it is a stable demonstration of
+the workflow, not a claim of live production model serving.
+
+For the short presentation, follow the [three-minute demo flow](docs/demo_runbook.md#three-minute-live-demo).
+
 ## Quick navigation
 
 | Product | Evidence | Responsible AI | Build |
