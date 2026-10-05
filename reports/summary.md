@@ -7,6 +7,8 @@ expected production accuracy or financial impact.
 
 ## Evidence status
 
+> `reports/system_training.json` was regenerated on 5 Oct from the unchanged frozen config of the final-test commit `466e621`; the old file predated rules-in-fusion. Retraining from `466e621` itself gives the same payment-model fingerprint (`3ae301c40694e10b`) and the same band cut-offs; since then only an API-only `recommendation` section was added to `configs/rules.yaml`, which training does not read. Reports now record a config hash, git commit and model fingerprint.
+
 - **VALIDATION — 3 seeds:** mean ± standard deviation over seeds 42, 7 and
   2026, on validation shops/dates. These are repeatability checks, not final
   test results.

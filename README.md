@@ -313,3 +313,5 @@ or reported result changed.
 - 2026-10-05: Case view reorganised as What happened / Why risky / What next, with a config-driven recommended next step (`configs/rules.yaml`).
 - 2026-10-05: The agent-contract (convert) option is never shown on ring-linked or escalated cases.
 - 2026-10-05: Small reference-world walkthrough set (`frontend/public/demo/reference/`, `make demo-reference`): four example cases chosen from validation shops only, labelled with their world.
+- 2026-10-05: `reports/system_training.json` was regenerated on 5 Oct from the unchanged frozen config of the final-test commit `466e621`; the old file predated rules-in-fusion. Retraining from `466e621` itself gives the same payment-model fingerprint (`3ae301c40694e10b`) and the same band cut-offs; since then only an API-only `recommendation` section was added to `configs/rules.yaml`, which training does not read. Reports now record a config hash, git commit and model fingerprint.
+- 2026-10-05: Next.js agent notes written by `next dev` committed (`frontend/AGENTS.md`, `frontend/CLAUDE.md`); `AGENTS.md` added for Codex.
