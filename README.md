@@ -9,7 +9,7 @@ decision in human hands.
 
 `Synthetic data only` · `Human-in-the-loop` · `Bangla + English` · `Explainable AI`
 
-[Explore the live dashboard](https://jachai-eta.vercel.app) · [Read the results](reports/summary.md) · [Project report](docs/report.md) · [Two-minute demo](docs/demo_runbook.md)
+[Explore the live dashboard](https://jachai-eta.vercel.app) · [Read the results](reports/summary.md) · [Project report](docs/report.md) · [Three-minute demo](docs/demo_runbook.md)
 
 </div>
 

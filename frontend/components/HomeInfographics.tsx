@@ -107,7 +107,7 @@ export function HomeInfographics() {
           </div>
           <span className="flex shrink-0 items-center gap-2 rounded-full border border-line bg-panel/50 px-3 py-1 text-[11px] text-muted">
             <span className="pulse-dot h-1.5 w-1.5 rounded-full bg-accent" />
-            {source === "live" ? "Live API" : source === "demo" ? "Fast demo" : "Loading"}
+            {source === "live" ? "Demo API · cached data" : source === "demo" ? "Bundled fast demo" : "Loading"}
           </span>
         </div>
         {!cases ? (
