@@ -2634,6 +2634,21 @@
   },
   "system_training.json": {
    "system": "payment + shop + network + fusion",
+   "provenance": {
+    "config_hash": "4b1fa3c3ef9e35d9",
+    "config_hashes": {
+     "world": "091ad718fae71b33",
+     "patterns": "c51f9c01b65b75ac",
+     "thresholds": "d25324a4a1052efb",
+     "models": "f4e92c1a09c8c68f",
+     "rules": "aa7843f343905a31"
+    },
+    "git": {
+     "commit": "9bdd857",
+     "dirty": false
+    },
+    "model_fingerprint": "3ae301c40694e10b"
+   },
    "test_set_touched": false,
    "payment_model": {
     "fingerprint": "3ae301c40694e10b",
@@ -2661,17 +2676,18 @@
    },
    "fusion": {
     "weights": {
-     "payment_top3_7d": 0.3,
-     "payment_flag_share_7d": 0.1,
-     "turnover_z": 0.15,
-     "peer_anomaly": 0.15,
-     "linking_payers": 0.1,
-     "ring_flag": 0.1,
-     "distant_payer_share": 0.1
+     "payment_top3_7d": 1.0,
+     "payment_flag_share_7d": 1.0,
+     "rules_flags_30d": 1.0,
+     "turnover_z": 1.0,
+     "peer_anomaly": 1.0,
+     "linking_payers": 1.0,
+     "ring_flag": 1.0,
+     "distant_payer_share": 1.0
     },
     "band_cutoffs_frozen_on_validation": {
-     "review": 0.6422579774353658,
-     "high": 0.7900803413099893
+     "review": 0.5661685423470173,
+     "high": 0.7452587958634589
     },
     "validation_shop_days_per_band": {
      "low": 5547,

@@ -1,5 +1,6 @@
 {
  "world": "reference (3,000 shops, seed 42), scored by the trained reference system",
+ "agent_cash_out_fee_rate": 0.0185,
  "as_of": "2026-10-28",
  "selection": "validation shops only; hidden labels used only to choose examples",
  "examples": {
@@ -7,25 +8,33 @@
    "shop_id": "SH4f74dd2fc6",
    "why_chosen": "Validation shop truly in a limit-bypass ring, with the ring flag on.",
    "band": "high",
-   "recommended_action": "escalate"
+   "recommended_action": "escalate",
+   "agents_in_zone": 5,
+   "nearest_agent_km": 1.5
   },
   "honest_lookalike": {
    "shop_id": "SHef51bc4a59",
    "why_chosen": "Validation electronics shop that is truly an honest big-ticket seller, stays in the low band; busiest relative to its peers among such shops.",
    "band": "low",
-   "recommended_action": "clear"
+   "recommended_action": "clear",
+   "agents_in_zone": 7,
+   "nearest_agent_km": 0.5
   },
   "cash_desk": {
    "shop_id": "SHaad9b7e8b2",
    "why_chosen": "Validation shop that truly runs a round-amount cash desk, not ring-linked; in review or high band.",
    "band": "review",
-   "recommended_action": "monitor"
+   "recommended_action": "monitor",
+   "agents_in_zone": 2,
+   "nearest_agent_km": 0.5
   },
   "convert_lead": {
    "shop_id": "SH5e9a82d0f1",
    "why_chosen": "Validation shop that truly runs a cash desk; high band, real cash-out demand and no ring, so the configured rule recommends an agent contract.",
    "band": "high",
-   "recommended_action": "convert"
+   "recommended_action": "convert",
+   "agents_in_zone": 2,
+   "nearest_agent_km": 0.7
   }
  }
 }

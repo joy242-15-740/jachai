@@ -61,3 +61,8 @@ def test_convert_offer_levels():
     assert recommend(detail("review", timeline=BIG), CFG)["convert_offer"] == "secondary"
     assert recommend(detail("high", timeline=SMALL), CFG)["convert_offer"] == "none"
     assert recommend(detail("low"), CFG)["convert_offer"] == "none"
+
+
+def test_no_agent_lead_for_a_shop_we_clear():
+    cleared = recommend(detail("low", timeline=BIG), CFG)
+    assert cleared["action"] == "clear" and cleared["convert_offer"] == "none"

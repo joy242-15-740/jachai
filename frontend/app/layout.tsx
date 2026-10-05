@@ -6,6 +6,7 @@ import Link from "next/link";
 import Script from "next/script";
 import type { ReactNode } from "react";
 import { AppNav } from "@/components/AppNav";
+import { JudgeWalkthrough } from "@/components/JudgeWalkthrough";
 import { LogoMark } from "@/components/BrandIcons";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
@@ -36,6 +37,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <main className="enter mx-auto min-h-[calc(100vh-11rem)] max-w-7xl px-5 py-8 lg:px-8 lg:py-10">
           {children}
         </main>
+        <JudgeWalkthrough />
         <footer className="mx-auto flex max-w-7xl flex-col gap-2 px-5 pb-8 pt-3 text-xs text-muted sm:flex-row sm:items-center sm:justify-between lg:px-8">
           <span>Synthetic data only · No real customer information</span>
           <span>Recommendation, not verdict · Every action needs a human</span>

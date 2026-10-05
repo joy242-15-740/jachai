@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { PageTitle, Panel, SourceNote } from "@/components/ui";
 import { getData, type Source } from "@/lib/api";
+import { loadExample, loadManifest } from "@/lib/reference";
 import type { CaseDetail, CasesResponse } from "@/lib/types";
 
 export default function NoticePage() {
@@ -13,18 +14,29 @@ export default function NoticePage() {
   const [explanation, setExplanation] = useState("");
   const [channel, setChannel] = useState("app");
   const [sent, setSent] = useState(false);
+  // ?example=<key> shows a reference-world walkthrough example instead of a live case.
+  const [example, setExample] = useState<{ key: string; shopId: string; world: string } | null>(null);
 
   useEffect(() => {
+    const key = new URLSearchParams(window.location.search).get("example");
+    if (key) {
+      Promise.all([loadExample(key), loadManifest()]).then(([d, m]) => {
+        const ex = m.examples[key as keyof typeof m.examples];
+        setExample({ key, shopId: ex.shop_id, world: m.world });
+        setDetail(d);
+      });
+    }
     getData<CasesResponse>("/cases?limit=25", "cases.json").then((r) => {
       setCases(r.data);
       setSource(r.source);
-      setCaseId(r.data.cases[0]?.case_id ?? "");
+      if (!key) setCaseId(r.data.cases[0]?.case_id ?? "");
     });
   }, []);
 
   useEffect(() => {
     if (!caseId) return;
     setSent(false);
+    setExample(null);
     getData<CaseDetail>(`/cases/${caseId}`, `case-${caseId}.json`).then((r) => setDetail(r.data));
   }, [caseId]);
 
@@ -34,7 +46,13 @@ export default function NoticePage() {
         title="Merchant notice preview"
         subtitle="What a shopkeeper would see if an analyst chooses to contact them. Polite, specific, and never an accusation."
       />
-      <SourceNote source={source} />
+      <SourceNote source={example ? null : source} />
+      {example && (
+        <div className="mb-4 rounded-xl border border-accent/30 bg-accent-soft px-4 py-3 text-sm">
+          Reference-world example · shop {example.shopId} · from the {example.world}. Pick a live case below to
+          leave the example.
+        </div>
+      )}
       <label className="mb-4 block max-w-md text-sm">
         Case
         <select

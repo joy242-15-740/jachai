@@ -95,8 +95,21 @@ def main() -> None:
                 )
                 ex["band"] = detail["scores"]["band"]
                 ex["recommended_action"] = detail["recommendation"]["action"]
+    # Licensed agents near each example shop (same zone), from the public agents table.
+    agents = store.tables["agents"]
+    shops_pub = store.shops
+    fee_rate = store.cfg.world.regulation.agent_cash_out_fee_rate
+    for ex in examples.values():
+        shop = shops_pub.loc[ex["shop_id"]]
+        same_zone = agents[agents["zone_id"] == shop["zone_id"]]
+        dist = (
+            (same_zone["x_km"] - shop["x_km"]) ** 2 + (same_zone["y_km"] - shop["y_km"]) ** 2
+        ) ** 0.5
+        ex["agents_in_zone"] = int(len(same_zone))
+        ex["nearest_agent_km"] = round(float(dist.min()), 1) if len(dist) else None
     manifest = {
         "world": "reference (3,000 shops, seed 42), scored by the trained reference system",
+        "agent_cash_out_fee_rate": fee_rate,
         "as_of": store.as_of.date().isoformat(),
         "selection": "validation shops only; hidden labels used only to choose examples",
         "examples": examples,

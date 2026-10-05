@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { PageTitle, Panel, SourceNote } from "@/components/ui";
+import { EvasionToggle } from "@/components/EvasionToggle";
 import { getData, pct, type Source } from "@/lib/api";
 
 interface FairnessRow {
@@ -118,6 +119,10 @@ export default function TrustPage() {
           </div>
         </>
       )}
+
+      <div className="mt-4">
+        <EvasionToggle />
+      </div>
 
       <div className="mt-4 grid gap-4 lg:grid-cols-2">
         <Panel title="Circularity note">

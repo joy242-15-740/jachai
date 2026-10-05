@@ -57,7 +57,7 @@ def recommend(detail: dict, cfg: Recommendation) -> dict:
             else "secondary"
             if demand >= cfg.convert_min_monthly_demand
             and not facts["ring"]
-            and rule.action != "escalate"
+            and rule.action in ("monitor", "educate")  # never on clear, escalate or rings
             else "none"
         ),
         "note": "Recommendation only: the analyst decides.",
