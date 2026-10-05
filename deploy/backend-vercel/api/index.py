@@ -16,7 +16,7 @@ os.environ.setdefault("REPORTS_DIR", "reports/fast")
 os.environ.setdefault("AUDIT_DB_PATH", "/tmp/jachai-audit.sqlite3")
 os.environ.setdefault("JACHAI_CACHED_STORE", "1")
 os.environ.setdefault("DEMO_DATA_DIR", "frontend/public/demo")
-os.environ.setdefault("SIMULATOR_RESULT_PATH", "reports/fast/simulator/results.json")
+os.environ.setdefault("SIMULATOR_GRID_PATH", "frontend/public/demo/simulate-grid.json")
 os.environ.setdefault(
     "ALLOWED_ORIGINS",
     "https://jachai-eta.vercel.app,http://localhost:3000",

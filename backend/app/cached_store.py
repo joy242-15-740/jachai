@@ -11,45 +11,43 @@ from __future__ import annotations
 import json
 import os
 from copy import deepcopy
+from datetime import datetime
 from pathlib import Path
-
-import pandas as pd
 
 
 class CachedStore:
     """Store-compatible view of code-generated fast-profile demo artifacts."""
 
     def __init__(self, model_dir: Path, world_dir: Path):
-        del model_dir
+        del model_dir, world_dir
         root = Path(os.getenv("DEMO_DATA_DIR", "frontend/public/demo"))
         self.demo_dir = root
-        self.world_dir = Path(world_dir)
         self._cases_payload = self._read("cases.json")
         self._cases = {row["case_id"]: row for row in self._cases_payload["cases"]}
         self._details = {
             path.stem.removeprefix("case-"): json.loads(path.read_text(encoding="utf-8"))
             for path in root.glob("case-*.json")
         }
-        self.as_of = pd.Timestamp(self._cases_payload["as_of"])
-        self._shops = pd.read_parquet(self.world_dir / "shops.parquet").set_index("shop_id")
-        self._payers = set(
-            pd.read_parquet(self.world_dir / "customers.parquet", columns=["customer_id"])[
-                "customer_id"
-            ]
+        self.as_of = datetime.fromisoformat(self._cases_payload["as_of"])
+        grid_path = Path(os.getenv("SIMULATOR_GRID_PATH", root / "simulate-grid.json"))
+        grid = json.loads(grid_path.read_text(encoding="utf-8"))
+        self._simulator = next(
+            run
+            for run in grid["runs"]
+            if run["params"]["misuse_scale"] == 1
+            and run["params"]["analyst_capacity_per_day"] == 20
+            and run["params"]["limit_level"] == 100000
         )
-        simulator_path = Path(
-            os.getenv("SIMULATOR_RESULT_PATH", "reports/fast/simulator/results.json")
-        )
-        self._simulator = json.loads(simulator_path.read_text(encoding="utf-8"))
 
     def _read(self, name: str) -> dict:
         return json.loads((self.demo_dir / name).read_text(encoding="utf-8"))
 
     def has_shop(self, shop_id: str) -> bool:
-        return shop_id in self._cases or shop_id in self._shops.index
+        return shop_id in self._cases
 
     def has_payer(self, payer_id: str) -> bool:
-        return payer_id in self._payers
+        # The public bundle intentionally contains no customer-level data or IDs.
+        return bool(payer_id.strip())
 
     def shop_profile(self, shop_id: str) -> dict:
         if shop_id in self._details:
@@ -68,21 +66,7 @@ class CachedStore:
                     "opened_on",
                 )
             }
-        row = self._shops.loc[shop_id]
-        return {
-            "shop_id": shop_id,
-            **{
-                key: row[key].isoformat() if hasattr(row[key], "isoformat") else row[key]
-                for key in (
-                    "category",
-                    "size_tier",
-                    "area_type",
-                    "zone_id",
-                    "n_qr_codes",
-                    "opened_on",
-                )
-            },
-        }
+        raise KeyError(shop_id)
 
     def shop_scores(self, shop_id: str) -> dict:
         if shop_id in self._details:
@@ -90,7 +74,7 @@ class CachedStore:
         if shop_id in self._cases:
             case = self._cases[shop_id]
             return {
-                "as_of": self.as_of.date().isoformat(),
+                "as_of": self.as_of,
                 "risk": case["risk"],
                 "band": case["band"],
                 "status": case["status"],
@@ -98,7 +82,7 @@ class CachedStore:
                 "expected_daily_turnover": None,
             }
         return {
-            "as_of": self.as_of.date().isoformat(),
+            "as_of": self.as_of,
             "risk": 0.0,
             "band": "low",
             "status": "no action",
@@ -182,9 +166,9 @@ class CachedStore:
         )
         return out
 
-    def score_transaction(self, shop_id: str, payer_id: str, amount: int, ts: pd.Timestamp) -> dict:
+    def score_transaction(self, shop_id: str, payer_id: str, amount: int, ts) -> dict:
         del payer_id, ts
-        shop = self._shops.loc[shop_id]
+        shop = self.shop_profile(shop_id)
         round_amount = amount % 500 == 0
         large_for_category = amount >= 10_000 and shop["category"] not in {
             "electronics",

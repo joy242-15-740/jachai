@@ -91,7 +91,10 @@ def create_app(settings: Settings | None = None, store: Store | None = None) -> 
 
     @asynccontextmanager
     async def lifespan(app: FastAPI):
-        if app.state.store is None and settings.model_dir.exists() and settings.world_dir.exists():
+        use_cached_demo = os.getenv("JACHAI_CACHED_STORE") == "1"
+        if app.state.store is None and (
+            use_cached_demo or (settings.model_dir.exists() and settings.world_dir.exists())
+        ):
             app.state.store = Store(settings.model_dir, settings.world_dir)
         yield
 
