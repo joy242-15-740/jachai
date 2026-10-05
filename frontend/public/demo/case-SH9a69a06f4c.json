@@ -433,5 +433,13 @@
   "merchant_notice_source": "template",
   "llm_output_rejected": null
  },
+ "recommendation": {
+  "action": "monitor",
+  "en": "Some unusual signs. Monitor for two weeks before deciding.",
+  "bn": "কিছু অস্বাভাবিক লক্ষণ আছে। সিদ্ধান্তের আগে দুই সপ্তাহ পর্যবেক্ষণ করুন।",
+  "estimated_cash_out_demand_30d": 716024,
+  "convert_eligible": true,
+  "note": "Recommendation only: the analyst decides."
+ },
  "decisions": []
 }

@@ -52,12 +52,25 @@ class RingFlag(_Strict):
     min_linking_payers: int = Field(gt=0)
 
 
+class RecommendationRule(_Strict):
+    when: Literal["ring", "high_and_demand", "high", "review", "low"]
+    action: Literal["clear", "monitor", "educate", "convert", "restrict", "escalate"]
+    en: str
+    bn: str
+
+
+class Recommendation(_Strict):
+    convert_min_monthly_demand: float = Field(ge=0)
+    rules: list[RecommendationRule] = Field(min_length=1)
+
+
 class RulesConfig(_Strict):
     labeling_functions: dict[str, LFSpec]
     aggregator: AggregatorSpec
     baselines: Baselines
     training_target: TrainingTarget
     ring_flag: RingFlag
+    recommendation: Recommendation
 
 
 def load_rules(path: Path | None = None) -> RulesConfig:

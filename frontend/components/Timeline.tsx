@@ -18,8 +18,8 @@ export function Timeline({ days }: { days: TimelineDay[] }) {
               name === "risk" ? Number(value).toFixed(2) : `Tk ${Math.round(Number(value)).toLocaleString("en-US")}`
             }
           />
-          <Bar yAxisId="tk" dataKey="turnover" name="turnover" fill="#0b6e4f" fillOpacity={0.35} radius={[3, 3, 0, 0]} />
-          <Line yAxisId="risk" dataKey="risk" name="risk" stroke="#b83232" strokeWidth={2} dot={false} />
+          <Bar isAnimationActive={false} yAxisId="tk" dataKey="turnover" name="turnover" fill="#0b6e4f" fillOpacity={0.35} radius={[3, 3, 0, 0]} />
+          <Line isAnimationActive={false} yAxisId="risk" dataKey="risk" name="risk" stroke="#b83232" strokeWidth={2} dot={false} />
         </ComposedChart>
       </ResponsiveContainer>
     </div>

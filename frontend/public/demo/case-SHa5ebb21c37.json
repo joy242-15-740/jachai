@@ -483,5 +483,13 @@
   "merchant_notice_source": "template",
   "llm_output_rejected": null
  },
+ "recommendation": {
+  "action": "escalate",
+  "en": "Possible limit-bypass ring: 10 payers link it to 8 nearby shops. A senior analyst should review the whole group.",
+  "bn": "সম্ভাব্য সীমা-এড়ানো চক্র: ১০ জন গ্রাহক একে কাছাকাছি ৮টি দোকানের সাথে যুক্ত করেছেন। পুরো দলটি একজন সিনিয়র বিশ্লেষকের দেখা উচিত।",
+  "estimated_cash_out_demand_30d": 43663,
+  "convert_eligible": false,
+  "note": "Recommendation only: the analyst decides."
+ },
  "decisions": []
 }

@@ -75,6 +75,14 @@ export interface CaseDetail {
     merchant_notice_source: "template";
     llm_output_rejected: string[] | null;
   };
+  recommendation?: {
+    action: "clear" | "monitor" | "educate" | "convert" | "restrict" | "escalate";
+    en: string;
+    bn: string;
+    estimated_cash_out_demand_30d: number;
+    convert_eligible: boolean;
+    note: string;
+  };
   decisions: Decision[];
 }
 

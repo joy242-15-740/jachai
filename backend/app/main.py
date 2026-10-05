@@ -28,7 +28,9 @@ if os.getenv("JACHAI_CACHED_STORE") == "1":
     from app.cached_store import CachedStore as Store
 else:
     from app.store import Store
+from app.recommend import recommend
 from jachai.explain.brief import build_brief, openai_reworder
+from jachai.labels.config import load_rules
 
 
 class DecisionIn(BaseModel):
@@ -97,6 +99,7 @@ def create_app(settings: Settings | None = None, store: Store | None = None) -> 
     app.state.settings = settings
     app.state.store = store
     app.state.audit = AuditLog(settings.audit_db_path)
+    app.state.recommendation = load_rules().recommendation
     app.state.brief_llm = (
         openai_reworder(settings.llm_api_key, settings.llm_model) if settings.llm_api_key else None
     )
@@ -171,6 +174,7 @@ def create_app(settings: Settings | None = None, store: Store | None = None) -> 
         return {
             **detail,
             "brief": build_brief(detail, app.state.brief_llm),
+            "recommendation": recommend(detail, app.state.recommendation),
             "decisions": app.state.audit.history(case_id),
         }
 

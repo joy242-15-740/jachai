@@ -71,3 +71,32 @@ ring_flag:
   community_size: [3, 8]
   max_span_km: 10 # all ring shops within this distance of each other
   min_linking_payers: 2 # payers linking this shop to others in its ring
+
+# Recommended next step shown on a case (the analyst still decides; nothing is
+# automatic). Checked in this order; the first match wins.
+recommendation:
+  # Policy E threshold: estimated flagged (cash-out-like) taka in the last 30 days
+  # above which a confirmed shop is worth an agent-contract offer. Same value as
+  # configs/simulator.yaml convert_min_monthly_taka.
+  convert_min_monthly_demand: 100000
+  rules:
+    - when: ring
+      action: escalate
+      en: "Possible limit-bypass ring: {linking_payers} payers link it to {community_size} nearby shops. A senior analyst should review the whole group."
+      bn: "সম্ভাব্য সীমা-এড়ানো চক্র: {linking_payers} জন গ্রাহক একে কাছাকাছি {community_size}টি দোকানের সাথে যুক্ত করেছেন। পুরো দলটি একজন সিনিয়র বিশ্লেষকের দেখা উচিত।"
+    - when: high_and_demand
+      action: convert
+      en: "Strong cash-out demand (about Tk {demand} of flagged payments in 30 days). If confirmed, offer an agent contract so customers get licensed cash-out."
+      bn: "নগদ উত্তোলনের চাহিদা বেশি (৩০ দিনে প্রায় ৳{demand} চিহ্নিত পেমেন্ট)। নিশ্চিত হলে এজেন্ট চুক্তির প্রস্তাব দিন, যাতে গ্রাহকরা লাইসেন্সপ্রাপ্ত পথে নগদ পান।"
+    - when: high
+      action: educate
+      en: "High priority, but cash-out demand is modest (about Tk {demand} flagged in 30 days). Talk to the owner and explain the QR rules first."
+      bn: "উচ্চ অগ্রাধিকার, তবে নগদ চাহিদা মাঝারি (৩০ দিনে প্রায় ৳{demand} চিহ্নিত)। আগে মালিকের সাথে কথা বলে QR নিয়ম বুঝিয়ে দিন।"
+    - when: review
+      action: monitor
+      en: "Some unusual signs. Monitor for two weeks before deciding."
+      bn: "কিছু অস্বাভাবিক লক্ষণ আছে। সিদ্ধান্তের আগে দুই সপ্তাহ পর্যবেক্ষণ করুন।"
+    - when: low
+      action: clear
+      en: "No strong evidence of misuse. No action needed."
+      bn: "অপব্যবহারের জোরালো প্রমাণ নেই। কোনো পদক্ষেপের দরকার নেই।"
