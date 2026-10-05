@@ -110,6 +110,7 @@ export function JudgeWalkthrough() {
   const [facts, setFacts] = useState<Facts | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [done, setDone] = useState<number[]>([]);
+  const [activeStep, setActiveStep] = useState(0);
 
   useEffect(() => {
     try {
@@ -130,47 +131,68 @@ export function JudgeWalkthrough() {
       // storage unavailable: keep it in memory only
     }
   };
-  const toggle = () => setOpenSaved(!open);
   const next = [0, 1, 2, 3, 4, 5].find((i) => !done.includes(i));
+  const tourSteps = facts ? steps(facts) : [];
+  const currentStep = tourSteps[activeStep];
+  const toggle = () => {
+    if (!open) setActiveStep(next ?? 0);
+    setOpenSaved(!open);
+  };
 
   return (
     <div className="fixed bottom-4 right-4 z-[60] w-[min(26rem,calc(100vw-2rem))]">
       {open && (
         <section
           aria-label="Demo walkthrough"
-          className="glass-panel mb-2 max-h-[calc(100dvh-6rem)] w-full touch-pan-y overflow-y-scroll overscroll-contain rounded-2xl border border-line bg-panel/95 p-4 shadow-xl [scrollbar-gutter:stable]"
+          className="glass-panel mb-2 w-full rounded-2xl border border-line bg-panel/95 p-4 shadow-xl"
         >
           <div className="mb-2 flex items-center justify-between">
             <h2 className="font-semibold">Demo walkthrough · 6 steps</h2>
-            <span className="text-xs text-muted">{done.length}/6 done</span>
+            <span className="text-xs text-muted">
+              {activeStep + 1}/6 · {done.length}/6 done
+            </span>
           </div>
           {error && <p className="text-sm text-high">{error}</p>}
           {!facts && !error && <p className="text-sm text-muted">Loading the examples…</p>}
+          {currentStep && (
+            <article className={`rounded-xl p-3 ${done.includes(activeStep) ? "bg-accent-soft" : "bg-page"}`}>
+              <div className="text-sm font-medium">
+                {activeStep + 1}. {currentStep.title}
+              </div>
+              <Link
+                href={currentStep.href}
+                onClick={() => {
+                  // Close the panel so the selected page is fully visible.
+                  setDone((d) => (d.includes(activeStep) ? d : [...d, activeStep]));
+                  setOpenSaved(false);
+                }}
+                className="mt-1.5 inline-block rounded-md bg-accent px-3 py-1 text-xs font-medium text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+              >
+                {currentStep.cta} →
+              </Link>
+              <p className="mt-1.5 text-xs leading-5 text-muted">
+                <span className="font-medium text-ink">Expected: </span>
+                {currentStep.expected}
+              </p>
+            </article>
+          )}
           {facts && (
-            <ol className="space-y-3">
-              {steps(facts).map((s, i) => (
-                <li key={s.title} className={`rounded-xl p-3 ${done.includes(i) ? "bg-accent-soft" : "bg-page"}`}>
-                  <div className="text-sm font-medium">
-                    {i + 1}. {s.title}
-                  </div>
-                  <Link
-                    href={s.href}
-                    onClick={() => {
-                      // Close the panel so the step's page is fully visible.
-                      setDone((d) => (d.includes(i) ? d : [...d, i]));
-                      setOpenSaved(false);
-                    }}
-                    className="mt-1.5 inline-block rounded-md bg-accent px-3 py-1 text-xs font-medium text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-                  >
-                    {s.cta} →
-                  </Link>
-                  <p className="mt-1.5 text-xs leading-5 text-muted">
-                    <span className="font-medium text-ink">Expected: </span>
-                    {s.expected}
-                  </p>
-                </li>
-              ))}
-            </ol>
+            <div className="mt-3 flex items-center justify-between gap-2">
+              <button
+                onClick={() => setActiveStep((step) => Math.max(0, step - 1))}
+                disabled={activeStep === 0}
+                className="rounded-md border border-line px-3 py-1.5 text-xs font-medium text-ink disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                Previous
+              </button>
+              <button
+                onClick={() => setActiveStep((step) => Math.min(tourSteps.length - 1, step + 1))}
+                disabled={activeStep === tourSteps.length - 1}
+                className="rounded-md border border-line px-3 py-1.5 text-xs font-medium text-ink disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                Next
+              </button>
+            </div>
           )}
           {facts && (
             <p className="mt-3 text-[11px] leading-4 text-muted">
