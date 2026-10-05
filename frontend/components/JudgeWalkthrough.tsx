@@ -134,11 +134,11 @@ export function JudgeWalkthrough() {
   const next = [0, 1, 2, 3, 4, 5].find((i) => !done.includes(i));
 
   return (
-    <div className="fixed bottom-4 right-4 z-[60] flex max-h-[calc(100dvh-2rem)] w-[min(26rem,calc(100vw-2rem))] flex-col items-end gap-2">
+    <div className="fixed bottom-4 right-4 z-[60] w-[min(26rem,calc(100vw-2rem))]">
       {open && (
         <section
           aria-label="Demo walkthrough"
-          className="glass-panel min-h-0 w-full flex-1 touch-pan-y overflow-y-auto overscroll-contain rounded-2xl border border-line bg-panel/95 p-4 shadow-xl [scrollbar-gutter:stable]"
+          className="glass-panel mb-2 max-h-[calc(100dvh-6rem)] w-full touch-pan-y overflow-y-scroll overscroll-contain rounded-2xl border border-line bg-panel/95 p-4 shadow-xl [scrollbar-gutter:stable]"
         >
           <div className="mb-2 flex items-center justify-between">
             <h2 className="font-semibold">Demo walkthrough · 6 steps</h2>
@@ -182,7 +182,7 @@ export function JudgeWalkthrough() {
       <button
         onClick={toggle}
         aria-expanded={open}
-        className="rounded-full bg-ink px-4 py-2 text-sm font-medium text-page shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+        className="ml-auto block rounded-full bg-ink px-4 py-2 text-sm font-medium text-page shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
       >
         {open
           ? "Close walkthrough"
