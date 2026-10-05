@@ -1,7 +1,7 @@
 # Synthetic world settings for `make world`.
 #
 # Each number is tagged:
-#   [brief]       domain fact from the team brief (CLAUDE.md "Domain facts")
+#   [brief]       domain fact from the team project brief
 #   [assumption]  team choice to make a plausible synthetic world; not measured data
 # data/ASSUMPTIONS.md explains every value. Change numbers here, never in code.
 

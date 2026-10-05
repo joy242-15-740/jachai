@@ -13,7 +13,7 @@ Shops
     Shapley value against an all-zero baseline). The 3 largest are shown.
 
 Every number in a reason text is computed from the row's own data here. Nothing
-is typed by hand, and an LLM never adds numbers (see CLAUDE.md rule 4).
+is typed by hand, and an LLM never adds numbers (project safety rule).
 """
 
 from __future__ import annotations

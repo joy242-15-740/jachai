@@ -1,4 +1,4 @@
-"""Single-feature sanity check (CLAUDE.md "Evaluation protocol").
+"""Single-feature sanity check from the project evaluation protocol.
 
 For every model feature, how well does that feature *alone* separate misuse from
 honest rows? Measured as strength = max(AUC, 1 - AUC), so a feature that is

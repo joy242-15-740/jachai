@@ -1,4 +1,4 @@
-"""Evaluation metrics (CLAUDE.md "Evaluation protocol").
+"""Evaluation metrics from the project evaluation protocol.
 
 pr_auc                 area under the precision-recall curve; honest with rare misuse
 precision_at_k         of the k highest-scored cases (analyst capacity), share truly misuse

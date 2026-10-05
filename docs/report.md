@@ -18,9 +18,9 @@ transfers. Acquirers are expected to monitor merchants with unusual patterns and
 stop splitting and cash-outs. A blanket limit on every shop is the blunt answer,
 and it hurts honest wholesalers, electronics sellers and festival traders most.
 
-*Sources:* team project brief and domain notes (repo `CLAUDE.md`, "Domain facts"),
-drawn from the organisers' challenge material [1]. The primary regulatory
-documents should be cited directly in any version beyond this hackathon.
+*Sources:* team project brief and domain notes, drawn from the organisers'
+challenge material [1]. The primary regulatory documents should be cited
+directly in any version beyond this hackathon.
 
 ## 2. Idea
 

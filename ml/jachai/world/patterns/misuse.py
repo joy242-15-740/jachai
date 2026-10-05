@@ -1,4 +1,4 @@
-"""The six misuse patterns from CLAUDE.md. Every row they add has true label 1.
+"""The six project misuse patterns. Every row they add has true label 1.
 
 Each injector reads its settings from configs/patterns.yaml; nothing here is a
 business rule. Regulatory numbers (Tk 30,000 limit, Tk 2,000 incentive cap,

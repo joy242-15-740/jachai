@@ -2,7 +2,7 @@
 
 The synthetic world (`ml/jachai/world/patterns/`) and the rules
 (`ml/jachai/labels/functions.py`, `configs/rules.yaml`) were both written by the
-team from the same reported misuse typologies (CLAUDE.md "Misuse patterns").
+team from the same reported project misuse typologies.
 
 Consequence: on the normal synthetic world the rules match the injected patterns
 almost exactly, so a rules-only detector looks far stronger than it would on real

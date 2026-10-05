@@ -300,7 +300,6 @@ browser. Both themes use the same semantic risk colours and glass-style layout.
 - Generated data goes to `data/world/` (gitignored): one parquet file per table
   plus `manifest.json` with the seed and a config fingerprint.
 - Data assumptions: [data/ASSUMPTIONS.md](data/ASSUMPTIONS.md)
-- Competition rules checklist: [RULES_CHECKLIST.md](RULES_CHECKLIST.md)
 - AI usage log: [docs/ai_usage.md](docs/ai_usage.md)
 - Linting and formatting: ruff, configured in `ruff.toml` at the repo root.
 

@@ -17,9 +17,9 @@ every config section and every pattern is mentioned here.
 
 Source tags:
 
-- **[brief]**: a domain fact from the team brief (CLAUDE.md, "Domain facts").
-  It comes from our project research and should be cited from the original
-  documents in the final report.
+- **[brief]**: a domain fact from the team project brief. It comes from our
+  project research and should be cited from the original documents in the final
+  report.
 - **[assumption]**: a team choice to make a plausible synthetic world. It is not
   measured from real upay data, which we do not have. It should be checked for
   plausibility, not treated as fact.

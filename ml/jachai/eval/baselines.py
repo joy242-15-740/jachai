@@ -1,4 +1,4 @@
-"""Two baselines Jachai has to beat (CLAUDE.md "Evaluation protocol").
+"""Two baselines used in the project evaluation protocol.
 
 rules_only     the labeling functions alone, used as a detector: the best a
                hand-written rulebook can do, with no model.
