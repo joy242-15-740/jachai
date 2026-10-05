@@ -17,13 +17,13 @@ expected production accuracy or financial impact.
   [test_access_log.md](test_access_log.md).
 
 The three-seed figures below describe the current fusion, including rules as an
-equal-weight input.
+equal-weight input. The agreed success criteria for adding rules to fusion were **not all met**: evasion (0.599 vs 0.588 PR-AUC) and ring recall (0.823 normal / 0.591 evasion vs 0.805 / 0.024) were met, but the normal-world criterion (within 0.02 PR-AUC of rules) was not (0.774 vs 0.899). Source: the computed success checks in [validation_evaluation.md](validation_evaluation.md).
 
 ## System versus baselines — VALIDATION, 3 seeds, current fusion
 
 At the analyst-capacity budget (`k=10` validation shops per seed), rules were
 strongest on the normal synthetic world. At the fused system's review/high-band
-budget (43, 52 and 46 shops by seed), the same ordering remained. This result
+budget (43, 51 and 45 shops by seed), the same ordering remained. This result
 weakens the pitch and is reported directly: the generator and rules share the
 same typology definitions, which favours the rules.
 

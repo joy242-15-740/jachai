@@ -72,7 +72,10 @@ For the current fusion on three validation seeds: shop PR-AUC is
 Rules score 0.899 ± 0.033 PR-AUC and 0.968 ± 0.025 value recall on the same
 normal world. Under non-round evasion, fusion value recall is 0.893 ± 0.013
 versus rules at 0.739 ± 0.053. Final-test PR-AUC was 0.584 for Jachai and 0.843
-for rules. These are synthetic, not production, metrics.
+for rules. These are synthetic, not production, metrics. The agreed success
+criteria for adding rules to fusion were not all met on validation: the evasion
+and ring criteria were met, the normal-world criterion (within 0.02 PR-AUC of
+rules) was not (0.774 vs 0.899).
 
 ## Explainability and human oversight
 

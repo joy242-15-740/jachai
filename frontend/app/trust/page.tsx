@@ -70,11 +70,12 @@ export default function TrustPage() {
       <SourceNote source={source} />
 
       <div className="mb-5 grid gap-4 md:grid-cols-3">
-        <div className="glass-panel rounded-2xl border-l-2 border-l-low p-5">
-          <div className="eyebrow text-low">Validated on synthetic validation</div>
+        <div className="glass-panel rounded-2xl border-l-2 border-l-review p-5">
+          <div className="eyebrow text-review">Validation · 3 seeds · criteria partly met</div>
           <h2 className="mt-2 font-semibold">Current fusion · multi-seed</h2>
           <p className="mt-2 text-sm leading-6 text-muted">
-            Matched-budget, evasion and label-source evidence exists for the frozen system.
+            Evasion and ring criteria met; normal-world criterion not met (PR-AUC 0.774 vs rules
+            0.899). Matched-budget, evasion and label-source evidence is in reports/.
           </p>
         </div>
         <div className="glass-panel rounded-2xl border-l-2 border-l-review p-5">

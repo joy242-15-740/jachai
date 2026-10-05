@@ -44,7 +44,9 @@ that fusion is always better: the generator and rules share typology definitions
 At an equal 1,000-payment budget, weak labels plus dated cases achieved
 `0.726 ± 0.049` misuse-value recall versus `0.446 ± 0.037` for rules. Under the
 non-round evasion test, the current fusion achieved `0.893 ± 0.013` value
-recall versus `0.739 ± 0.053` for rules at the same band budget.
+recall versus `0.739 ± 0.053` for rules at the same band budget. The agreed
+success criteria for adding rules to fusion were therefore not all met: evasion
+and ring criteria passed, the normal-world criterion did not.
 
 These are synthetic findings, not real-world accuracy. On the single final test,
 Jachai PR-AUC was `0.584` versus `0.843` for rules; no tuning follows that
