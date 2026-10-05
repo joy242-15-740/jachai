@@ -34,6 +34,7 @@ from jachai.labels.config import RulesConfig, load_rules
 from jachai.models.config import ModelsConfig, load_models_config
 from jachai.models.fusion import payment_components
 from jachai.models.payment import train_payment_model
+from jachai.provenance import provenance
 from jachai.system import Scored, score_system, train_system
 from jachai.world.config import EvasionCfg, load_patterns_config, load_world_config
 from jachai.world.generate import generate_world
@@ -284,6 +285,7 @@ def run() -> dict:
     return {
         "evaluated_on": "validation shops, last validation day; hidden truth",
         "test_set_touched": False,
+        "provenance": provenance(),  # one system per seed: config hash + commit
         "seeds": thr.eval.ablation_seeds,
         "per_seed": per_seed,
     }

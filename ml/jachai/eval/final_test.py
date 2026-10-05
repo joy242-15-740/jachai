@@ -16,6 +16,7 @@ from jachai.features import build_features
 from jachai.features.config import load_thresholds
 from jachai.labels.config import load_rules
 from jachai.models.config import load_models_config
+from jachai.provenance import provenance
 from jachai.system import train_system
 from jachai.world.config import load_patterns_config, load_world_config
 from jachai.world.generate import generate_world
@@ -133,8 +134,9 @@ def main() -> None:
     thr, rules, models = load_thresholds(), load_rules(), load_models_config()
     world = generate_world(cfg, patterns)
     shop_day = build_features(world.tables, cfg, thr.features)["shop_day"]
-    _, scored = train_system(world.tables, shop_day, cfg, thr, rules, models)
+    system, scored = train_system(world.tables, shop_day, cfg, thr, rules, models)
     result = {
+        "provenance": provenance(system.payment.fingerprint()),
         "evaluated_on": "frozen full system; test shops on final generated day",
         "test_set_touched": True,
         "seed": cfg.seed,

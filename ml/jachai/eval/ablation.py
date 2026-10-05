@@ -33,6 +33,7 @@ from jachai.labels.config import RulesConfig, load_rules
 from jachai.labels.targets import case_verdict_for_payments
 from jachai.models.config import ModelsConfig, load_models_config
 from jachai.models.train import PaymentData, case_cutoffs, prepare_payment_data, train_from_data
+from jachai.provenance import provenance
 from jachai.world.cases import make_cases
 from jachai.world.config import PatternsConfig, WorldConfig, load_patterns_config, load_world_config
 from jachai.world.generate import generate_world
@@ -183,6 +184,7 @@ def run_ablation() -> dict:
     return {
         "evaluated_on": "validation shops and dates, against the hidden true label",
         "test_set_touched": False,
+        "provenance": provenance(),  # one model per seed: config hash + commit
         "seeds": thr.eval.ablation_seeds,
         "per_seed": per_seed,
         "summary": summary.reset_index().to_dict(orient="records"),

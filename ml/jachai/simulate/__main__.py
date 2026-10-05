@@ -18,6 +18,7 @@ import yaml
 from jachai.features.config import load_thresholds
 from jachai.labels.config import load_rules
 from jachai.models.config import load_models_config
+from jachai.provenance import provenance
 from jachai.simulate.config import load_simulator_config
 from jachai.simulate.inputs import build_inputs, cached_inputs
 from jachai.simulate.policies import run_all
@@ -99,7 +100,12 @@ def main(argv: list[str] | None = None) -> None:
 
     out = default_report_path().parent / "simulator"
     out.mkdir(parents=True, exist_ok=True)
-    payload = {"replay": sim.replay.model_dump(), "params": params.model_dump(), "results": results}
+    payload = {
+        "provenance": provenance(system.payment.fingerprint()),
+        "replay": sim.replay.model_dump(),
+        "params": params.model_dump(),
+        "results": results,
+    }
     (out / "results.json").write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
     text = render(results, params.model_dump(), sim.replay.model_dump())
     (out / "results.md").write_text(text, encoding="utf-8")

@@ -16,6 +16,7 @@ from jachai.features.config import load_thresholds
 from jachai.labels.config import load_rules
 from jachai.models.config import load_models_config
 from jachai.models.train import validation_report
+from jachai.provenance import provenance
 from jachai.system import train_system
 from jachai.world.config import load_world_config
 from jachai.world.generate import read_world_tables
@@ -41,6 +42,7 @@ def main() -> None:
     val = scored.shop_day[scored.shop_day["split"] == "validation"]
     report = {
         "system": "payment + shop + network + fusion",
+        "provenance": provenance(system.payment.fingerprint()),
         "test_set_touched": False,
         "payment_model": {
             "fingerprint": system.payment.fingerprint(),
