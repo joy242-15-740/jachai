@@ -32,6 +32,46 @@ def _past(wide: pd.DataFrame, window: int, how: str = "sum") -> pd.DataFrame:
     return getattr(roll, how)().shift(1)
 
 
+def _history_frame(
+    payment_features: pd.DataFrame, days: pd.DatetimeIndex, shops: pd.Index, window: int
+) -> pd.DataFrame:
+    """Median hour and one-time-payer share over the previous `window` days."""
+    f = payment_features
+    day_ord = pd.Series(np.arange(len(days)), index=days)
+    work = pd.DataFrame(
+        {
+            "shop_id": f["shop_id"].to_numpy(),
+            "ord": f["ts"].dt.normalize().map(day_ord).to_numpy(),
+            "hour": f["hour"].to_numpy(dtype=float),
+            "payer_id": f["payer_id"].to_numpy(),
+        }
+    ).dropna(subset=["ord"])
+    shop_pos = {shop: i for i, shop in enumerate(shops)}
+    median_hour = np.full((len(days), len(shops)), np.nan)
+    one_time = np.full((len(days), len(shops)), np.nan)
+    for shop, g in work.groupby("shop_id", sort=False):
+        col = shop_pos.get(shop)
+        if col is None:
+            continue
+        g = g.sort_values("ord", kind="stable")
+        ords = g["ord"].to_numpy()
+        hours = g["hour"].to_numpy()
+        payers = g["payer_id"].to_numpy()
+        for i in range(len(days)):
+            hi = int(np.searchsorted(ords, i, side="left"))
+            lo = int(np.searchsorted(ords, i - window, side="left"))
+            if hi <= lo:
+                continue
+            median_hour[i, col] = float(np.median(hours[lo:hi]))
+            uniq, counts = np.unique(payers[lo:hi], return_counts=True)
+            one_time[i, col] = float((counts == 1).sum() / len(uniq))
+    med = pd.DataFrame(median_hour, index=days, columns=shops).stack(future_stack=True)
+    once = pd.DataFrame(one_time, index=days, columns=shops).stack(future_stack=True)
+    out = pd.DataFrame({"median_hour_30d": med, "one_time_payer_share_30d": once})
+    out.index = out.index.set_names(["day", "shop_id"])
+    return out.reset_index()
+
+
 def _owner_p2p_senders(
     tables: dict[str, pd.DataFrame],
     shops: pd.DataFrame,
@@ -118,4 +158,6 @@ def build_shop_day_features(
     long["shop_age_days"] = (long["day"] - long["opened_on"]).dt.days
     long["is_open"] = (long["shop_age_days"] >= 0).astype(np.int8)
     long = long.rename(columns={"n_qr_codes": "qr_codes_per_account"})
+    extra = _history_frame(f, days, shops.index, lng)
+    long = long.merge(extra, on=["day", "shop_id"], how="left", validate="1:1")
     return long.drop(columns=["opened_on"]).sort_values(["day", "shop_id"]).reset_index(drop=True)
