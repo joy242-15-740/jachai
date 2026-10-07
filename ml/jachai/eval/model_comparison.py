@@ -1784,7 +1784,20 @@ def main(argv: list[str] | None = None) -> None:
         action="store_true",
         help="permit a run when JACHAI_PROFILE is not fast",
     )
+    parser.add_argument(
+        "--justify",
+        action="store_true",
+        help="write feature_justification.* instead of model_comparison.*",
+    )
     args = parser.parse_args(argv)
+    if args.justify:
+        from jachai.eval.feature_justification import main as justify_main
+
+        forwarded = ["--seeds", *[str(s) for s in args.seeds], "--out", str(args.out)]
+        if args.allow_long:
+            forwarded.append("--allow-long")
+        justify_main(forwarded)
+        return
     profile = os.environ.get("JACHAI_PROFILE", "").strip() or "reference"
     if profile != "fast" and not args.allow_long:
         raise SystemExit(

@@ -1,0 +1,968 @@
+{
+  "profile": "fast",
+  "synthetic_data_only": true,
+  "evaluated_on": "validation shops and dates, against the hidden true label",
+  "test_set_touched": false,
+  "seeds": [
+    42,
+    7,
+    2026
+  ],
+  "permutations": 5,
+  "shap": "LightGBM pred_contrib TreeSHAP, mean absolute value on validation payments",
+  "ablation": "retrain without the group; drop = full metric minus reduced metric; positive means the group helped",
+  "threshold_rule": "max F1 against validation targets from rules and past cases",
+  "mechanisms": {
+    "amount": "Round amounts, a basket far from the category's usual ticket, and payments just under the incentive cap. Hypothesis: a cash desk and cap-splitting leave these traces.",
+    "timing": "Hour, Friday, and whether the payment is outside opening hours. Hypothesis: cash-out desks run when the shop would normally be shut.",
+    "payer_day": "How much this payer has already paid today, and how that compares with the daily limit. Hypothesis: limit bypass is a day total pushed across several shops.",
+    "money_in_then_out": "Add-money or remittance in a short window before the payment, and the share spent. Hypothesis: a drain pays out money that has just arrived.",
+    "who_and_where": "First visit at this shop, and how far the payer lives from it. Hypothesis: a cash desk is paid by people who are not its regulars and do not live nearby.",
+    "payer_history": "The payer's recent volume, shops, round-amount share and account age. Hypothesis: a mule account is young and busy.",
+    "shop_history": "The shop's recent turnover, round receipts, night share, strangers and peer comparison. Hypothesis: a misused shop looks unlike its own past and unlike similar shops.",
+    "mechanism": "Payer repeat rate, one-time-payer share, time of day versus this shop's own hours, and minutes from the last top-up or remittance. Hypothesis: the same stories at a finer grain."
+  },
+  "per_seed": [
+    {
+      "seed": 42,
+      "n": 1416,
+      "positives": 40,
+      "threshold": 0.6666666666666666,
+      "full": {
+        "pr_auc": 0.721183102998139,
+        "precision": 1.0,
+        "recall": 0.475,
+        "f1": 0.6440677966101694,
+        "fpr": 0.0,
+        "value_recall": 0.4135523082891504
+      },
+      "groups": [
+        {
+          "group": "amount",
+          "n_features": 8,
+          "features": [
+            "amount",
+            "is_round_100",
+            "is_round_500",
+            "is_round_1000",
+            "just_under_cap",
+            "after_regime_change",
+            "amount_vs_category_median",
+            "payer_day_payments_here"
+          ],
+          "shap_mean_abs": 0.8376662952418563,
+          "shap_share": 0.5817280824616828,
+          "permutation_pr_auc_drop": 0.6366381070336515,
+          "pr_auc": 0.5743988041921348,
+          "pr_auc_drop": 0.1467842988060042,
+          "f1": 0.5964912280701754,
+          "f1_drop": 0.047576568539994035,
+          "recall": 0.425,
+          "recall_drop": 0.04999999999999999,
+          "value_recall_drop": 0.01810422863054445
+        },
+        {
+          "group": "timing",
+          "n_features": 3,
+          "features": [
+            "hour",
+            "is_friday",
+            "after_hours"
+          ],
+          "shap_mean_abs": 0.02359416246139051,
+          "shap_share": 0.016385268171726117,
+          "permutation_pr_auc_drop": 0.005208276212490692,
+          "pr_auc": 0.7026894342696506,
+          "pr_auc_drop": 0.018493668728488455,
+          "f1": 0.6333333333333334,
+          "f1_drop": 0.010734463276836026,
+          "recall": 0.475,
+          "recall_drop": 0.0,
+          "value_recall_drop": 0.0
+        },
+        {
+          "group": "payer_day",
+          "n_features": 4,
+          "features": [
+            "payer_day_total",
+            "payer_day_shops",
+            "payer_day_total_vs_limit",
+            "near_limit"
+          ],
+          "shap_mean_abs": 0.1908565394824826,
+          "shap_share": 0.13254276717241054,
+          "permutation_pr_auc_drop": 0.10735689582662442,
+          "pr_auc": 0.8471480412953476,
+          "pr_auc_drop": -0.12596493829720856,
+          "f1": 0.8205128205128205,
+          "f1_drop": -0.17644502390265104,
+          "recall": 0.8,
+          "recall_drop": -0.32500000000000007,
+          "value_recall_drop": -0.40320703478598213
+        },
+        {
+          "group": "money_in_then_out",
+          "n_features": 6,
+          "features": [
+            "inflow_recent",
+            "paid_share_of_recent_inflow",
+            "remittance_recent",
+            "paid_share_of_recent_remittance",
+            "payer_inflow_7d",
+            "payer_bank_topups_7d"
+          ],
+          "shap_mean_abs": 0.01034031402940115,
+          "shap_share": 0.007180963453517498,
+          "permutation_pr_auc_drop": 0.0014113796772154742,
+          "pr_auc": 0.7092220804579947,
+          "pr_auc_drop": 0.011961022540144306,
+          "f1": 0.7250000000000001,
+          "f1_drop": -0.08093220338983065,
+          "recall": 0.725,
+          "recall_drop": -0.25,
+          "value_recall_drop": -0.2842363894995474
+        },
+        {
+          "group": "who_and_where",
+          "n_features": 4,
+          "features": [
+            "payer_shop_distance_km",
+            "first_visit",
+            "payer_first_visit_share_7d",
+            "far_payer_share_30d"
+          ],
+          "shap_mean_abs": 0.1493322896917761,
+          "shap_share": 0.10370572031542412,
+          "permutation_pr_auc_drop": 0.09593674860550243,
+          "pr_auc": 0.7403152861859987,
+          "pr_auc_drop": -0.019132183187859697,
+          "f1": 0.6774193548387099,
+          "f1_drop": -0.03335155822854041,
+          "recall": 0.525,
+          "recall_drop": -0.050000000000000044,
+          "value_recall_drop": -0.08017586964955387
+        },
+        {
+          "group": "payer_history",
+          "n_features": 6,
+          "features": [
+            "on_us",
+            "payer_account_age_days",
+            "payer_payments_7d",
+            "payer_amount_7d",
+            "payer_shop_days_7d",
+            "payer_round_share_7d"
+          ],
+          "shap_mean_abs": 0.015777599160223685,
+          "shap_share": 0.010956955720268025,
+          "permutation_pr_auc_drop": 0.0024150773415248183,
+          "pr_auc": 0.7276112521536956,
+          "pr_auc_drop": -0.006428149155556562,
+          "f1": 0.6440677966101694,
+          "f1_drop": 0.0,
+          "recall": 0.475,
+          "recall_drop": 0.0,
+          "value_recall_drop": 0.0
+        },
+        {
+          "group": "shop_history",
+          "n_features": 12,
+          "features": [
+            "turnover_7d",
+            "payments_7d",
+            "unique_payers_per_day_7d",
+            "round_1000_share_30d",
+            "after_hours_share_30d",
+            "first_visit_share_30d",
+            "last_day_vs_own_median_30d",
+            "qr_codes_per_account",
+            "turnover_vs_peers_7d",
+            "owner_p2p_senders_7d",
+            "shop_age_days",
+            "is_open"
+          ],
+          "shap_mean_abs": 0.15506097805227673,
+          "shap_share": 0.10768408128554338,
+          "permutation_pr_auc_drop": 0.09883462481932673,
+          "pr_auc": 0.6985459055355984,
+          "pr_auc_drop": 0.02263719746254067,
+          "f1": 0.7407407407407408,
+          "f1_drop": -0.09667294413057137,
+          "recall": 0.75,
+          "recall_drop": -0.275,
+          "value_recall_drop": -0.34889434889434884
+        },
+        {
+          "group": "mechanism",
+          "n_features": 4,
+          "features": [
+            "minutes_since_inflow",
+            "payer_repeat_rate",
+            "one_time_payer_share_30d",
+            "hour_vs_shop_median_30d"
+          ],
+          "shap_mean_abs": 0.057333756840182146,
+          "shap_share": 0.03981616141942749,
+          "permutation_pr_auc_drop": 0.0017577418800880152,
+          "pr_auc": 0.6898925175692435,
+          "pr_auc_drop": 0.03129058542889551,
+          "f1": 0.7654320987654322,
+          "f1_drop": -0.12136430215526273,
+          "recall": 0.775,
+          "recall_drop": -0.30000000000000004,
+          "value_recall_drop": -0.3644122591491012
+        }
+      ],
+      "mechanism_features": [
+        {
+          "feature": "payer_repeat_rate",
+          "shap_mean_abs": 0.010230524158519366,
+          "pr_auc_drop": -0.0055380423150259706,
+          "f1_drop": 0.0,
+          "recall_drop": 0.0
+        },
+        {
+          "feature": "one_time_payer_share_30d",
+          "shap_mean_abs": 0.018465970511128478,
+          "pr_auc_drop": -0.00030893356652672566,
+          "f1_drop": 0.010734463276836026,
+          "recall_drop": 0.0
+        },
+        {
+          "feature": "hour_vs_shop_median_30d",
+          "shap_mean_abs": 0.010087631631242927,
+          "pr_auc_drop": -0.005030740315203008,
+          "f1_drop": 0.010734463276836026,
+          "recall_drop": 0.0
+        },
+        {
+          "feature": "minutes_since_inflow",
+          "shap_mean_abs": 0.018549630539291376,
+          "pr_auc_drop": -0.005855329337720927,
+          "f1_drop": 0.0,
+          "recall_drop": 0.0
+        }
+      ],
+      "n_features": 47
+    },
+    {
+      "seed": 7,
+      "n": 1891,
+      "positives": 6,
+      "threshold": 0.5714285714285714,
+      "full": {
+        "pr_auc": 0.22224599244694435,
+        "precision": 0.18181818181818182,
+        "recall": 0.6666666666666666,
+        "f1": 0.28571428571428575,
+        "fpr": 0.009549071618037135,
+        "value_recall": 0.6762589928057554
+      },
+      "groups": [
+        {
+          "group": "amount",
+          "n_features": 8,
+          "features": [
+            "amount",
+            "is_round_100",
+            "is_round_500",
+            "is_round_1000",
+            "just_under_cap",
+            "after_regime_change",
+            "amount_vs_category_median",
+            "payer_day_payments_here"
+          ],
+          "shap_mean_abs": 0.8603830185185473,
+          "shap_share": 0.5447909936116665,
+          "permutation_pr_auc_drop": 0.1666125827283945,
+          "pr_auc": 0.30616367759224905,
+          "pr_auc_drop": -0.0839176851453047,
+          "f1": 0.30769230769230765,
+          "f1_drop": -0.0219780219780219,
+          "recall": 0.6666666666666666,
+          "recall_drop": 0.0,
+          "value_recall_drop": 0.0
+        },
+        {
+          "group": "timing",
+          "n_features": 3,
+          "features": [
+            "hour",
+            "is_friday",
+            "after_hours"
+          ],
+          "shap_mean_abs": 0.028243190692914998,
+          "shap_share": 0.017883472347990377,
+          "permutation_pr_auc_drop": 0.026820538473179924,
+          "pr_auc": 0.2278015480024999,
+          "pr_auc_drop": -0.005555555555555564,
+          "f1": 0.28571428571428575,
+          "f1_drop": 0.0,
+          "recall": 0.6666666666666666,
+          "recall_drop": 0.0,
+          "value_recall_drop": 0.0
+        },
+        {
+          "group": "payer_day",
+          "n_features": 4,
+          "features": [
+            "payer_day_total",
+            "payer_day_shops",
+            "payer_day_total_vs_limit",
+            "near_limit"
+          ],
+          "shap_mean_abs": 0.24442210880403106,
+          "shap_share": 0.15476707541867463,
+          "permutation_pr_auc_drop": 0.2108898308754971,
+          "pr_auc": 0.06174193674193673,
+          "pr_auc_drop": 0.16050405570500761,
+          "f1": 0.10256410256410256,
+          "f1_drop": 0.1831501831501832,
+          "recall": 0.3333333333333333,
+          "recall_drop": 0.3333333333333333,
+          "value_recall_drop": 0.3597122302158274
+        },
+        {
+          "group": "money_in_then_out",
+          "n_features": 6,
+          "features": [
+            "inflow_recent",
+            "paid_share_of_recent_inflow",
+            "remittance_recent",
+            "paid_share_of_recent_remittance",
+            "payer_inflow_7d",
+            "payer_bank_topups_7d"
+          ],
+          "shap_mean_abs": 0.01710308420678586,
+          "shap_share": 0.010829602674960291,
+          "permutation_pr_auc_drop": 0.0036023722974135976,
+          "pr_auc": 0.21961094633363734,
+          "pr_auc_drop": 0.0026350461133070047,
+          "f1": 0.27586206896551724,
+          "f1_drop": 0.009852216748768516,
+          "recall": 0.6666666666666666,
+          "recall_drop": 0.0,
+          "value_recall_drop": 0.0
+        },
+        {
+          "group": "who_and_where",
+          "n_features": 4,
+          "features": [
+            "payer_shop_distance_km",
+            "first_visit",
+            "payer_first_visit_share_7d",
+            "far_payer_share_30d"
+          ],
+          "shap_mean_abs": 0.21167811049733826,
+          "shap_share": 0.13403371017509114,
+          "permutation_pr_auc_drop": -0.007351918597016621,
+          "pr_auc": 0.14250412937174792,
+          "pr_auc_drop": 0.07974186307519643,
+          "f1": 0.16666666666666666,
+          "f1_drop": 0.1190476190476191,
+          "recall": 0.8333333333333334,
+          "recall_drop": -0.16666666666666674,
+          "value_recall_drop": -0.18705035971223016
+        },
+        {
+          "group": "payer_history",
+          "n_features": 6,
+          "features": [
+            "on_us",
+            "payer_account_age_days",
+            "payer_payments_7d",
+            "payer_amount_7d",
+            "payer_shop_days_7d",
+            "payer_round_share_7d"
+          ],
+          "shap_mean_abs": 0.012393767948269482,
+          "shap_share": 0.007847682961893096,
+          "permutation_pr_auc_drop": 0.059211527812195255,
+          "pr_auc": 0.19788303828494203,
+          "pr_auc_drop": 0.02436295416200232,
+          "f1": 0.2962962962962963,
+          "f1_drop": -0.010582010582010526,
+          "recall": 0.6666666666666666,
+          "recall_drop": 0.0,
+          "value_recall_drop": 0.0
+        },
+        {
+          "group": "shop_history",
+          "n_features": 12,
+          "features": [
+            "turnover_7d",
+            "payments_7d",
+            "unique_payers_per_day_7d",
+            "round_1000_share_30d",
+            "after_hours_share_30d",
+            "first_visit_share_30d",
+            "last_day_vs_own_median_30d",
+            "qr_codes_per_account",
+            "turnover_vs_peers_7d",
+            "owner_p2p_senders_7d",
+            "shop_age_days",
+            "is_open"
+          ],
+          "shap_mean_abs": 0.1312188093591939,
+          "shap_share": 0.08308721115210393,
+          "permutation_pr_auc_drop": 0.0684068134000227,
+          "pr_auc": 0.2091707960384146,
+          "pr_auc_drop": 0.013075196408529749,
+          "f1": 0.30769230769230765,
+          "f1_drop": -0.0219780219780219,
+          "recall": 0.6666666666666666,
+          "recall_drop": 0.0,
+          "value_recall_drop": 0.0
+        },
+        {
+          "group": "mechanism",
+          "n_features": 4,
+          "features": [
+            "minutes_since_inflow",
+            "payer_repeat_rate",
+            "one_time_payer_share_30d",
+            "hour_vs_shop_median_30d"
+          ],
+          "shap_mean_abs": 0.07384800215061467,
+          "shap_share": 0.04676025165761983,
+          "permutation_pr_auc_drop": 0.023912505649532866,
+          "pr_auc": 0.2232038468530746,
+          "pr_auc_drop": -0.0009578544061302485,
+          "f1": 0.28571428571428575,
+          "f1_drop": 0.0,
+          "recall": 0.6666666666666666,
+          "recall_drop": 0.0,
+          "value_recall_drop": 0.0
+        }
+      ],
+      "mechanism_features": [
+        {
+          "feature": "payer_repeat_rate",
+          "shap_mean_abs": 0.03897594877233992,
+          "pr_auc_drop": -0.004324494949494939,
+          "f1_drop": -0.0219780219780219,
+          "recall_drop": 0.0
+        },
+        {
+          "feature": "one_time_payer_share_30d",
+          "shap_mean_abs": 0.006310454573285227,
+          "pr_auc_drop": -0.0027926322043968776,
+          "f1_drop": -0.0219780219780219,
+          "recall_drop": 0.0
+        },
+        {
+          "feature": "hour_vs_shop_median_30d",
+          "shap_mean_abs": 0.014165007876150883,
+          "pr_auc_drop": -0.0003607503607503393,
+          "f1_drop": -0.010582010582010526,
+          "recall_drop": 0.0
+        },
+        {
+          "feature": "minutes_since_inflow",
+          "shap_mean_abs": 0.014396590928838635,
+          "pr_auc_drop": 0.0003819709702062857,
+          "f1_drop": -0.010582010582010526,
+          "recall_drop": 0.0
+        }
+      ],
+      "n_features": 47
+    },
+    {
+      "seed": 2026,
+      "n": 2161,
+      "positives": 31,
+      "threshold": 0.2982456140350877,
+      "full": {
+        "pr_auc": 0.17112557940860543,
+        "precision": 0.21311475409836064,
+        "recall": 0.41935483870967744,
+        "f1": 0.28260869565217395,
+        "fpr": 0.022535211267605635,
+        "value_recall": 0.6734266590219485
+      },
+      "groups": [
+        {
+          "group": "amount",
+          "n_features": 8,
+          "features": [
+            "amount",
+            "is_round_100",
+            "is_round_500",
+            "is_round_1000",
+            "just_under_cap",
+            "after_regime_change",
+            "amount_vs_category_median",
+            "payer_day_payments_here"
+          ],
+          "shap_mean_abs": 0.6928620019673771,
+          "shap_share": 0.6001169712575927,
+          "permutation_pr_auc_drop": 0.15143227225162792,
+          "pr_auc": 0.22974042469761863,
+          "pr_auc_drop": -0.0586148452890132,
+          "f1": 0.2058823529411765,
+          "f1_drop": 0.07672634271099746,
+          "recall": 0.22580645161290322,
+          "recall_drop": 0.19354838709677422,
+          "value_recall_drop": 0.07430408369677954
+        },
+        {
+          "group": "timing",
+          "n_features": 3,
+          "features": [
+            "hour",
+            "is_friday",
+            "after_hours"
+          ],
+          "shap_mean_abs": 0.006693332888427363,
+          "shap_share": 0.005797377615190666,
+          "permutation_pr_auc_drop": -0.00400127251581156,
+          "pr_auc": 0.19669362368603355,
+          "pr_auc_drop": -0.02556804427742812,
+          "f1": 0.2988505747126437,
+          "f1_drop": -0.016241879060469755,
+          "recall": 0.41935483870967744,
+          "recall_drop": 0.0,
+          "value_recall_drop": 0.0
+        },
+        {
+          "group": "payer_day",
+          "n_features": 4,
+          "features": [
+            "payer_day_total",
+            "payer_day_shops",
+            "payer_day_total_vs_limit",
+            "near_limit"
+          ],
+          "shap_mean_abs": 0.12623696228837966,
+          "shap_share": 0.10933915159750426,
+          "permutation_pr_auc_drop": 0.07400987842195236,
+          "pr_auc": 0.2045746939235404,
+          "pr_auc_drop": -0.033449114514934986,
+          "f1": 0.3076923076923077,
+          "f1_drop": -0.025083612040133763,
+          "recall": 0.3225806451612903,
+          "recall_drop": 0.09677419354838712,
+          "value_recall_drop": -0.06906015061812698
+        },
+        {
+          "group": "money_in_then_out",
+          "n_features": 6,
+          "features": [
+            "inflow_recent",
+            "paid_share_of_recent_inflow",
+            "remittance_recent",
+            "paid_share_of_recent_remittance",
+            "payer_inflow_7d",
+            "payer_bank_topups_7d"
+          ],
+          "shap_mean_abs": 0.003699238702299761,
+          "shap_share": 0.003204066494741222,
+          "permutation_pr_auc_drop": 0.0002562390528889458,
+          "pr_auc": 0.19175702108009612,
+          "pr_auc_drop": -0.020631441671490697,
+          "f1": 0.2626262626262626,
+          "f1_drop": 0.01998243302591135,
+          "recall": 0.41935483870967744,
+          "recall_drop": 0.0,
+          "value_recall_drop": 0.0002576871291721794
+        },
+        {
+          "group": "who_and_where",
+          "n_features": 4,
+          "features": [
+            "payer_shop_distance_km",
+            "first_visit",
+            "payer_first_visit_share_7d",
+            "far_payer_share_30d"
+          ],
+          "shap_mean_abs": 0.09340735314819154,
+          "shap_share": 0.08090404395869928,
+          "permutation_pr_auc_drop": -0.03077347334814052,
+          "pr_auc": 0.18219815494796868,
+          "pr_auc_drop": -0.01107257553936325,
+          "f1": 0.2388059701492537,
+          "f1_drop": 0.04380272550292025,
+          "recall": 0.25806451612903225,
+          "recall_drop": 0.16129032258064518,
+          "value_recall_drop": 0.061716067436721755
+        },
+        {
+          "group": "payer_history",
+          "n_features": 6,
+          "features": [
+            "on_us",
+            "payer_account_age_days",
+            "payer_payments_7d",
+            "payer_amount_7d",
+            "payer_shop_days_7d",
+            "payer_round_share_7d"
+          ],
+          "shap_mean_abs": 0.014254429809557783,
+          "shap_share": 0.012346362219353651,
+          "permutation_pr_auc_drop": -0.004729198920398692,
+          "pr_auc": 0.16590668159439753,
+          "pr_auc_drop": 0.005218897814207896,
+          "f1": 0.25581395348837205,
+          "f1_drop": 0.0267947421638019,
+          "recall": 0.3548387096774194,
+          "recall_drop": 0.06451612903225806,
+          "value_recall_drop": 0.02480238618281616
+        },
+        {
+          "group": "shop_history",
+          "n_features": 12,
+          "features": [
+            "turnover_7d",
+            "payments_7d",
+            "unique_payers_per_day_7d",
+            "round_1000_share_30d",
+            "after_hours_share_30d",
+            "first_visit_share_30d",
+            "last_day_vs_own_median_30d",
+            "qr_codes_per_account",
+            "turnover_vs_peers_7d",
+            "owner_p2p_senders_7d",
+            "shop_age_days",
+            "is_open"
+          ],
+          "shap_mean_abs": 0.16335625191106284,
+          "shap_share": 0.14148973223310804,
+          "permutation_pr_auc_drop": 0.026380556373848885,
+          "pr_auc": 0.17585281254636095,
+          "pr_auc_drop": -0.0047272331377555266,
+          "f1": 0.3023255813953488,
+          "f1_drop": -0.019716885743174872,
+          "recall": 0.41935483870967744,
+          "recall_drop": 0.0,
+          "value_recall_drop": 0.0
+        },
+        {
+          "group": "mechanism",
+          "n_features": 4,
+          "features": [
+            "minutes_since_inflow",
+            "payer_repeat_rate",
+            "one_time_payer_share_30d",
+            "hour_vs_shop_median_30d"
+          ],
+          "shap_mean_abs": 0.05403535161114624,
+          "shap_share": 0.04680229462381022,
+          "permutation_pr_auc_drop": 0.00831741818699393,
+          "pr_auc": 0.17577777275240994,
+          "pr_auc_drop": -0.0046521933438045115,
+          "f1": 0.25490196078431376,
+          "f1_drop": 0.027706734867860183,
+          "recall": 0.41935483870967744,
+          "recall_drop": 0.0,
+          "value_recall_drop": 0.0
+        }
+      ],
+      "mechanism_features": [
+        {
+          "feature": "payer_repeat_rate",
+          "shap_mean_abs": 0.010187409116574318,
+          "pr_auc_drop": 0.0024037196605484756,
+          "f1_drop": 0.0,
+          "recall_drop": 0.0
+        },
+        {
+          "feature": "one_time_payer_share_30d",
+          "shap_mean_abs": 0.02980184159807418,
+          "pr_auc_drop": -0.0013282483340445184,
+          "f1_drop": 0.013951979234263445,
+          "recall_drop": 0.12903225806451613
+        },
+        {
+          "feature": "hour_vs_shop_median_30d",
+          "shap_mean_abs": 0.0020633803744910654,
+          "pr_auc_drop": -0.00323430680689743,
+          "f1_drop": 0.03260869565217395,
+          "recall_drop": 0.03225806451612906
+        },
+        {
+          "feature": "minutes_since_inflow",
+          "shap_mean_abs": 0.011982720522006675,
+          "pr_auc_drop": 0.005195838336549352,
+          "f1_drop": -0.023273657289002492,
+          "recall_drop": 0.0
+        }
+      ],
+      "n_features": 47
+    }
+  ],
+  "summary": {
+    "groups": [
+      {
+        "group": "amount",
+        "n_features": 8,
+        "features": [
+          "amount",
+          "is_round_100",
+          "is_round_500",
+          "is_round_1000",
+          "just_under_cap",
+          "after_regime_change",
+          "amount_vs_category_median",
+          "payer_day_payments_here"
+        ],
+        "shap_mean_abs_mean": 0.796970438575927,
+        "shap_mean_abs_std": 0.09087319356617087,
+        "shap_share_mean": 0.5755453491103141,
+        "shap_share_std": 0.028176419119362507,
+        "permutation_pr_auc_drop_mean": 0.318227654004558,
+        "permutation_pr_auc_drop_std": 0.2758559821812592,
+        "pr_auc_drop_mean": 0.0014172561238954273,
+        "pr_auc_drop_std": 0.12652565451245373,
+        "f1_drop_mean": 0.0341082964243232,
+        "f1_drop_std": 0.050711770502537674,
+        "recall_drop_mean": 0.08118279569892474,
+        "recall_drop_std": 0.1004714864906524,
+        "value_recall_drop_mean": 0.030802770775774663,
+        "value_recall_drop_std": 0.0387455022288413
+      },
+      {
+        "group": "timing",
+        "n_features": 3,
+        "features": [
+          "hour",
+          "is_friday",
+          "after_hours"
+        ],
+        "shap_mean_abs_mean": 0.019510228680910957,
+        "shap_mean_abs_std": 0.011340545806570144,
+        "shap_share_mean": 0.013355372711635722,
+        "shap_share_std": 0.006588142480764933,
+        "permutation_pr_auc_drop_mean": 0.009342514056619684,
+        "permutation_pr_auc_drop_std": 0.01582134476187629,
+        "pr_auc_drop_mean": -0.004209977034831743,
+        "pr_auc_drop_std": 0.022061653936650227,
+        "f1_drop_mean": -0.001835805261211243,
+        "f1_drop_std": 0.013581546200366777,
+        "recall_drop_mean": 0.0,
+        "recall_drop_std": 0.0,
+        "value_recall_drop_mean": 0.0,
+        "value_recall_drop_std": 0.0
+      },
+      {
+        "group": "payer_day",
+        "n_features": 4,
+        "features": [
+          "payer_day_total",
+          "payer_day_shops",
+          "payer_day_total_vs_limit",
+          "near_limit"
+        ],
+        "shap_mean_abs_mean": 0.1871718701916311,
+        "shap_mean_abs_std": 0.059178668496922986,
+        "shap_share_mean": 0.13221633139619648,
+        "shap_share_std": 0.022715721118038688,
+        "permutation_pr_auc_drop_mean": 0.13075220170802462,
+        "permutation_pr_auc_drop_std": 0.07137601557164966,
+        "pr_auc_drop_mean": 0.00036333429762135566,
+        "pr_auc_drop_std": 0.14619706700952229,
+        "f1_drop_mean": -0.006126150930867204,
+        "f1_drop_std": 0.18054560984035226,
+        "recall_drop_mean": 0.03503584229390679,
+        "recall_drop_std": 0.3334807527521801,
+        "value_recall_drop_mean": -0.03751831839609391,
+        "value_recall_drop_std": 0.382436421660735
+      },
+      {
+        "group": "money_in_then_out",
+        "n_features": 6,
+        "features": [
+          "inflow_recent",
+          "paid_share_of_recent_inflow",
+          "remittance_recent",
+          "paid_share_of_recent_remittance",
+          "payer_inflow_7d",
+          "payer_bank_topups_7d"
+        ],
+        "shap_mean_abs_mean": 0.01038087897949559,
+        "shap_mean_abs_std": 0.006702014824917592,
+        "shap_share_mean": 0.007071544207739671,
+        "shap_share_std": 0.003813945455491917,
+        "permutation_pr_auc_drop_mean": 0.0017566636758393395,
+        "permutation_pr_auc_drop_std": 0.0016995786837647536,
+        "pr_auc_drop_mean": -0.0020117910060131286,
+        "pr_auc_drop_std": 0.016785767848293255,
+        "f1_drop_mean": -0.01703251787171693,
+        "f1_drop_std": 0.055570069978728626,
+        "recall_drop_mean": -0.08333333333333333,
+        "recall_drop_std": 0.14433756729740646,
+        "value_recall_drop_mean": -0.09465956745679173,
+        "value_recall_drop_std": 0.16417839441454263
+      },
+      {
+        "group": "who_and_where",
+        "n_features": 4,
+        "features": [
+          "payer_shop_distance_km",
+          "first_visit",
+          "payer_first_visit_share_7d",
+          "far_payer_share_30d"
+        ],
+        "shap_mean_abs_mean": 0.15147258444576864,
+        "shap_mean_abs_std": 0.05916442053473237,
+        "shap_share_mean": 0.10621449148307151,
+        "shap_share_std": 0.026653532742302973,
+        "permutation_pr_auc_drop_mean": 0.019270452220115097,
+        "permutation_pr_auc_drop_std": 0.06741982688963992,
+        "pr_auc_drop_mean": 0.01651236811599116,
+        "pr_auc_drop_std": 0.05490643034708275,
+        "f1_drop_mean": 0.04316626210733298,
+        "f1_drop_std": 0.07620158215452626,
+        "recall_drop_mean": -0.0184587813620072,
+        "recall_drop_std": 0.16623803131027995,
+        "value_recall_drop_mean": -0.06850338730835409,
+        "value_recall_drop_std": 0.1247933049170424
+      },
+      {
+        "group": "payer_history",
+        "n_features": 6,
+        "features": [
+          "on_us",
+          "payer_account_age_days",
+          "payer_payments_7d",
+          "payer_amount_7d",
+          "payer_shop_days_7d",
+          "payer_round_share_7d"
+        ],
+        "shap_mean_abs_mean": 0.014141932306016984,
+        "shap_mean_abs_std": 0.0016947183199505593,
+        "shap_share_mean": 0.01038366696717159,
+        "shap_share_std": 0.0023034807924522858,
+        "permutation_pr_auc_drop_mean": 0.018965802077773795,
+        "permutation_pr_auc_drop_std": 0.03503639537315984,
+        "pr_auc_drop_mean": 0.007717900940217885,
+        "pr_auc_drop_std": 0.015546921667841586,
+        "f1_drop_mean": 0.005404243860597124,
+        "f1_drop_std": 0.019265508045052962,
+        "recall_drop_mean": 0.02150537634408602,
+        "recall_drop_std": 0.03724840446384682,
+        "value_recall_drop_mean": 0.00826746206093872,
+        "value_recall_drop_std": 0.014319664339193964
+      },
+      {
+        "group": "shop_history",
+        "n_features": 12,
+        "features": [
+          "turnover_7d",
+          "payments_7d",
+          "unique_payers_per_day_7d",
+          "round_1000_share_30d",
+          "after_hours_share_30d",
+          "first_visit_share_30d",
+          "last_day_vs_own_median_30d",
+          "qr_codes_per_account",
+          "turnover_vs_peers_7d",
+          "owner_p2p_senders_7d",
+          "shop_age_days",
+          "is_open"
+        ],
+        "shap_mean_abs_mean": 0.14987867977417782,
+        "shap_mean_abs_std": 0.016683703576426293,
+        "shap_share_mean": 0.11075367489025179,
+        "shap_share_std": 0.029322012564417067,
+        "permutation_pr_auc_drop_mean": 0.06454066486439945,
+        "permutation_pr_auc_drop_std": 0.03638142846219928,
+        "pr_auc_drop_mean": 0.010328386911104964,
+        "pr_auc_drop_std": 0.013887466915566854,
+        "f1_drop_mean": -0.046122617283922716,
+        "f1_drop_std": 0.043792463307005126,
+        "recall_drop_mean": -0.09166666666666667,
+        "recall_drop_std": 0.1587713240271471,
+        "value_recall_drop_mean": -0.11629811629811627,
+        "value_recall_drop_std": 0.20143424625289152
+      },
+      {
+        "group": "mechanism",
+        "n_features": 4,
+        "features": [
+          "minutes_since_inflow",
+          "payer_repeat_rate",
+          "one_time_payer_share_30d",
+          "hour_vs_shop_median_30d"
+        ],
+        "shap_mean_abs_mean": 0.061739036867314356,
+        "shap_mean_abs_std": 0.01061556166379632,
+        "shap_share_mean": 0.04445956923361918,
+        "shap_share_std": 0.004021364071981529,
+        "permutation_pr_auc_drop_mean": 0.01132922190553827,
+        "permutation_pr_auc_drop_std": 0.011380316807947603,
+        "pr_auc_drop_mean": 0.00856017922632025,
+        "pr_auc_drop_std": 0.019771584651897732,
+        "f1_drop_mean": -0.031219189095800848,
+        "f1_drop_std": 0.07928758948055395,
+        "recall_drop_mean": -0.10000000000000002,
+        "recall_drop_std": 0.17320508075688776,
+        "value_recall_drop_mean": -0.1214707530497004,
+        "value_recall_drop_std": 0.21039351591573324
+      }
+    ],
+    "mechanism_features": [
+      {
+        "feature": "payer_repeat_rate",
+        "shap_mean_abs_mean": 0.019797960682477866,
+        "shap_mean_abs_std": 0.01660863886981346,
+        "pr_auc_drop_mean": -0.002486272534657478,
+        "pr_auc_drop_std": 0.004278106129349549,
+        "f1_drop_mean": -0.0073260073260073,
+        "f1_drop_std": 0.012689016905266455,
+        "recall_drop_mean": 0.0,
+        "recall_drop_std": 0.0
+      },
+      {
+        "feature": "one_time_payer_share_30d",
+        "shap_mean_abs_mean": 0.018192755560829294,
+        "shap_mean_abs_std": 0.011748076476338836,
+        "pr_auc_drop_mean": -0.0014766047016560406,
+        "pr_auc_drop_std": 0.0012484778491417762,
+        "f1_drop_mean": 0.0009028068443591905,
+        "f1_drop_std": 0.01988057715292501,
+        "recall_drop_mean": 0.04301075268817204,
+        "recall_drop_std": 0.07449680892769364
+      },
+      {
+        "feature": "hour_vs_shop_median_30d",
+        "shap_mean_abs_mean": 0.00877200662729496,
+        "shap_mean_abs_std": 0.006157150226402807,
+        "pr_auc_drop_mean": -0.002875265827616926,
+        "pr_auc_drop_std": 0.0023556070050571335,
+        "f1_drop_mean": 0.010920382782333149,
+        "f1_drop_std": 0.02159595334313349,
+        "recall_drop_mean": 0.01075268817204302,
+        "recall_drop_std": 0.018624202231923428
+      },
+      {
+        "feature": "minutes_since_inflow",
+        "shap_mean_abs_mean": 0.01497631399671223,
+        "shap_mean_abs_std": 0.0033216164619575086,
+        "pr_auc_drop_mean": -9.250667698842974e-05,
+        "pr_auc_drop_std": 0.005540841408980649,
+        "f1_drop_mean": -0.011285222623671006,
+        "f1_drop_std": 0.01165275337777029,
+        "recall_drop_mean": 0.0,
+        "recall_drop_std": 0.0
+      }
+    ],
+    "n_mean": 1822.6666666666667,
+    "positives_mean": 25.666666666666668
+  },
+  "compute_seconds": 13.400394930999937,
+  "provenance": {
+    "config_hash": "27f58c96532b34bb",
+    "config_hashes": {
+      "world": "931b185832d441ca",
+      "patterns": "c51f9c01b65b75ac",
+      "thresholds": "3663013d2c2f7648",
+      "models": "658eabab92c72e8f",
+      "rules": "aa7843f343905a31"
+    },
+    "git": {
+      "commit": "82235bb",
+      "dirty": true
+    },
+    "model_fingerprint": null
+  }
+}

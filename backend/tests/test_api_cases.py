@@ -40,6 +40,25 @@ def test_case_detail_has_every_part(api):
     assert client.get("/cases/NOPE").status_code == 404
 
 
+def test_peer_trend_is_a_cue_not_a_decision(api):
+    client, store, _ = api
+    shop_id = store.shops.index[0]
+    body = client.get(f"/shops/{shop_id}/peer-trend").json()
+    assert body["available"] is True
+    assert body["shop_id"] == shop_id
+    assert set(row["metric"] for row in body["percentiles"]) == {
+        "turnover_7d",
+        "round_1000_share_30d",
+        "far_payer_share_30d",
+    }
+    assert all(row["en"] and row["bn"] for row in body["percentiles"])
+    assert len(body["history"]) == 14
+    assert len(body["forecast"]) == 7
+    assert "does not block" in body["note_en"]
+    assert "_true_" not in json.dumps(body)
+    assert client.get("/shops/NOPE/peer-trend").status_code == 404
+
+
 def test_shop_endpoint(api):
     client, store, _ = api
     shop_id = store.shops.index[0]

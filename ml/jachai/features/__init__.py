@@ -30,6 +30,9 @@ def build_features(
     joined = joined.merge(payer_day, on=["payer_id", "day"], how="left", validate="m:1")
     shop_cols = [c for c in shop_day.columns if c not in PEER_KEYS]
     joined = joined.merge(shop_day[shop_cols], on=["shop_id", "day"], how="left", validate="m:1")
+    # Usual hour is a shop fact. The model sees how far this payment sits from it.
+    joined["hour_vs_shop_median_30d"] = (joined["hour"] - joined["median_hour_30d"]).abs()
+    joined = joined.drop(columns=["median_hour_30d"])
     return {"payments": joined, "shop_day": shop_day}
 
 
