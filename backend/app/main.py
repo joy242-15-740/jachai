@@ -28,6 +28,7 @@ if os.getenv("JACHAI_CACHED_STORE") == "1":
     from app.cached_store import CachedStore as Store
 else:
     from app.store import Store
+from app.overview import register_overview
 from app.peer_trend import register_peer_trend
 from app.recommend import recommend
 from jachai.explain.brief import build_brief, openai_reworder
@@ -208,6 +209,7 @@ def create_app(settings: Settings | None = None, store: Store | None = None) -> 
     def fairness(request: Request) -> dict:
         return get_store(request).fairness()
 
+    register_overview(app)
     register_peer_trend(app)
     return app
 

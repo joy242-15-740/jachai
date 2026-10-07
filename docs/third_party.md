@@ -41,6 +41,8 @@ datasets.
 | PostCSS | 8.5.28 | MIT | CSS build step for Tailwind |
 | Recharts | 3.10.1 | MIT | Dashboard charts (simulator, timeline) |
 | @fontsource/noto-sans-bengali (Noto Sans Bengali font) | 5.3.0 | OFL-1.1 | Self-hosted Bangla font (works offline) |
+| @fontsource/inter (Inter font) | 5.3.0 | OFL-1.1 | Self-hosted body/UI typeface for the dashboard (PRD typography) |
+| lucide-react | 1.52.0 | ISC | Dashboard icons (navigation, risk chips, shop categories) |
 | @types/react, @types/react-dom, @types/node | 19.3.0 / 19.3.0 / 26.6.4 | MIT | TypeScript type definitions |
 | OpenAI Responses API / GPT-5 mini | Optional service / configured model | Proprietary; OpenAI Service Terms | Optional English analyst-note rewording only; templates work without it and merchant text is never sent |
 | Vercel | Hosted service | Proprietary; Vercel Terms of Service | Hosts the public Next.js dashboard and fast-profile FastAPI demo; the dashboard retains bundled synthetic JSON fallback |

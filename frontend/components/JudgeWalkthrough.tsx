@@ -94,7 +94,7 @@ function steps(f: Facts) {
       title: "Blanket limit vs Jachai",
       href: "/simulator?preset=blanket-vs-jachai",
       cta: "Open the simulator preset",
-      expected: `Same month, same analysts: a Tk 1 lakh blanket limit restricts ${f.blanketHonest ?? "—"} honest shops; Jachai-targeted review restricts ${f.jachaiHonest ?? "—"} (fast demo world).`,
+      expected: `Same month, same analysts: a ৳ 1 lakh blanket limit restricts ${f.blanketHonest ?? "—"} honest shops; Jachai-targeted review restricts ${f.jachaiHonest ?? "—"} (fast demo world).`,
     },
     {
       title: "Evasion: rules drop while Jachai holds",
@@ -144,7 +144,7 @@ export function JudgeWalkthrough() {
       {open && (
         <section
           aria-label="Demo walkthrough"
-          className="glass-panel mb-2 w-full rounded-2xl border border-line bg-panel/95 p-4 shadow-xl"
+          className="card mb-2 w-full p-4 shadow-xl shadow-navy/10"
         >
           <div className="mb-2 flex items-center justify-between">
             <h2 className="font-semibold">Demo walkthrough · 6 steps</h2>
@@ -204,7 +204,7 @@ export function JudgeWalkthrough() {
       <button
         onClick={toggle}
         aria-expanded={open}
-        className="ml-auto block rounded-full bg-ink px-4 py-2 text-sm font-medium text-page shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+        className="btn-primary ml-auto shadow-lg shadow-primary/25"
       >
         {open
           ? "Close walkthrough"

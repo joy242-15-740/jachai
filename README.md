@@ -135,17 +135,20 @@ flowchart LR
   (scores, top-3 reasons in English and Bangla, network neighbourhood, 30-day
   timeline, decision history), `POST /cases/{id}/decision` (clear, monitor,
   educate, convert, restrict, escalate; reason required; append-only SQLite audit
-  log), `POST /simulate` (slider values), `GET /fairness` (false-alarm rate by
+  log), `POST /simulate` (slider values), `GET /overview` (dashboard totals), `GET /fairness` (false-alarm rate by
   area type, shop size, category on validation shops), `GET /metrics` (existing
   reports, nothing recomputed). Interactive docs at `/docs`. The API recommends;
   analysts decide; nothing is blocked automatically.
-- **Analyst dashboard** (done): premium responsive workspace with alert queue,
-  case detail and decision history, merchant-notice preview, interactive
-  five-policy simulator, and a trust center for evidence status, fairness and
-  limitations. The homepage includes animated, data-backed queue, evidence and
-  policy infographics, a custom Jachai icon system, and persistent light and
-  dark themes; reduced-motion preferences are respected. When the API is
-  unavailable the dashboard uses bundled, code-generated fast-profile JSON.
+- **Analyst dashboard** (done): responsive workspace with an overview home
+  (`GET /overview`: seven-day QR volume with the above-threshold share per day,
+  alert bands, ring-linked shops, recent flagged payments, model fingerprint
+  and evidence date), alert queue with a shareable `?band=` filter, case detail
+  and decision history, merchant-notice preview, interactive five-policy
+  simulator, and a trust center for evidence status, fairness and limitations.
+  Light-mode blue design system (Inter for text and numbers, display face for
+  headlines, `frontend/public/logo.svg`); reduced-motion preferences are
+  respected. When the API is unavailable the dashboard uses bundled,
+  code-generated fast-profile JSON.
 
 ## 3. Technology stack
 
@@ -285,9 +288,11 @@ reference outputs. Use it for every development check; fast-profile numbers are
 not results. Reference results come from the normal configs, and multi-seed
 validation from `make validate-full`, which is a long job run only on purpose.
 
-The dashboard follows the device colour preference on first load. Its header
-toggle switches between light and dark mode and saves that choice in the
-browser. Both themes use the same semantic risk colours and glass-style layout.
+The dashboard is light mode only in this phase: blue primary, white cards on a
+soft canvas, and the same semantic band colours (success, warning, danger) on
+every page. Headlines ask for the licensed "Agrandir Grand" face and fall back
+to the bundled Inter when it is not installed; amounts are shown as `৳` with
+comma grouping.
 
 
 - Business rules and world settings live in `configs/*.yaml`, never inside

@@ -44,5 +44,23 @@ export async function postData<T>(path: string, body: unknown): Promise<T> {
   return (await r.json()) as T;
 }
 
-export const taka = (x: number) => `Tk ${Math.round(x).toLocaleString("en-US")}`;
+/** Bangladeshi taka with comma grouping (PRD 6.2): "৳ 12,450". */
+export const taka = (x: number) => `৳ ${Math.round(x).toLocaleString("en-US")}`;
+/** Short axis labels: "৳ 2.5M", "৳ 3M", "৳ 80k". */
+export const takaCompact = (x: number) => {
+  const abs = Math.abs(x);
+  const trim = (v: number) => String(Number(v.toFixed(1)));
+  if (abs >= 1_000_000) return `৳ ${trim(x / 1_000_000)}M`;
+  if (abs >= 1_000) return `৳ ${trim(x / 1_000)}k`;
+  return `৳ ${Math.round(x)}`;
+};
 export const pct = (x: number) => `${Math.round(100 * x)}%`;
+
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+/** "2026-10-15" → "Oct 15" (or "Oct 15, 2026"); no timezone shifting. */
+export function fmtDay(iso: string, withYear = false) {
+  const [y, m, d] = iso.slice(0, 10).split("-").map(Number);
+  return `${MONTHS[(m ?? 1) - 1]} ${d}${withYear ? `, ${y}` : ""}`;
+}
+/** "2026-10-15T21:43:20" → "Oct 15, 21:43". */
+export const fmtStamp = (iso: string) => `${fmtDay(iso)}, ${iso.slice(11, 16)}`;

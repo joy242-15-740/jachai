@@ -64,7 +64,7 @@ function whatHappened(days: TimelineDay[], expectedDaily: number | null): string
 
 function ScoreCard({ title, value, lines, tone }: { title: string; value: string; lines: string[]; tone?: string }) {
   return (
-    <div className={`glass-inset rounded-2xl p-4 ${tone ?? ""}`}>
+    <div className={`card-inset rounded-2xl p-4 ${tone ?? ""}`}>
       <div className="text-xs uppercase tracking-wide text-muted">{title}</div>
       <div className="mt-1 text-2xl font-semibold tabular-nums">{value}</div>
       <ul className="mt-2 space-y-0.5 text-xs text-muted">

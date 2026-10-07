@@ -1,6 +1,7 @@
 "use client";
 
 import { Bar, CartesianGrid, ComposedChart, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { taka } from "@/lib/api";
 import type { TimelineDay } from "@/lib/types";
 
 export function Timeline({ days }: { days: TimelineDay[] }) {
@@ -15,11 +16,11 @@ export function Timeline({ days }: { days: TimelineDay[] }) {
           <YAxis yAxisId="risk" orientation="right" domain={[0, 1]} tick={{ fontSize: 11 }} width={32} />
           <Tooltip
             formatter={(value, name) =>
-              name === "risk" ? Number(value).toFixed(2) : `Tk ${Math.round(Number(value)).toLocaleString("en-US")}`
+              name === "risk" ? Number(value).toFixed(2) : taka(Number(value))
             }
           />
-          <Bar isAnimationActive={false} yAxisId="tk" dataKey="turnover" name="turnover" fill="#0b6e4f" fillOpacity={0.35} radius={[3, 3, 0, 0]} />
-          <Line isAnimationActive={false} yAxisId="risk" dataKey="risk" name="risk" stroke="#b83232" strokeWidth={2} dot={false} />
+          <Bar isAnimationActive={false} yAxisId="tk" dataKey="turnover" name="turnover" fill="#2563EB" fillOpacity={0.45} radius={[3, 3, 0, 0]} />
+          <Line isAnimationActive={false} yAxisId="risk" dataKey="risk" name="risk" stroke="#D33D48" strokeWidth={2} dot={false} />
         </ComposedChart>
       </ResponsiveContainer>
     </div>
