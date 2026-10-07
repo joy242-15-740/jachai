@@ -2,8 +2,8 @@
 
 /* Jachai design tokens (PRD 6.1–6.3): light mode only, blue-first, calm fintech.
    Inter is the main UI font (self-hosted in public/fonts/inter).
-   Agrandir Grand is the display face when present locally; Clash Display is the
-   bundled geometric display webfont in public/fonts/clash-display. */
+   Agrandir Grand (public/Agrandir) is the display face; Clash Display
+   (public/fonts/clash-display) is the fallback display cut. See app/fonts.css. */
 @theme {
   --color-primary: #2563eb;
   --color-navy: #16305b;

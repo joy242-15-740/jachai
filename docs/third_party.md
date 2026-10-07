@@ -42,7 +42,8 @@ datasets.
 | Recharts | 3.10.1 | MIT | Dashboard charts (simulator, timeline) |
 | @fontsource/noto-sans-bengali (Noto Sans Bengali font) | 5.3.0 | OFL-1.1 | Self-hosted Bangla font (works offline) |
 | @fontsource/inter (Inter font) | 5.3.0 | OFL-1.1 | Source of the Inter woff2 files served from frontend/public/fonts/inter (main UI typeface) |
-| Clash Display (Fontshare) | Medium / Semibold / Bold woff2 | OFL-1.1 | Bundled display webfont in frontend/public/fonts/clash-display. Agrandir Grand is the requested display face but cannot be redistributed without a Pangram Pangram web licence |
+| Agrandir (Pangram Pangram) | Free weights: Grand Light / Grand Heavy / Regular / Text Bold otf | Pangram Pangram personal licence (frontend/public/Agrandir/Personal-license-agreement): personal use only, no redistribution or alteration | Display face for headlines and the wordmark, served from frontend/public/Agrandir. A commercial web licence from pangrampangram.com is required before any commercial deployment |
+| Clash Display (Fontshare) | Medium / Semibold / Bold woff2 | OFL-1.1 | Fallback display webfont in frontend/public/fonts/clash-display, used only if the Agrandir files are removed |
 | lucide-react | 1.52.0 | ISC | Dashboard icons (navigation, risk chips, shop categories) |
 | @types/react, @types/react-dom, @types/node | 19.3.0 / 19.3.0 / 26.6.4 | MIT | TypeScript type definitions |
 | OpenAI Responses API / GPT-5 mini | Optional service / configured model | Proprietary; OpenAI Service Terms | Optional English analyst-note rewording only; templates work without it and merchant text is never sent |

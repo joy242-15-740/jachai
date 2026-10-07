@@ -1,8 +1,9 @@
-/* Self-hosted faces from frontend/public/fonts (PRD 6.1).
-   Inter = body / UI / numbers. Agrandir Grand = requested display face
-   (Pangram Pangram; a web licence is required to ship the files, so they
-   are not in this repo). Clash Display (Fontshare, OFL-1.1) is the bundled
-   display webfont so headlines still render as a geometric display cut. */
+/* Self-hosted faces (PRD 6.1).
+   Inter (frontend/public/fonts/inter) = body / UI / numbers.
+   Agrandir Grand (frontend/public/Agrandir, Pangram Pangram free weights under the
+   personal licence next to the files: Light 300 and Heavy 800) = display face for
+   headlines and the wordmark. Clash Display (Fontshare, OFL-1.1) stays as the
+   fallback display cut if the Agrandir files are ever removed. */
 
 @font-face {
   font-family: Inter;
@@ -88,23 +89,35 @@
 @font-face {
   font-family: "Agrandir Grand";
   font-style: normal;
-  font-weight: 500;
+  font-weight: 300 500;
   font-display: swap;
-  src: local("Agrandir Grand Medium"), local("AgrandirGrand-Medium");
+  src: local("Agrandir Grand Light"), local("Agrandir-GrandLight"),
+    url("/Agrandir/Agrandir-GrandLight.otf") format("opentype");
 }
 @font-face {
   font-family: "Agrandir Grand";
   font-style: normal;
-  font-weight: 600;
+  /* Semibold and bold headings both resolve to the Heavy cut: no synthetic bolding. */
+  font-weight: 600 900;
   font-display: swap;
-  src: local("Agrandir Grand Bold"), local("AgrandirGrand-Bold"), local("Agrandir Grand");
+  src: local("Agrandir Grand Heavy"), local("Agrandir-GrandHeavy"),
+    url("/Agrandir/Agrandir-GrandHeavy.otf") format("opentype");
 }
 @font-face {
-  font-family: "Agrandir Grand";
+  font-family: Agrandir;
   font-style: normal;
-  font-weight: 700;
+  font-weight: 400;
   font-display: swap;
-  src: local("Agrandir Grand Bold"), local("AgrandirGrand-Bold"), local("Agrandir Grand");
+  src: local("Agrandir Regular"), local("Agrandir-Regular"),
+    url("/Agrandir/Agrandir-Regular.otf") format("opentype");
+}
+@font-face {
+  font-family: Agrandir;
+  font-style: normal;
+  font-weight: 600 700;
+  font-display: swap;
+  src: local("Agrandir Text Bold"), local("Agrandir-TextBold"),
+    url("/Agrandir/Agrandir-TextBold.otf") format("opentype");
 }
 
 @font-face {

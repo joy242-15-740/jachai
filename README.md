@@ -292,9 +292,11 @@ validation from `make validate-full`, which is a long job run only on purpose.
 The dashboard is light mode only in this phase: blue primary, white cards on a
 soft canvas, and the same semantic band colours (success, warning, danger) on
 every page. Inter (self-hosted in `frontend/public/fonts/inter`) is the main
-UI font. Headlines use Agrandir Grand when that licensed face is installed,
-otherwise the bundled Clash Display webfont in `frontend/public/fonts/clash-display`.
-Amounts are shown as `৳` with comma grouping.
+UI font. Headlines use Agrandir Grand from `frontend/public/Agrandir` (Pangram
+Pangram free weights under the personal licence stored next to them; a commercial
+web licence is needed before commercial use), with the bundled Clash Display
+webfont in `frontend/public/fonts/clash-display` as the fallback. Amounts are
+shown as `৳` with comma grouping.
 
 
 - Business rules and world settings live in `configs/*.yaml`, never inside
