@@ -11,7 +11,7 @@ import numpy as np
 import pandas as pd
 from fastapi import HTTPException, Request
 
-from app.store import ALERT_BANDS, STATUS, _clean
+from app.common import ALERT_BANDS, STATUS, _clean
 
 WINDOW_DAYS = 7
 HISTORY_DAYS = 14

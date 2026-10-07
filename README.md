@@ -145,8 +145,9 @@ flowchart LR
   and evidence date), alert queue with a shareable `?band=` filter, case detail
   and decision history, merchant-notice preview, interactive five-policy
   simulator, and a trust center for evidence status, fairness and limitations.
-  Light-mode blue design system (Inter for text and numbers, display face for
-  headlines, `frontend/public/logo.svg`); reduced-motion preferences are
+  Light-mode blue design system (Inter from `frontend/public/fonts/inter` for
+  text and numbers, Agrandir Grand / Clash Display for headlines,
+  `frontend/public/logo.svg`); reduced-motion preferences are
   respected. When the API is unavailable the dashboard uses bundled,
   code-generated fast-profile JSON.
 
@@ -167,6 +168,7 @@ Evidence and responsible-use documentation:
 - [Data card](docs/data_card.md) — synthetic dataset scope and provenance
 - [Model card](docs/model_card.md) — intended use, evidence and oversight
 - [Limitations](docs/limitations.md) — claim and deployment boundaries
+- [Production plan](docs/production_plan.md) — codebase review findings and the ordered work packages
 
 ## 4. Requirements
 
@@ -290,9 +292,12 @@ validation from `make validate-full`, which is a long job run only on purpose.
 
 The dashboard is light mode only in this phase: blue primary, white cards on a
 soft canvas, and the same semantic band colours (success, warning, danger) on
-every page. Headlines ask for the licensed "Agrandir Grand" face and fall back
-to the bundled Inter when it is not installed; amounts are shown as `৳` with
-comma grouping.
+every page. Inter (self-hosted in `frontend/public/fonts/inter`) is the main
+UI font. Headlines use Agrandir Grand from `frontend/public/Agrandir` (Pangram
+Pangram free weights under the personal licence stored next to them; a commercial
+web licence is needed before commercial use), with the bundled Clash Display
+webfont in `frontend/public/fonts/clash-display` as the fallback. Amounts are
+shown as `৳` with comma grouping.
 
 
 - Business rules and world settings live in `configs/*.yaml`, never inside

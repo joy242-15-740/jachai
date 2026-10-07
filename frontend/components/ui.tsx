@@ -47,7 +47,12 @@ export function Panel({
 export function SourceNote({ source }: { source: Source | null }) {
   if (source !== "demo") return null;
   return (
-    <div className="">
+    <div className="card-inset mb-5 flex items-start gap-3 px-4 py-3 text-sm text-ink" role="status">
+      <Info aria-hidden="true" className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+      <span>
+        <span className="font-semibold">Demo mode.</span> The API is not reachable, so this page shows
+        bundled sample data from the fast synthetic world. Actions are not saved.
+      </span>
     </div>
   );
 }

@@ -11,7 +11,7 @@ from app.settings import Settings
 def client(tmp_path, **kw):
     s = Settings(
         model_dir=tmp_path / "models",
-        world_dir=tmp_path / "world",  
+        world_dir=tmp_path / "world",
         reports_dir=tmp_path / "reports",
         audit_db_path=tmp_path / "audit.sqlite3",
         allowed_origins=["http://localhost:3000"],
