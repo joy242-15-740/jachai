@@ -1,32 +1,39 @@
 "use client";
 
+import { FileText, LayoutDashboard, ListChecks, type LucideIcon, ShieldCheck, SlidersHorizontal } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Icon, type IconName } from "@/components/BrandIcons";
 
-const NAV: { href: string; label: string; icon: IconName }[] = [
-  { href: "/queue", label: "Alert queue", icon: "queue" },
-  { href: "/simulator", label: "Policy simulator", icon: "simulator" },
-  { href: "/notice", label: "Merchant notice", icon: "notice" },
-  { href: "/trust", label: "Trust", icon: "trust" },
+const NAV: { href: string; label: string; icon: LucideIcon }[] = [
+  { href: "/", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/queue", label: "Alert queue", icon: ListChecks },
+  { href: "/simulator", label: "Simulator", icon: SlidersHorizontal },
+  { href: "/notice", label: "Notice", icon: FileText },
+  { href: "/trust", label: "Trust", icon: ShieldCheck },
 ];
 
 export function AppNav() {
   const pathname = usePathname();
   return (
-    <nav className="flex items-center gap-1 overflow-x-auto rounded-full border border-line bg-panel/50 p-1 text-sm shadow-sm backdrop-blur-xl">
-      {NAV.map((item) => {
-        const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
+    <nav
+      aria-label="Primary"
+      className="flex items-center gap-1 overflow-x-auto rounded-full border border-border bg-surface p-1 text-sm"
+    >
+      {NAV.map(({ href, label, icon: Icon }) => {
+        const active =
+          href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(`${href}/`) ||
+          (href === "/queue" && (pathname.startsWith("/cases") || pathname.startsWith("/examples")));
         return (
           <Link
-            key={item.href}
-            href={item.href}
+            key={href}
+            href={href}
+            aria-current={active ? "page" : undefined}
             className={`flex shrink-0 items-center gap-2 rounded-full px-3.5 py-2 font-medium ${
-              active ? "bg-ink text-page shadow-sm" : "text-muted hover:bg-panel hover:text-ink"
+              active ? "bg-primary text-white" : "text-muted hover:bg-canvas hover:text-navy"
             }`}
           >
-            <Icon name={item.icon} className="h-4 w-4" />
-            {item.label}
+            <Icon aria-hidden="true" className="h-4 w-4" />
+            {label}
           </Link>
         );
       })}

@@ -16,7 +16,7 @@ const POLICY_LABEL: Record<string, { short: string; long: string }> = {
 
 interface Sliders {
   misuse_scale: number;
-  fee_per_1000: number; // Tk per Tk 1,000 (fee rate x 1000)
+  fee_per_1000: number; // taka per ৳ 1,000 (fee rate x 1000)
   analyst_capacity_per_day: number;
   limit_level: number;
 }
@@ -69,7 +69,7 @@ function Slider(props: {
         step={props.step}
         value={props.value}
         onChange={(e) => props.onChange(Number(e.target.value))}
-        className="mt-2 w-full accent-[#0b6e4f]"
+        className="mt-2 w-full accent-[#2563EB]"
       />
       <div className="text-xs text-muted">{props.hint}</div>
     </label>
@@ -183,7 +183,7 @@ export default function SimulatorPage() {
               show={(v) => `${Math.round(v * 100)}% of misuse shops`} onChange={set("misuse_scale")}
               hint="Fewer or more shops running hidden cash-outs." />
             <Slider label="Cash-out fee" value={sliders.fee_per_1000} min={13} max={18.5} step={0.5}
-              show={(v) => `Tk ${v.toFixed(2)} per Tk 1,000`} onChange={set("fee_per_1000")}
+              show={(v) => `৳ ${v.toFixed(2)} per ৳ 1,000`} onChange={set("fee_per_1000")}
               hint="Charge earned when cash-out goes through a licensed agent." />
             <Slider label="Analyst capacity" value={sliders.analyst_capacity_per_day} min={0} max={40} step={1}
               show={(v) => `${v} shops/day`} onChange={set("analyst_capacity_per_day")}
@@ -220,9 +220,9 @@ export default function SimulatorPage() {
                   <YAxis tickFormatter={(v) => `${(v / 100000).toFixed(0)} lakh`} width={60} />
                   <Tooltip formatter={(v) => taka(Number(v))} />
                   <Legend />
-                  <Bar dataKey="Stopped" stackId="a" fill="#0b6e4f" />
-                  <Bar dataKey="Rerouted to agents" stackId="a" fill="#4c9f70" />
-                  <Bar dataKey="Still flowing" stackId="a" fill="#cbd2d9" radius={[4, 4, 0, 0]} />
+                  <Bar dataKey="Stopped" stackId="a" fill="#2563EB" />
+                  <Bar dataKey="Rerouted to agents" stackId="a" fill="#93B4F5" />
+                  <Bar dataKey="Still flowing" stackId="a" fill="#DCE4F1" radius={[4, 4, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -237,7 +237,7 @@ export default function SimulatorPage() {
                     <XAxis dataKey="name" />
                     <YAxis allowDecimals={false} width={32} />
                     <Tooltip />
-                    <Bar dataKey="Honest shops restricted" fill="#b83232" radius={[4, 4, 0, 0]} />
+                    <Bar dataKey="Honest shops restricted" fill="#D33D48" radius={[4, 4, 0, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
@@ -250,7 +250,7 @@ export default function SimulatorPage() {
                     <XAxis dataKey="name" />
                     <YAxis tickFormatter={(v) => `${Math.round(v / 1000)}k`} width={40} />
                     <Tooltip formatter={(v) => taka(Number(v))} />
-                    <Bar dataKey="Fees recaptured" fill="#b7791f" radius={[4, 4, 0, 0]} />
+                    <Bar dataKey="Fees recaptured" fill="#D08914" radius={[4, 4, 0, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
               </div>

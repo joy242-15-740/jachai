@@ -118,6 +118,56 @@ export interface SimulateResponse {
   note: string;
 }
 
+export interface OverviewDay {
+  day: string;
+  payments: number;
+  turnover: number;
+  flagged: number;
+  flagged_turnover: number;
+}
+
+export interface Overview {
+  as_of: string;
+  window_days: number;
+  window: { start: string; end: string; previous_start: string };
+  volume: {
+    turnover_7d: number;
+    turnover_previous_7d: number;
+    delta_vs_previous: number | null;
+    payments_7d: number;
+    flagged_7d: number;
+    flagged_turnover_7d: number;
+  };
+  daily: OverviewDay[];
+  shops: {
+    monitored: number;
+    high: number;
+    review: number;
+    low: number;
+    alerts: number;
+    ring_linked: number;
+    with_linking_payers: number;
+    mean_risk: number;
+  };
+  recent_flagged_payments: {
+    payment_id: string;
+    shop_id: string;
+    category: string;
+    ts: string;
+    amount: number;
+    score: number;
+    band: Band;
+    status: string;
+  }[];
+  model: {
+    payment_model_fingerprint: string;
+    payment_threshold: number;
+    fusion_weights: Record<string, number>;
+    evidence_timestamp: string;
+  };
+  note: string;
+}
+
 export interface SimulateGrid {
   axes: { misuse_scale: number[]; analyst_capacity_per_day: number[]; limit_level: number[] };
   runs: SimulateResponse[];

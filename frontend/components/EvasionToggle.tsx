@@ -65,12 +65,12 @@ export function EvasionToggle() {
         }
       >
         <p className="mb-4 text-sm text-muted">
-          Evasion world: misuse payments lowered by Tk 1–99 so none is round, and the system is <strong>not</strong>{" "}
+          Evasion world: misuse payments lowered by ৳ 1–99 so none is round, and the system is <strong>not</strong>{" "}
           retrained. Mean over {seeds} validation seeds, from reports/validation_evaluation.md. Synthetic data.
         </p>
         <div className="grid gap-4 md:grid-cols-3">
           {METRICS.map((m) => (
-            <div key={m.key} className="glass-inset rounded-2xl p-4">
+            <div key={m.key} className="card-inset rounded-2xl p-4">
               <div className="text-xs uppercase tracking-wide text-muted">{m.label}</div>
               {SYSTEMS.map((s) => {
                 const normal = mean(rows, s.normal[0], s.normal[1], m.key);
