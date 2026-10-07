@@ -1,0 +1,788 @@
+{
+  "profile": "fast",
+  "seed": 42,
+  "synthetic_data_only": true,
+  "test_set_touched": false,
+  "validation": {
+    "n": 1416,
+    "positives": 40
+  },
+  "patterns": [
+    {
+      "n": 14,
+      "positives": 14,
+      "flagged": 9,
+      "pr_auc": 1.0,
+      "precision": 1.0,
+      "recall": 0.6428571428571429,
+      "f1": 0.782608695652174,
+      "fpr": null,
+      "value_recall": 0.6326276463262764,
+      "mean_score": 0.650485398699094,
+      "pattern": "round_amount_cash_desk",
+      "kind": "misuse"
+    },
+    {
+      "n": 0,
+      "positives": 0,
+      "flagged": 0,
+      "pr_auc": null,
+      "precision": null,
+      "recall": null,
+      "f1": null,
+      "fpr": null,
+      "value_recall": null,
+      "mean_score": null,
+      "pattern": "remittance_drain",
+      "kind": "misuse"
+    },
+    {
+      "n": 26,
+      "positives": 26,
+      "flagged": 10,
+      "pr_auc": 1.0,
+      "precision": 1.0,
+      "recall": 0.38461538461538464,
+      "f1": 0.5555555555555556,
+      "fpr": null,
+      "value_recall": 0.38816738816738816,
+      "mean_score": 0.43781887687248955,
+      "pattern": "limit_bypass",
+      "kind": "misuse"
+    },
+    {
+      "n": 0,
+      "positives": 0,
+      "flagged": 0,
+      "pr_auc": null,
+      "precision": null,
+      "recall": null,
+      "f1": null,
+      "fpr": null,
+      "value_recall": null,
+      "mean_score": null,
+      "pattern": "incentive_splitting",
+      "kind": "misuse"
+    },
+    {
+      "n": 0,
+      "positives": 0,
+      "flagged": 0,
+      "pr_auc": null,
+      "precision": null,
+      "recall": null,
+      "f1": null,
+      "fpr": null,
+      "value_recall": null,
+      "mean_score": null,
+      "pattern": "p2p_disguise",
+      "kind": "misuse"
+    },
+    {
+      "n": 0,
+      "positives": 0,
+      "flagged": 0,
+      "pr_auc": null,
+      "precision": null,
+      "recall": null,
+      "f1": null,
+      "fpr": null,
+      "value_recall": null,
+      "mean_score": null,
+      "pattern": "turnover_burst",
+      "kind": "misuse"
+    },
+    {
+      "n": 4,
+      "positives": 0,
+      "flagged": 0,
+      "pr_auc": null,
+      "precision": null,
+      "recall": null,
+      "f1": null,
+      "fpr": 0.0,
+      "value_recall": null,
+      "mean_score": 0.21421529833503042,
+      "pattern": "hn_big_ticket_retail",
+      "kind": "look_alike_pattern"
+    },
+    {
+      "n": 4,
+      "positives": 0,
+      "flagged": 0,
+      "pr_auc": null,
+      "precision": null,
+      "recall": null,
+      "f1": null,
+      "fpr": 0.0,
+      "value_recall": null,
+      "mean_score": 0.12049252036885225,
+      "pattern": "hn_grocery_bulk_buy",
+      "kind": "look_alike_pattern"
+    },
+    {
+      "n": 49,
+      "positives": 0,
+      "flagged": 0,
+      "pr_auc": null,
+      "precision": null,
+      "recall": null,
+      "f1": null,
+      "fpr": 0.0,
+      "value_recall": null,
+      "mean_score": 0.0,
+      "pattern": "hn_haat_day_spike",
+      "kind": "look_alike_pattern"
+    },
+    {
+      "n": 22,
+      "positives": 0,
+      "flagged": 0,
+      "pr_auc": null,
+      "precision": null,
+      "recall": null,
+      "f1": null,
+      "fpr": 0.0,
+      "value_recall": null,
+      "mean_score": 0.0,
+      "pattern": "hn_new_shop_ramp",
+      "kind": "look_alike_pattern"
+    },
+    {
+      "n": 2,
+      "positives": 0,
+      "flagged": 0,
+      "pr_auc": null,
+      "precision": null,
+      "recall": null,
+      "f1": null,
+      "fpr": 0.0,
+      "value_recall": null,
+      "mean_score": 0.0,
+      "pattern": "hn_pharmacy_big_bill",
+      "kind": "look_alike_pattern"
+    },
+    {
+      "n": 2,
+      "positives": 0,
+      "flagged": 0,
+      "pr_auc": null,
+      "precision": null,
+      "recall": null,
+      "f1": null,
+      "fpr": 0.0,
+      "value_recall": null,
+      "mean_score": 0.11639559920508188,
+      "pattern": "hn_phone_purchase",
+      "kind": "look_alike_pattern"
+    }
+  ],
+  "lookalikes": [
+    {
+      "n": 15,
+      "positives": 0,
+      "flagged": 0,
+      "pr_auc": null,
+      "precision": null,
+      "recall": null,
+      "f1": null,
+      "fpr": 0.0,
+      "value_recall": null,
+      "mean_score": 0.07343450942824772,
+      "slice": "wholesalers",
+      "honest_payments": 15,
+      "false_positives": 0
+    },
+    {
+      "n": 21,
+      "positives": 0,
+      "flagged": 0,
+      "pr_auc": null,
+      "precision": null,
+      "recall": null,
+      "f1": null,
+      "fpr": 0.0,
+      "value_recall": null,
+      "mean_score": 0.05327890906618384,
+      "slice": "electronics",
+      "honest_payments": 21,
+      "false_positives": 0
+    },
+    {
+      "n": 0,
+      "positives": 0,
+      "flagged": 0,
+      "pr_auc": null,
+      "precision": null,
+      "recall": null,
+      "f1": null,
+      "fpr": null,
+      "value_recall": null,
+      "mean_score": null,
+      "slice": "festival spikes",
+      "honest_payments": 0,
+      "false_positives": 0
+    },
+    {
+      "n": 22,
+      "positives": 0,
+      "flagged": 0,
+      "pr_auc": null,
+      "precision": null,
+      "recall": null,
+      "f1": null,
+      "fpr": 0.0,
+      "value_recall": null,
+      "mean_score": 0.0,
+      "slice": "new shops",
+      "honest_payments": 22,
+      "false_positives": 0
+    }
+  ],
+  "festival_note": "Festival pattern `hn_festival_spike` is configured for 2026-10-16 to 2026-10-21. This profile's calendar ends 2026-10-15. If the festival starts after the calendar, a zero count is the calendar, not a missing check.",
+  "regime": [
+    {
+      "n": 12373,
+      "positives": 188,
+      "flagged": 110,
+      "pr_auc": 0.6603152186306789,
+      "precision": 0.9,
+      "recall": 0.526595744680851,
+      "f1": 0.6644295302013422,
+      "fpr": 0.0009027492819039803,
+      "value_recall": 0.5552159647624613,
+      "mean_score": 0.014150723516510593,
+      "slice": "train shops, before 1 Oct"
+    },
+    {
+      "n": 6827,
+      "positives": 156,
+      "flagged": 60,
+      "pr_auc": 0.6011545648361758,
+      "precision": 0.9333333333333333,
+      "recall": 0.358974358974359,
+      "f1": 0.5185185185185185,
+      "fpr": 0.0005996102533353321,
+      "value_recall": 0.5551726474545754,
+      "mean_score": 0.015448713530601751,
+      "slice": "train shops, on or after 1 Oct"
+    },
+    {
+      "n": 1416,
+      "positives": 40,
+      "flagged": 19,
+      "pr_auc": 0.721183102998139,
+      "precision": 1.0,
+      "recall": 0.475,
+      "f1": 0.6440677966101694,
+      "fpr": 0.0,
+      "value_recall": 0.4135523082891504,
+      "mean_score": 0.017394718654847936,
+      "slice": "validation shops (all after 1 Oct in this profile)"
+    }
+  ],
+  "calibration": [
+    {
+      "lo": 0.0,
+      "hi": 0.1,
+      "n": 1371,
+      "mean_predicted": 8.493070070618664e-05,
+      "observed_misuse_rate": 0.006564551422319475
+    },
+    {
+      "lo": 0.1,
+      "hi": 0.2,
+      "n": 2,
+      "mean_predicted": 0.14365336840966306,
+      "observed_misuse_rate": 0.5
+    },
+    {
+      "lo": 0.2,
+      "hi": 0.30000000000000004,
+      "n": 18,
+      "mean_predicted": 0.23437643080378956,
+      "observed_misuse_rate": 0.5555555555555556
+    },
+    {
+      "lo": 0.30000000000000004,
+      "hi": 0.4,
+      "n": 1,
+      "mean_predicted": 0.34789548637473244,
+      "observed_misuse_rate": 0.0
+    },
+    {
+      "lo": 0.4,
+      "hi": 0.5,
+      "n": 4,
+      "mean_predicted": 0.443982571842283,
+      "observed_misuse_rate": 0.0
+    },
+    {
+      "lo": 0.5,
+      "hi": 0.6000000000000001,
+      "n": 1,
+      "mean_predicted": 0.5512400262317623,
+      "observed_misuse_rate": 1.0
+    },
+    {
+      "lo": 0.6000000000000001,
+      "hi": 0.7000000000000001,
+      "n": 5,
+      "mean_predicted": 0.6666666666666666,
+      "observed_misuse_rate": 1.0
+    },
+    {
+      "lo": 0.7000000000000001,
+      "hi": 0.8,
+      "n": 0,
+      "mean_predicted": null,
+      "observed_misuse_rate": null
+    },
+    {
+      "lo": 0.8,
+      "hi": 0.9,
+      "n": 0,
+      "mean_predicted": null,
+      "observed_misuse_rate": null
+    },
+    {
+      "lo": 0.9,
+      "hi": 1.0,
+      "n": 14,
+      "mean_predicted": 1.0,
+      "observed_misuse_rate": 1.0
+    }
+  ],
+  "shap": {
+    "n_flagged_misuse": 19,
+    "agreed": 19,
+    "share": 1.0,
+    "top1_share": 0.10526315789473684,
+    "by_pattern": [
+      {
+        "pattern": "round_amount_cash_desk",
+        "n": 9,
+        "agreed": 9,
+        "share": 1.0
+      },
+      {
+        "pattern": "remittance_drain",
+        "n": 0,
+        "agreed": 0,
+        "share": null
+      },
+      {
+        "pattern": "limit_bypass",
+        "n": 10,
+        "agreed": 10,
+        "share": 1.0
+      },
+      {
+        "pattern": "incentive_splitting",
+        "n": 0,
+        "agreed": 0,
+        "share": null
+      },
+      {
+        "pattern": "p2p_disguise",
+        "n": 0,
+        "agreed": 0,
+        "share": null
+      },
+      {
+        "pattern": "turnover_burst",
+        "n": 0,
+        "agreed": 0,
+        "share": null
+      }
+    ],
+    "mapping": {
+      "round_amount_cash_desk": [
+        "AFTER_HOURS",
+        "DISTANT_PAYER",
+        "NEW_PAYER",
+        "ONE_TIME_PAYERS",
+        "PAYER_REPEAT",
+        "ROUND_AMOUNT"
+      ],
+      "remittance_drain": [
+        "AFTER_INFLOW",
+        "DISTANT_PAYER",
+        "INFLOW_LAG"
+      ],
+      "limit_bypass": [
+        "NEAR_LIMIT"
+      ],
+      "incentive_splitting": [
+        "JUST_UNDER_CAP"
+      ],
+      "p2p_disguise": [
+        "SHOP_PROFILE"
+      ],
+      "turnover_burst": [
+        "LARGE_FOR_CATEGORY",
+        "SHOP_BUSY"
+      ]
+    }
+  },
+  "false_ring": {
+    "snapshot": "2026-10-07",
+    "n_honest_sharing_zone": 219,
+    "false_rings": 2,
+    "false_ring_rate": 0.0091324200913242,
+    "n_honest_eligible": 221,
+    "n_misuse_eligible": 16,
+    "misuse_ring_rate": 0.4375,
+    "definition": "Denominator: honest non-test shops that share at least one payer with another honest shop in the same zone, using payments before the snapshot. Numerator: those shops whose existing ring_flag is 1."
+  },
+  "llm": {
+    "live_llm_called": false,
+    "key_present_but_unused": false,
+    "n_fixtures": 7,
+    "n_rejected": 6,
+    "reject_rate_on_fixtures": 0.8571428571428571,
+    "fixtures": [
+      {
+        "fixture": "template_against_llm_evidence",
+        "valid": false,
+        "errors": [
+          "numbers absent from evidence: 0.4200"
+        ]
+      },
+      {
+        "fixture": "copies_evidence_numbers",
+        "valid": true,
+        "errors": []
+      },
+      {
+        "fixture": "empty",
+        "valid": false,
+        "errors": [
+          "empty note"
+        ]
+      },
+      {
+        "fixture": "accusation",
+        "valid": false,
+        "errors": [
+          "accusation term: fraud",
+          "accusation term: guilty"
+        ]
+      },
+      {
+        "fixture": "promise",
+        "valid": false,
+        "errors": [
+          "promise: we guarantee",
+          "promise: will be cleared"
+        ]
+      },
+      {
+        "fixture": "invented_number",
+        "valid": false,
+        "errors": [
+          "numbers absent from evidence: 0.9999"
+        ]
+      },
+      {
+        "fixture": "number_word",
+        "valid": false,
+        "errors": [
+          "number words absent from evidence: nine"
+        ]
+      }
+    ],
+    "note": "These are constructed notes, not a sample of production LLM output. The API only validates optional LLM rewording; the template is the fallback."
+  },
+  "peer_trend": {
+    "threshold": 0.6666666666666666,
+    "validation_shop_days_with_a_later_validation_day": 212,
+    "rising_shop_days": 16,
+    "early_warning_shop_days": 16,
+    "early_warning_entered_review": 1,
+    "early_warning_hit_rate": 0.0625,
+    "early_warning_on_misuse_shops": 3,
+    "definition": "Early warning: rising flag (slope > 0 and day-7 forecast at least 0.02 above today's mean payment score) while today's mean score is still under the payment threshold. Entered review: some later validation day, within 7 days and not past validation_end, has a payment score at or above that threshold. Misuse-shop counts use the hidden shop label only as context."
+  },
+  "adversary": [
+    {
+      "round": 0,
+      "name": "No adaptation",
+      "frozen": {
+        "payment": {
+          "n": 1416,
+          "positives": 40,
+          "flagged": 19,
+          "pr_auc": 0.721183102998139,
+          "precision": 1.0,
+          "recall": 0.475,
+          "f1": 0.6440677966101694,
+          "fpr": 0.0,
+          "value_recall": 0.4135523082891504,
+          "mean_score": 0.017394718654847936
+        },
+        "shop": {
+          "n": 53,
+          "positives": 4,
+          "flagged": 4,
+          "pr_auc": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "fpr": 0.0,
+          "value_recall": 1.0,
+          "mean_score": 0.13142977239820555
+        }
+      },
+      "retrained": {
+        "payment": {
+          "n": 1416,
+          "positives": 40,
+          "flagged": 19,
+          "pr_auc": 0.721183102998139,
+          "precision": 1.0,
+          "recall": 0.475,
+          "f1": 0.6440677966101694,
+          "fpr": 0.0,
+          "value_recall": 0.4135523082891504,
+          "mean_score": 0.017394718654847936
+        },
+        "shop": {
+          "n": 53,
+          "positives": 4,
+          "flagged": 4,
+          "pr_auc": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "fpr": 0.0,
+          "value_recall": 1.0,
+          "mean_score": 0.13142977239820555
+        }
+      },
+      "adaptation": {
+        "misuse_payments": null,
+        "payments_moved": 0
+      },
+      "analyst": {
+        "reviewed_shops": 0,
+        "note": "same model as frozen; nothing new to retrain on"
+      }
+    },
+    {
+      "round": 1,
+      "name": "Drop round amounts",
+      "adaptation": {
+        "misuse_payments": 1546,
+        "payments_moved": 0
+      },
+      "analyst": {
+        "reviewed_shops": 20,
+        "misuse_cleared": 1,
+        "honest_convicted": 3
+      },
+      "frozen": {
+        "payment": {
+          "n": 1416,
+          "positives": 40,
+          "flagged": 7,
+          "pr_auc": 0.4172147149347128,
+          "precision": 1.0,
+          "recall": 0.175,
+          "f1": 0.2978723404255319,
+          "fpr": 0.0,
+          "value_recall": 0.21997489950708451,
+          "mean_score": 0.009799356539305006
+        },
+        "shop": {
+          "n": 53,
+          "positives": 4,
+          "flagged": 2,
+          "pr_auc": 1.0,
+          "precision": 1.0,
+          "recall": 0.5,
+          "f1": 0.6666666666666666,
+          "fpr": 0.0,
+          "value_recall": 0.6980884524381349,
+          "mean_score": 0.11011701658731475
+        }
+      },
+      "retrained": {
+        "payment": {
+          "n": 1416,
+          "positives": 40,
+          "flagged": 140,
+          "pr_auc": 0.2857142857142857,
+          "precision": 0.2857142857142857,
+          "recall": 1.0,
+          "f1": 0.4444444444444445,
+          "fpr": 0.07267441860465117,
+          "value_recall": 1.0,
+          "mean_score": 0.0005715662634643611
+        },
+        "shop": {
+          "n": 53,
+          "positives": 4,
+          "flagged": 21,
+          "pr_auc": 0.19047619047619047,
+          "precision": 0.19047619047619047,
+          "recall": 1.0,
+          "f1": 0.32,
+          "fpr": 0.3469387755102041,
+          "value_recall": 1.0,
+          "mean_score": 0.0022771633051398826
+        }
+      }
+    },
+    {
+      "round": 2,
+      "name": "Drop round amounts, and move about half the misuse payments to other shops",
+      "adaptation": {
+        "misuse_payments": 1546,
+        "payments_moved": 766
+      },
+      "analyst": {
+        "reviewed_shops": 43,
+        "misuse_cleared": 7,
+        "honest_convicted": 0
+      },
+      "frozen": {
+        "payment": {
+          "n": 1416,
+          "positives": 40,
+          "flagged": 4,
+          "pr_auc": 0.5731040420659066,
+          "precision": 1.0,
+          "recall": 0.1,
+          "f1": 0.18181818181818182,
+          "fpr": 0.0,
+          "value_recall": 0.1487426626060135,
+          "mean_score": 0.012387934379576294
+        },
+        "shop": {
+          "n": 53,
+          "positives": 14,
+          "flagged": 4,
+          "pr_auc": 0.950892857142857,
+          "precision": 1.0,
+          "recall": 0.2857142857142857,
+          "f1": 0.4444444444444445,
+          "fpr": 0.0,
+          "value_recall": 0.48890306341262574,
+          "mean_score": 0.2044950486393845
+        }
+      },
+      "retrained": {
+        "payment": {
+          "n": 1416,
+          "positives": 40,
+          "flagged": 1,
+          "pr_auc": 0.4350153013182674,
+          "precision": 1.0,
+          "recall": 0.025,
+          "f1": 0.04878048780487806,
+          "fpr": 0.0,
+          "value_recall": 0.01900115213665433,
+          "mean_score": 0.010483710599238255
+        },
+        "shop": {
+          "n": 53,
+          "positives": 14,
+          "flagged": 1,
+          "pr_auc": 0.7054892397210456,
+          "precision": 1.0,
+          "recall": 0.07142857142857142,
+          "f1": 0.13333333333333333,
+          "fpr": 0.0,
+          "value_recall": 0.057823219429425164,
+          "mean_score": 0.15384202765535362
+        }
+      }
+    },
+    {
+      "round": 3,
+      "name": "Also cut misuse amounts in half",
+      "adaptation": {
+        "misuse_payments": 1546,
+        "payments_moved": 769
+      },
+      "analyst": {
+        "reviewed_shops": 30,
+        "misuse_cleared": 3,
+        "honest_convicted": 0
+      },
+      "frozen": {
+        "payment": {
+          "n": 1416,
+          "positives": 40,
+          "flagged": 2,
+          "pr_auc": 0.3564234119431029,
+          "precision": 1.0,
+          "recall": 0.05,
+          "f1": 0.09523809523809523,
+          "fpr": 0.0,
+          "value_recall": 0.07776356963894,
+          "mean_score": 0.00803363928286236
+        },
+        "shop": {
+          "n": 53,
+          "positives": 17,
+          "flagged": 2,
+          "pr_auc": 0.6955755556111887,
+          "precision": 1.0,
+          "recall": 0.11764705882352941,
+          "f1": 0.21052631578947367,
+          "fpr": 0.0,
+          "value_recall": 0.22960971183712936,
+          "mean_score": 0.14906131762189054
+        }
+      },
+      "retrained": {
+        "payment": {
+          "n": 1416,
+          "positives": 40,
+          "flagged": 300,
+          "pr_auc": 0.09098305084745764,
+          "precision": 0.10666666666666667,
+          "recall": 0.8,
+          "f1": 0.18823529411764706,
+          "fpr": 0.19476744186046513,
+          "value_recall": 0.8385106405098296,
+          "mean_score": 0.0006539024900606821
+        },
+        "shop": {
+          "n": 53,
+          "positives": 17,
+          "flagged": 44,
+          "pr_auc": 0.38636363636363635,
+          "precision": 0.38636363636363635,
+          "recall": 1.0,
+          "f1": 0.5573770491803279,
+          "fpr": 0.75,
+          "value_recall": 1.0,
+          "mean_score": 0.0025623107384113684
+        }
+      }
+    }
+  ],
+  "noise": {
+    "misuse_cleared": 0.15,
+    "honest_convicted": 0.05
+  },
+  "compute_seconds": 11.111698783000065,
+  "provenance": {
+    "config_hash": "27f58c96532b34bb",
+    "config_hashes": {
+      "world": "931b185832d441ca",
+      "patterns": "c51f9c01b65b75ac",
+      "thresholds": "3663013d2c2f7648",
+      "models": "658eabab92c72e8f",
+      "rules": "aa7843f343905a31"
+    },
+    "git": {
+      "commit": "82235bb",
+      "dirty": true
+    },
+    "model_fingerprint": null
+  }
+}

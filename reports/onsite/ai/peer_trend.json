@@ -1,0 +1,15 @@
+{
+  "profile": "fast",
+  "seed": 42,
+  "test_set_touched": false,
+  "peer_trend": {
+    "threshold": 0.6666666666666666,
+    "validation_shop_days_with_a_later_validation_day": 212,
+    "rising_shop_days": 16,
+    "early_warning_shop_days": 16,
+    "early_warning_entered_review": 1,
+    "early_warning_hit_rate": 0.0625,
+    "early_warning_on_misuse_shops": 3,
+    "definition": "Early warning: rising flag (slope > 0 and day-7 forecast at least 0.02 above today's mean payment score) while today's mean score is still under the payment threshold. Entered review: some later validation day, within 7 days and not past validation_end, has a payment score at or above that threshold. Misuse-shop counts use the hidden shop label only as context."
+  }
+}

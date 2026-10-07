@@ -1,0 +1,270 @@
+{
+  "profile": "fast",
+  "seed": 42,
+  "test_set_touched": false,
+  "noise": {
+    "misuse_cleared": 0.15,
+    "honest_convicted": 0.05
+  },
+  "adversary": [
+    {
+      "round": 0,
+      "name": "No adaptation",
+      "frozen": {
+        "payment": {
+          "n": 1416,
+          "positives": 40,
+          "flagged": 19,
+          "pr_auc": 0.721183102998139,
+          "precision": 1.0,
+          "recall": 0.475,
+          "f1": 0.6440677966101694,
+          "fpr": 0.0,
+          "value_recall": 0.4135523082891504,
+          "mean_score": 0.017394718654847936
+        },
+        "shop": {
+          "n": 53,
+          "positives": 4,
+          "flagged": 4,
+          "pr_auc": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "fpr": 0.0,
+          "value_recall": 1.0,
+          "mean_score": 0.13142977239820555
+        }
+      },
+      "retrained": {
+        "payment": {
+          "n": 1416,
+          "positives": 40,
+          "flagged": 19,
+          "pr_auc": 0.721183102998139,
+          "precision": 1.0,
+          "recall": 0.475,
+          "f1": 0.6440677966101694,
+          "fpr": 0.0,
+          "value_recall": 0.4135523082891504,
+          "mean_score": 0.017394718654847936
+        },
+        "shop": {
+          "n": 53,
+          "positives": 4,
+          "flagged": 4,
+          "pr_auc": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "fpr": 0.0,
+          "value_recall": 1.0,
+          "mean_score": 0.13142977239820555
+        }
+      },
+      "adaptation": {
+        "misuse_payments": null,
+        "payments_moved": 0
+      },
+      "analyst": {
+        "reviewed_shops": 0,
+        "note": "same model as frozen; nothing new to retrain on"
+      }
+    },
+    {
+      "round": 1,
+      "name": "Drop round amounts",
+      "adaptation": {
+        "misuse_payments": 1546,
+        "payments_moved": 0
+      },
+      "analyst": {
+        "reviewed_shops": 20,
+        "misuse_cleared": 1,
+        "honest_convicted": 3
+      },
+      "frozen": {
+        "payment": {
+          "n": 1416,
+          "positives": 40,
+          "flagged": 7,
+          "pr_auc": 0.4172147149347128,
+          "precision": 1.0,
+          "recall": 0.175,
+          "f1": 0.2978723404255319,
+          "fpr": 0.0,
+          "value_recall": 0.21997489950708451,
+          "mean_score": 0.009799356539305006
+        },
+        "shop": {
+          "n": 53,
+          "positives": 4,
+          "flagged": 2,
+          "pr_auc": 1.0,
+          "precision": 1.0,
+          "recall": 0.5,
+          "f1": 0.6666666666666666,
+          "fpr": 0.0,
+          "value_recall": 0.6980884524381349,
+          "mean_score": 0.11011701658731475
+        }
+      },
+      "retrained": {
+        "payment": {
+          "n": 1416,
+          "positives": 40,
+          "flagged": 140,
+          "pr_auc": 0.2857142857142857,
+          "precision": 0.2857142857142857,
+          "recall": 1.0,
+          "f1": 0.4444444444444445,
+          "fpr": 0.07267441860465117,
+          "value_recall": 1.0,
+          "mean_score": 0.0005715662634643611
+        },
+        "shop": {
+          "n": 53,
+          "positives": 4,
+          "flagged": 21,
+          "pr_auc": 0.19047619047619047,
+          "precision": 0.19047619047619047,
+          "recall": 1.0,
+          "f1": 0.32,
+          "fpr": 0.3469387755102041,
+          "value_recall": 1.0,
+          "mean_score": 0.0022771633051398826
+        }
+      }
+    },
+    {
+      "round": 2,
+      "name": "Drop round amounts, and move about half the misuse payments to other shops",
+      "adaptation": {
+        "misuse_payments": 1546,
+        "payments_moved": 766
+      },
+      "analyst": {
+        "reviewed_shops": 43,
+        "misuse_cleared": 7,
+        "honest_convicted": 0
+      },
+      "frozen": {
+        "payment": {
+          "n": 1416,
+          "positives": 40,
+          "flagged": 4,
+          "pr_auc": 0.5731040420659066,
+          "precision": 1.0,
+          "recall": 0.1,
+          "f1": 0.18181818181818182,
+          "fpr": 0.0,
+          "value_recall": 0.1487426626060135,
+          "mean_score": 0.012387934379576294
+        },
+        "shop": {
+          "n": 53,
+          "positives": 14,
+          "flagged": 4,
+          "pr_auc": 0.950892857142857,
+          "precision": 1.0,
+          "recall": 0.2857142857142857,
+          "f1": 0.4444444444444445,
+          "fpr": 0.0,
+          "value_recall": 0.48890306341262574,
+          "mean_score": 0.2044950486393845
+        }
+      },
+      "retrained": {
+        "payment": {
+          "n": 1416,
+          "positives": 40,
+          "flagged": 1,
+          "pr_auc": 0.4350153013182674,
+          "precision": 1.0,
+          "recall": 0.025,
+          "f1": 0.04878048780487806,
+          "fpr": 0.0,
+          "value_recall": 0.01900115213665433,
+          "mean_score": 0.010483710599238255
+        },
+        "shop": {
+          "n": 53,
+          "positives": 14,
+          "flagged": 1,
+          "pr_auc": 0.7054892397210456,
+          "precision": 1.0,
+          "recall": 0.07142857142857142,
+          "f1": 0.13333333333333333,
+          "fpr": 0.0,
+          "value_recall": 0.057823219429425164,
+          "mean_score": 0.15384202765535362
+        }
+      }
+    },
+    {
+      "round": 3,
+      "name": "Also cut misuse amounts in half",
+      "adaptation": {
+        "misuse_payments": 1546,
+        "payments_moved": 769
+      },
+      "analyst": {
+        "reviewed_shops": 30,
+        "misuse_cleared": 3,
+        "honest_convicted": 0
+      },
+      "frozen": {
+        "payment": {
+          "n": 1416,
+          "positives": 40,
+          "flagged": 2,
+          "pr_auc": 0.3564234119431029,
+          "precision": 1.0,
+          "recall": 0.05,
+          "f1": 0.09523809523809523,
+          "fpr": 0.0,
+          "value_recall": 0.07776356963894,
+          "mean_score": 0.00803363928286236
+        },
+        "shop": {
+          "n": 53,
+          "positives": 17,
+          "flagged": 2,
+          "pr_auc": 0.6955755556111887,
+          "precision": 1.0,
+          "recall": 0.11764705882352941,
+          "f1": 0.21052631578947367,
+          "fpr": 0.0,
+          "value_recall": 0.22960971183712936,
+          "mean_score": 0.14906131762189054
+        }
+      },
+      "retrained": {
+        "payment": {
+          "n": 1416,
+          "positives": 40,
+          "flagged": 300,
+          "pr_auc": 0.09098305084745764,
+          "precision": 0.10666666666666667,
+          "recall": 0.8,
+          "f1": 0.18823529411764706,
+          "fpr": 0.19476744186046513,
+          "value_recall": 0.8385106405098296,
+          "mean_score": 0.0006539024900606821
+        },
+        "shop": {
+          "n": 53,
+          "positives": 17,
+          "flagged": 44,
+          "pr_auc": 0.38636363636363635,
+          "precision": 0.38636363636363635,
+          "recall": 1.0,
+          "f1": 0.5573770491803279,
+          "fpr": 0.75,
+          "value_recall": 1.0,
+          "mean_score": 0.0025623107384113684
+        }
+      }
+    }
+  ]
+}

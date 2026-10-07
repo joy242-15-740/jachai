@@ -33,6 +33,12 @@ payment_features:
   SHOP_NIGHT: [after_hours_share_30d]
   SHOP_STRANGERS: [first_visit_share_30d]
   SHOP_PROFILE: [qr_codes_per_account, shop_age_days, is_open, owner_p2p_senders_7d]
+  # Finer versions of stories the groups above already touch. Kept as their own
+  # codes so an ablation can drop them without dropping the older columns.
+  PAYER_REPEAT: [payer_repeat_rate]
+  ONE_TIME_PAYERS: [one_time_payer_share_30d]
+  TIME_OF_DAY: [hour_vs_shop_median_30d]
+  INFLOW_LAG: [minutes_since_inflow]
 
 shop_components:
   payment_top3_7d: PAYMENT_RISK
@@ -111,3 +117,15 @@ templates:
   DISTANT_PAYERS:
     en: "{distant_pct}% of its payers in the last 30 days live far away."
     bn: "গত ৩০ দিনে এর {distant_pct}% গ্রাহক দূরে থাকেন।"
+  PAYER_REPEAT:
+    en: "This payer's past payments are concentrated at shops they already use."
+    bn: "এই গ্রাহকের আগের পেমেন্ট আগে ব্যবহার করা দোকানেই ঘনীভূত।"
+  ONE_TIME_PAYERS:
+    en: "Many of this shop's recent payers paid only once."
+    bn: "এই দোকানের সাম্প্রতিক অনেক গ্রাহক একবারই পেমেন্ট করেছেন।"
+  TIME_OF_DAY:
+    en: "This payment is at an unusual time of day for this shop."
+    bn: "এই পেমেন্ট এই দোকানের স্বাভাবিক দিনের সময়ের বাইরে।"
+  INFLOW_LAG:
+    en: "Short gap between a top-up or remittance and this payment."
+    bn: "অ্যাড-মানি বা রেমিট্যান্সের পর এই পেমেন্টের ব্যবধান কম।"

@@ -84,6 +84,8 @@ ablation:
     who_and_where: [DISTANT_PAYER, NEW_PAYER]
     payer_history: [PAYER_HISTORY]
     shop_history: [SHOP_BUSY, SHOP_ROUND, SHOP_NIGHT, SHOP_STRANGERS, SHOP_PROFILE]
+    # Judge mechanism features, separate so their ablation is not mixed into the groups above.
+    mechanism: [PAYER_REPEAT, ONE_TIME_PAYERS, TIME_OF_DAY, INFLOW_LAG]
   # Fusion component groups.
   fusion_groups:
     payment: [payment_top3_7d, payment_flag_share_7d]

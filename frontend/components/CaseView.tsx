@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { type ReactNode, useEffect, useMemo, useState } from "react";
 import { NetworkGraph } from "@/components/NetworkGraph";
+import { PeerTrendPanel } from "@/components/PeerTrendPanel";
 import { Timeline } from "@/components/Timeline";
 import { BandBadge, PageTitle, Panel, SourceNote } from "@/components/ui";
 import { pct, postData, taka, type Source } from "@/lib/api";
@@ -227,6 +228,9 @@ export function CaseView({
             value={fmt(c.rules_flags_30d, 0)}
             lines={["Payments the fixed rules flagged, last 30 days", "Shown on its own: rules are one input, not the verdict"]}
           />
+        </div>
+        <div className="mt-4">
+          <PeerTrendPanel shopId={id} />
         </div>
         <div className="mt-4">
           <Panel title="Riskiest recent payments">

@@ -24,6 +24,29 @@ from jachai.world.world import public_view
 KEYS = ["payment_id", "ts", "payer_id", "shop_id"]
 
 
+def _minutes_since_last(events: pd.DataFrame, who: str, at: pd.DataFrame, name: str) -> pd.Series:
+    """Minutes from the latest event at or before each row. NaN when there is none.
+
+    `at` may use the event itself when it is in `events`. Nothing after `at.ts` is used.
+    """
+    if events.empty:
+        return pd.Series(np.nan, index=at.index, name=name)
+    ev = events[[who, "ts"]].astype({"ts": "datetime64[ns]"})
+    ev = ev.sort_values("ts", kind="stable").rename(columns={"ts": "ts_event"})
+    query = at[[who, "ts"]].astype({"ts": "datetime64[ns]"}).reset_index(names="_row")
+    merged = pd.merge_asof(
+        query.sort_values("ts"),
+        ev,
+        left_on="ts",
+        right_on="ts_event",
+        by=who,
+        direction="backward",
+        allow_exact_matches=True,
+    )
+    minutes = (merged["ts"] - merged["ts_event"]).dt.total_seconds() / 60.0
+    return minutes.set_axis(merged["_row"]).reindex(at.index).rename(name)
+
+
 def _window_sum(
     events: pd.DataFrame, who: str, at: pd.DataFrame, window: pd.Timedelta, name: str
 ) -> pd.Series:
@@ -131,6 +154,9 @@ def build_payment_features(
     f["paid_share_of_recent_remittance"] = np.where(
         remit > 0, np.minimum(outflow / remit.where(remit > 0), 2.0), 0.0
     )
+    # Lag from the latest add-money or remittance at or before this payment.
+    # Distinct from the windowed sums above: those say how much arrived, this says how soon.
+    f["minutes_since_inflow"] = _minutes_since_last(inflows, "payer_id", qr, "minutes_since_inflow")
 
     # --- Who and where ------------------------------------------------------------
     px = qr["payer_id"].map(customers["x_km"])
@@ -139,6 +165,13 @@ def build_payment_features(
     sy = qr["shop_id"].map(shops["y_km"])
     f["payer_shop_distance_km"] = np.hypot(px - sx, py - sy).round(2)
     f["first_visit"] = (qr.groupby(["payer_id", "shop_id"]).cumcount() == 0).astype(np.int8)
+    # Share of this payer's earlier payments that were already at this shop.
+    # 0 on the payer's first ever payment. Uses only rows before this one (cumcount).
+    prior_here = qr.groupby(["payer_id", "shop_id"], sort=False).cumcount().to_numpy()
+    prior_any = qr.groupby("payer_id", sort=False).cumcount().to_numpy()
+    repeat = np.zeros(len(qr), dtype=float)
+    np.divide(prior_here, prior_any, out=repeat, where=prior_any > 0)
+    f["payer_repeat_rate"] = repeat
     opened = qr["payer_id"].map(customers["account_opened_on"])
     f["payer_account_age_days"] = (qr["ts"] - opened).dt.days
     return f
