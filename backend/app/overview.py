@@ -123,6 +123,7 @@ def overview_payload(store) -> dict:
             "low": int(bands.get("low", 0)),
             "alerts": int(bands.get("high", 0) + bands.get("review", 0)),
             "ring_linked": int(ring.sum()),
+            "ring_linked_alerts": int((ring & latest["band"].isin(ALERT_BANDS)).sum()),
             "with_linking_payers": int((linking > 0).sum()),
             "mean_risk": round(float(latest["risk"].mean()), 4),
         },

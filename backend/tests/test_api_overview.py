@@ -17,6 +17,7 @@ def test_overview_matches_queue_and_timelines(api):
     assert shops["alerts"] == cases["count"] == shops["high"] + shops["review"]
     assert shops["monitored"] == shops["high"] + shops["review"] + shops["low"]
     assert 0 <= shops["ring_linked"] <= shops["monitored"]
+    assert 0 <= shops["ring_linked_alerts"] <= min(shops["ring_linked"], shops["alerts"])
 
     # Seven-day totals are the sum of the last seven daily rows.
     last7 = body["daily"][-7:]

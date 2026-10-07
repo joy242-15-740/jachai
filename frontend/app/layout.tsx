@@ -38,7 +38,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                 className="relative grid h-10 w-10 place-items-center rounded-full border border-border bg-surface text-muted hover:text-primary"
               >
                 <Bell aria-hidden="true" className="h-4 w-4" />
-                <span className="absolute right-2.5 top-2.5 h-1.5 w-1.5 rounded-full bg-danger" />
               </Link>
               <span
                 className="flex h-10 items-center gap-2 rounded-full border border-border bg-surface py-1 pl-1 pr-3 text-xs font-medium text-navy"

@@ -146,6 +146,7 @@ export interface Overview {
     low: number;
     alerts: number;
     ring_linked: number;
+    ring_linked_alerts: number;
     with_linking_payers: number;
     mean_risk: number;
   };

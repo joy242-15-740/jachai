@@ -20,13 +20,43 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { CategoryIcon, categoryLabel } from "@/components/Brand";
 import { BandBadge, SourceNote, SyntheticBadge } from "@/components/ui";
-import { API_BASE, fmtDay, fmtStamp, getData, pct, type Source, taka, takaCompact } from "@/lib/api";
-import type { Band, Overview as OverviewData } from "@/lib/types";
+import { API_BASE, fmtDay, fmtStamp, getData, pct, postData, type Source, taka, takaCompact } from "@/lib/api";
+import type { Band, Overview as OverviewData, PolicyResult, SimulateGrid, SimulateResponse } from "@/lib/types";
 
 // The overview home. Every figure comes from GET /overview (or its exported demo
-// JSON); the only things computed here are percentages and chart scales.
+// JSON) and, for the simulator tile, POST /simulate (or the exported demo grid);
+// the only things computed here are percentages and chart scales.
 
 type BandFilter = "all" | Band;
+
+const POLICY_NAME: Record<PolicyResult["policy"], string> = {
+  A: "Do nothing",
+  B: "Blanket limit",
+  C: "Rules only",
+  D: "Jachai targeted",
+  E: "Jachai + convert",
+};
+
+/** Default-settings policy replay: live API, else the matching pre-computed demo run. */
+async function loadPolicies(): Promise<PolicyResult[]> {
+  try {
+    return (await postData<SimulateResponse>("/simulate", {})).results;
+  } catch {
+    const response = await fetch("/demo/simulate-grid.json");
+    if (!response.ok) return [];
+    const grid = (await response.json()) as SimulateGrid;
+    const preferred = grid.runs.find(
+      (run) =>
+        run.params.misuse_scale === 1 &&
+        run.params.analyst_capacity_per_day === 20 &&
+        run.params.limit_level === 100000,
+    );
+    return (preferred ?? grid.runs[0])?.results ?? [];
+  }
+}
+
+const handled = (r: PolicyResult) =>
+  r.misuse_taka_total ? (r.misuse_taka_stopped + r.misuse_taka_rerouted) / r.misuse_taka_total : 0;
 
 function greetingFor(hour: number) {
   if (hour < 12) return "Good morning";
@@ -34,12 +64,16 @@ function greetingFor(hour: number) {
   return "Good evening";
 }
 
-/** Axis ceiling: 1, 2, 2.5, 5 × 10^n just above the largest bar. */
-function niceMax(max: number) {
-  if (max <= 0) return 1;
-  const power = 10 ** Math.floor(Math.log10(max));
-  const steps = [1, 2, 2.5, 5, 10];
-  return (steps.find((s) => s * power >= max) ?? 10) * power;
+/** Round axis: a 1 / 2 / 2.5 / 5 × 10^n step, about four steps up to the top. */
+function niceAxis(max: number): { top: number; ticks: number[] } {
+  if (max <= 0) return { top: 1, ticks: [0, 1] };
+  const rough = max / 4;
+  const power = 10 ** Math.floor(Math.log10(rough));
+  const step = ([1, 2, 2.5, 5, 10].find((s) => s * power >= rough) ?? 10) * power;
+  const top = Math.ceil(max / step) * step;
+  const ticks = [];
+  for (let v = 0; v <= top + step / 2; v += step) ticks.push(v);
+  return { top, ticks };
 }
 
 function Delta({ value, suffix, onBlue = false }: { value: number | null; suffix: string; onBlue?: boolean }) {
@@ -60,8 +94,7 @@ function Delta({ value, suffix, onBlue = false }: { value: number | null; suffix
 
 function VolumeCard({ data, source }: { data: OverviewData; source: Source | null }) {
   const days = data.daily.slice(-data.window_days);
-  const top = niceMax(Math.max(...days.map((d) => d.turnover)));
-  const ticks = [1, 0.75, 0.5, 0.25, 0];
+  const { top, ticks } = niceAxis(Math.max(...days.map((d) => d.turnover)));
   const last = days[days.length - 1];
   const before = days[days.length - 2];
   const dayDelta = before && before.turnover ? (last.turnover - before.turnover) / before.turnover : null;
@@ -103,14 +136,14 @@ function VolumeCard({ data, source }: { data: OverviewData; source: Source | nul
       <div className="mt-6 grid grid-cols-[2.6rem_1fr] gap-x-2">
         <div className="relative h-44 text-[10px] text-white/70">
           {ticks.map((t) => (
-            <span key={t} className="absolute right-0 -translate-y-1/2 tabular-nums" style={{ top: `${(1 - t) * 100}%` }}>
-              {t === 0 ? "0" : takaCompact(top * t).replace("৳ ", "")}
+            <span key={t} className="absolute right-0 -translate-y-1/2 tabular-nums" style={{ top: `${(1 - t / top) * 100}%` }}>
+              {t === 0 ? "0" : takaCompact(t).replace("৳ ", "")}
             </span>
           ))}
         </div>
         <div className="relative h-44">
           {ticks.map((t) => (
-            <div key={t} className="absolute inset-x-0 border-t border-white/15" style={{ top: `${(1 - t) * 100}%` }} />
+            <div key={t} className="absolute inset-x-0 border-t border-white/15" style={{ top: `${(1 - t / top) * 100}%` }} />
           ))}
           <ol className="absolute inset-0 grid items-end gap-2 sm:gap-3" style={{ gridTemplateColumns: `repeat(${days.length}, minmax(0, 1fr))` }}>
             {days.map((d, i) => {
@@ -307,18 +340,70 @@ function RecentPayments({ data }: { data: OverviewData }) {
   );
 }
 
+/** One bar split into labelled parts (e.g. bands); parts sum to the total. */
+function SegmentBar({ parts, total }: { parts: { label: string; value: number; className: string }[]; total: number }) {
+  return (
+    <div>
+      <div className="flex h-2 overflow-hidden rounded-full bg-border" role="img" aria-label={parts.map((p) => `${p.label} ${p.value}`).join(", ")}>
+        {parts.map((p) => (
+          <div key={p.label} className={`metric-bar h-full ${p.className}`} style={{ width: `${total ? (p.value / total) * 100 : 0}%` }} />
+        ))}
+      </div>
+      <div className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-[10px] text-muted">
+        {parts.map((p) => (
+          <span key={p.label} className="flex items-center gap-1">
+            <span className={`h-1.5 w-1.5 rounded-full ${p.className}`} />
+            {p.label} {p.value.toLocaleString("en-US")}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function PolicyBars({ rows }: { rows: PolicyResult[] }) {
+  if (!rows.length) return <div className="shimmer h-12 rounded-lg" />;
+  const best = rows.filter((r) => r.policy !== "A" && r.honest_shops_restricted === 0).sort((a, b) => handled(b) - handled(a))[0];
+  return (
+    <div>
+      <div className="flex h-12 items-end gap-1.5" role="img" aria-label={rows.map((r) => `${POLICY_NAME[r.policy]} ${pct(handled(r))}`).join(", ")}>
+        {rows.map((r, i) => (
+          <div
+            key={r.policy}
+            title={`${POLICY_NAME[r.policy]}: ${pct(handled(r))} of misuse taka stopped or rerouted · ${r.honest_shops_restricted} honest shops restricted`}
+            className={`bar-grow flex-1 rounded-t-sm ${r.policy === best?.policy ? "bg-primary" : r.honest_shops_restricted ? "bg-high/60" : "bg-primary/30"}`}
+            style={{ height: `${Math.max(handled(r) * 100, 3)}%`, animationDelay: `${i * 50}ms` }}
+          />
+        ))}
+      </div>
+      <div className="mt-1 grid grid-cols-5 text-center text-[10px] text-muted">
+        {rows.map((r) => (
+          <span key={r.policy} className={r.policy === best?.policy ? "font-semibold text-primary" : ""}>
+            {r.policy}
+          </span>
+        ))}
+      </div>
+      <div className="mt-1.5 text-[10px] text-muted">
+        {best ? `${POLICY_NAME[best.policy]} handles ${pct(handled(best))} of misuse taka with no honest shop restricted` : "misuse taka handled per policy"}
+      </div>
+    </div>
+  );
+}
+
 function Tile({
   href,
   icon: Icon,
   title,
   value,
   sub,
+  children,
 }: {
   href: string;
   icon: LucideIcon;
   title: string;
   value: string;
   sub: string;
+  children?: React.ReactNode;
 }) {
   return (
     <Link href={href} className="card group flex flex-col p-5 hover:border-primary/50">
@@ -331,6 +416,7 @@ function Tile({
       </div>
       <div className="mt-4 text-[1.9rem] font-bold leading-none text-navy tabular-nums">{value}</div>
       <div className="mt-2 text-xs text-muted">{sub}</div>
+      {children && <div className="mt-auto pt-4">{children}</div>}
     </Link>
   );
 }
@@ -338,12 +424,14 @@ function Tile({
 export function Overview() {
   const [data, setData] = useState<OverviewData | null>(null);
   const [topCase, setTopCase] = useState<string | null>(null);
+  const [policies, setPolicies] = useState<PolicyResult[]>([]);
   const [source, setSource] = useState<Source | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [greeting, setGreeting] = useState("Welcome back");
 
   useEffect(() => {
     setGreeting(greetingFor(new Date().getHours()));
+    loadPolicies().then(setPolicies);
     getData<OverviewData>("/overview", "overview.json")
       .then((r) => {
         setData(r.data);
@@ -405,29 +493,56 @@ export function Overview() {
                 icon={Store}
                 title="Shops monitored"
                 value={data.shops.monitored.toLocaleString("en-US")}
-                sub={`${data.shops.low.toLocaleString("en-US")} need no action as of ${fmtDay(data.as_of)}`}
-              />
+                sub={`scored as of ${fmtDay(data.as_of)} · mean fused risk ${data.shops.mean_risk.toFixed(2)}`}
+              >
+                <SegmentBar
+                  total={data.shops.monitored}
+                  parts={[
+                    { label: "No action", value: data.shops.low, className: "bg-low" },
+                    { label: "Review", value: data.shops.review, className: "bg-warning" },
+                    { label: "High", value: data.shops.high, className: "bg-danger" },
+                  ]}
+                />
+              </Tile>
               <Tile
                 href="/queue"
                 icon={TriangleAlert}
                 title="Shops needing review"
                 value={data.shops.alerts.toLocaleString("en-US")}
-                sub={`${data.shops.high} high priority · ${data.shops.review} review`}
-              />
+                sub={`${pct(data.shops.alerts / Math.max(data.shops.monitored, 1))} of monitored shops ask for a look`}
+              >
+                <SegmentBar
+                  total={data.shops.alerts}
+                  parts={[
+                    { label: "High priority", value: data.shops.high, className: "bg-danger" },
+                    { label: "Needs review", value: data.shops.review, className: "bg-warning" },
+                  ]}
+                />
+              </Tile>
               <Tile
                 href={topCase ? `/cases/${topCase}` : "/queue"}
                 icon={Waypoints}
                 title="Network signals"
                 value={data.shops.ring_linked.toLocaleString("en-US")}
                 sub={`ring-linked shops · ${data.shops.with_linking_payers} share heavy-day payers`}
-              />
+              >
+                <SegmentBar
+                  total={data.shops.alerts}
+                  parts={[
+                    { label: "Ring-linked alerts", value: data.shops.ring_linked_alerts, className: "bg-primary" },
+                    { label: "Other alerts", value: data.shops.alerts - data.shops.ring_linked_alerts, className: "bg-primary/25" },
+                  ]}
+                />
+              </Tile>
               <Tile
                 href="/simulator"
                 icon={SlidersHorizontal}
                 title="Policy simulator"
                 value="Compare"
                 sub="blanket limit vs rules vs Jachai, same month and analysts"
-              />
+              >
+                <PolicyBars rows={policies} />
+              </Tile>
             </div>
           </div>
 

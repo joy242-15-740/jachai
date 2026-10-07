@@ -121,6 +121,7 @@
   "low": 264,
   "alerts": 36,
   "ring_linked": 14,
+  "ring_linked_alerts": 13,
   "with_linking_payers": 14,
   "mean_risk": 0.307
  },

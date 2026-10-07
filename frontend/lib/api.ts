@@ -46,11 +46,12 @@ export async function postData<T>(path: string, body: unknown): Promise<T> {
 
 /** Bangladeshi taka with comma grouping (PRD 6.2): "৳ 12,450". */
 export const taka = (x: number) => `৳ ${Math.round(x).toLocaleString("en-US")}`;
-/** Short axis labels: "৳ 2.5M", "৳ 80k". */
+/** Short axis labels: "৳ 2.5M", "৳ 3M", "৳ 80k". */
 export const takaCompact = (x: number) => {
   const abs = Math.abs(x);
-  if (abs >= 1_000_000) return `৳ ${(x / 1_000_000).toFixed(abs >= 10_000_000 ? 0 : 1)}M`;
-  if (abs >= 1_000) return `৳ ${Math.round(x / 1_000)}k`;
+  const trim = (v: number) => String(Number(v.toFixed(1)));
+  if (abs >= 1_000_000) return `৳ ${trim(x / 1_000_000)}M`;
+  if (abs >= 1_000) return `৳ ${trim(x / 1_000)}k`;
   return `৳ ${Math.round(x)}`;
 };
 export const pct = (x: number) => `${Math.round(100 * x)}%`;
