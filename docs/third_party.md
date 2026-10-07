@@ -28,6 +28,7 @@ datasets.
 | joblib | 1.6.0 | BSD-3-Clause | Saves the calibration model; installed with scikit-learn |
 | threadpoolctl | 3.7.0 | BSD-3-Clause | Installed with scikit-learn |
 | LightGBM | 4.7.0 | MIT | Payment risk model (gradient-boosted trees) |
+| XGBoost | 3.4.1 | Apache-2.0 | On-site model comparison only (one supervised learner beside LightGBM). Not the deployed payment model |
 | NetworkX | 3.7 | BSD-3-Clause | Payer-shop graph and Louvain communities for the network score |
 | FastAPI | 0.142.2 | MIT | Backend API framework |
 | Starlette | 1.7.0 | BSD-3-Clause | Installed with FastAPI (web toolkit, CORS middleware) |

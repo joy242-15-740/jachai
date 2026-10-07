@@ -1,0 +1,2700 @@
+{
+  "profile": "fast",
+  "synthetic_data_only": true,
+  "evaluated_on": "validation shops and dates, against the hidden true label",
+  "test_set_touched": false,
+  "test_metrics_computed": false,
+  "threshold_rule": "max F1 against validation targets from rules and past cases; rules-only keeps its configured vote threshold",
+  "seeds": [
+    42,
+    7,
+    2026
+  ],
+  "n_bootstrap": 200,
+  "bootstrap": "percentile 95% CI, shops drawn with replacement, 2.5 and 97.5 percentiles",
+  "std": "sample standard deviation across seeds, divisor n-1",
+  "features": [
+    "amount",
+    "on_us",
+    "is_round_100",
+    "is_round_500",
+    "is_round_1000",
+    "just_under_cap",
+    "after_regime_change",
+    "amount_vs_category_median",
+    "hour",
+    "is_friday",
+    "after_hours",
+    "payer_day_total",
+    "payer_day_shops",
+    "payer_day_total_vs_limit",
+    "near_limit",
+    "payer_day_payments_here",
+    "inflow_recent",
+    "paid_share_of_recent_inflow",
+    "remittance_recent",
+    "paid_share_of_recent_remittance",
+    "payer_shop_distance_km",
+    "first_visit",
+    "payer_account_age_days",
+    "payer_payments_7d",
+    "payer_amount_7d",
+    "payer_shop_days_7d",
+    "payer_round_share_7d",
+    "payer_first_visit_share_7d",
+    "payer_inflow_7d",
+    "payer_bank_topups_7d",
+    "turnover_7d",
+    "payments_7d",
+    "unique_payers_per_day_7d",
+    "round_1000_share_30d",
+    "after_hours_share_30d",
+    "first_visit_share_30d",
+    "far_payer_share_30d",
+    "last_day_vs_own_median_30d",
+    "qr_codes_per_account",
+    "turnover_vs_peers_7d",
+    "owner_p2p_senders_7d",
+    "shop_age_days",
+    "is_open"
+  ],
+  "feature_selection": "Every learner uses the same point-in-time columns from `feature_columns`, the payment, payer-history and shop-history features already used by the payment model. They were chosen because each one is known at payment time and lines up with a misuse mechanism in this synthetic world: round amounts, tickets just under the incentive cap, payer totals near the daily cash-out limit, money paid soon after an inflow or a remittance, payer\u2013shop distance, first visits, and shop turnover against the shop's own history and against similar shops. Identifiers, timestamps, peer-group labels and hidden `_true_*` columns are excluded, so a model cannot memorise a shop id or read the label. Columns were not added or dropped using validation accuracy; a second selection pass on the split we report would inflate the comparison. LightGBM keeps missing values as missing, which is how the frozen payment model is trained. Logistic regression, random forest, XGBoost, isolation forest and the autoencoder get a median fill fit on train rows only, because those algorithms need finite inputs. Logistic regression, isolation forest and the autoencoder are also standardised with a scaler fit on train rows only, because their geometry depends on units. This run used 43 columns: `amount`, `on_us`, `is_round_100`, `is_round_500`, `is_round_1000`, `just_under_cap`, `after_regime_change`, `amount_vs_category_median`, `hour`, `is_friday`, `after_hours`, `payer_day_total`, `payer_day_shops`, `payer_day_total_vs_limit`, `near_limit`, `payer_day_payments_here`, `inflow_recent`, `paid_share_of_recent_inflow`, `remittance_recent`, `paid_share_of_recent_remittance`, `payer_shop_distance_km`, `first_visit`, `payer_account_age_days`, `payer_payments_7d`, `payer_amount_7d`, `payer_shop_days_7d`, `payer_round_share_7d`, `payer_first_visit_share_7d`, `payer_inflow_7d`, `payer_bank_topups_7d`, `turnover_7d`, `payments_7d`, `unique_payers_per_day_7d`, `round_1000_share_30d`, `after_hours_share_30d`, `first_visit_share_30d`, `far_payer_share_30d`, `last_day_vs_own_median_30d`, `qr_codes_per_account`, `turnover_vs_peers_7d`, `owner_p2p_senders_7d`, `shop_age_days`, `is_open`.",
+  "hyperparameters": {
+    "logistic_regression": {
+      "C": 1.0,
+      "max_iter": 400,
+      "solver": "lbfgs"
+    },
+    "random_forest": {
+      "n_estimators": 80,
+      "max_depth": 10,
+      "min_samples_leaf": 15,
+      "max_features": "sqrt"
+    },
+    "xgboost": {
+      "max_depth": 4,
+      "eta": 0.08,
+      "num_boost_round": 80,
+      "early_stopping_rounds": 10,
+      "subsample": 0.8,
+      "colsample_bytree": 0.8
+    },
+    "lightgbm": {
+      "objective": "cross_entropy",
+      "learning_rate": 0.05,
+      "num_leaves": 31,
+      "min_child_samples": 50,
+      "feature_fraction": 0.8,
+      "bagging_fraction": 0.8,
+      "bagging_freq": 1,
+      "lambda_l2": 1.0,
+      "num_boost_round": 150,
+      "early_stopping_rounds": 20
+    },
+    "isolation_forest": {
+      "n_estimators": 100,
+      "max_samples": 512,
+      "contamination": "auto"
+    },
+    "autoencoder": {
+      "hidden": 16,
+      "max_iter": 40,
+      "time_limit_seconds": 120.0,
+      "score": "mean squared reconstruction error"
+    },
+    "target_mode": "weak_and_cases",
+    "note": "Fixed in this script or in configs/models.yaml. The hidden truth was not used to search them."
+  },
+  "preprocessing": {
+    "lightgbm": "raw columns, missing values left missing, then isotonic calibration",
+    "random_forest_xgboost": "train-median impute",
+    "logistic_isolation_autoencoder": "train-median impute, then standard scaler fit on train",
+    "rules_only": "configured labeling functions",
+    "graph_shared_payers": "point-in-time shared-payer count, test shops excluded"
+  },
+  "per_seed": [
+    {
+      "seed": 42,
+      "validation_payments": 1416,
+      "validation_payment_positives": 40,
+      "validation_shops": 53,
+      "validation_shop_positives": 4,
+      "payment_k": 1000,
+      "shop_k": 50,
+      "features": [
+        "amount",
+        "on_us",
+        "is_round_100",
+        "is_round_500",
+        "is_round_1000",
+        "just_under_cap",
+        "after_regime_change",
+        "amount_vs_category_median",
+        "hour",
+        "is_friday",
+        "after_hours",
+        "payer_day_total",
+        "payer_day_shops",
+        "payer_day_total_vs_limit",
+        "near_limit",
+        "payer_day_payments_here",
+        "inflow_recent",
+        "paid_share_of_recent_inflow",
+        "remittance_recent",
+        "paid_share_of_recent_remittance",
+        "payer_shop_distance_km",
+        "first_visit",
+        "payer_account_age_days",
+        "payer_payments_7d",
+        "payer_amount_7d",
+        "payer_shop_days_7d",
+        "payer_round_share_7d",
+        "payer_first_visit_share_7d",
+        "payer_inflow_7d",
+        "payer_bank_topups_7d",
+        "turnover_7d",
+        "payments_7d",
+        "unique_payers_per_day_7d",
+        "round_1000_share_30d",
+        "after_hours_share_30d",
+        "first_visit_share_30d",
+        "far_payer_share_30d",
+        "last_day_vs_own_median_30d",
+        "qr_codes_per_account",
+        "turnover_vs_peers_7d",
+        "owner_p2p_senders_7d",
+        "shop_age_days",
+        "is_open"
+      ],
+      "lightgbm_params": {
+        "objective": "cross_entropy",
+        "learning_rate": 0.05,
+        "num_leaves": 31,
+        "min_child_samples": 50,
+        "feature_fraction": 0.8,
+        "bagging_fraction": 0.8,
+        "bagging_freq": 1,
+        "lambda_l2": 1.0,
+        "num_boost_round": 150,
+        "early_stopping_rounds": 20
+      },
+      "target_mode": "weak_and_cases",
+      "models": [
+        {
+          "name": "rules_only",
+          "error": null,
+          "threshold": 0.5,
+          "train_seconds": 0.0,
+          "inference_seconds": 0.00011320300006900652,
+          "train_rows": 0,
+          "payment": {
+            "n": 1416.0,
+            "positives": 40.0,
+            "precision": 0.9333333333333333,
+            "recall": 0.35,
+            "f1": 0.5090909090909091,
+            "false_positive_rate": 0.0007267441860465116,
+            "pr_auc": 0.36336158192090395,
+            "precision_at_k": 0.032,
+            "k": 1000.0,
+            "value_recall": 0.3711366869261606,
+            "flags": 15.0
+          },
+          "shop": {
+            "n": 53.0,
+            "positives": 4.0,
+            "precision": 0.8,
+            "recall": 1.0,
+            "f1": 0.888888888888889,
+            "false_positive_rate": 0.02040816326530612,
+            "pr_auc": 1.0,
+            "precision_at_k": 0.08,
+            "k": 50.0,
+            "value_recall": 1.0,
+            "flags": 5.0
+          },
+          "bootstrap_95ci": {
+            "payment": {
+              "precision": [
+                0.6,
+                1.0
+              ],
+              "recall": [
+                0.2,
+                0.75
+              ],
+              "f1": [
+                0.33333333333333337,
+                0.8028571428571418
+              ],
+              "false_positive_rate": [
+                0.0,
+                0.0025869058429418474
+              ],
+              "pr_auc": [
+                0.20867468990206375,
+                0.7172308373217597
+              ],
+              "precision_at_k": [
+                0.004,
+                0.07002500000000002
+              ],
+              "value_recall": [
+                0.25184725097490723,
+                0.7794117647058824
+              ]
+            },
+            "shop": {
+              "precision": [
+                0.3333333333333333,
+                1.0
+              ],
+              "recall": [
+                1.0,
+                1.0
+              ],
+              "f1": [
+                0.5,
+                1.0
+              ],
+              "false_positive_rate": [
+                0.0,
+                0.06419482686691706
+              ],
+              "pr_auc": [
+                1.0,
+                1.0
+              ],
+              "precision_at_k": [
+                0.02,
+                0.16
+              ],
+              "value_recall": [
+                1.0,
+                1.0
+              ]
+            }
+          }
+        },
+        {
+          "name": "graph_shared_payers",
+          "error": null,
+          "threshold": 112.0,
+          "train_seconds": 0.0847943999999643,
+          "inference_seconds": 2.08599999496073e-06,
+          "train_rows": 47169,
+          "payment": {
+            "n": 1416.0,
+            "positives": 40.0,
+            "precision": 0.03557312252964427,
+            "recall": 0.45,
+            "f1": 0.06593406593406594,
+            "false_positive_rate": 0.3546511627906977,
+            "pr_auc": 0.024770129378002662,
+            "precision_at_k": 0.018,
+            "k": 1000.0,
+            "value_recall": 0.19177550756498124,
+            "flags": 506.0
+          },
+          "shop": {
+            "n": 53.0,
+            "positives": 4.0,
+            "precision": 0.25,
+            "recall": 0.5,
+            "f1": 0.3333333333333333,
+            "false_positive_rate": 0.12244897959183673,
+            "pr_auc": 0.1983225108225108,
+            "precision_at_k": 0.08,
+            "k": 50.0,
+            "value_recall": 0.19177550756498124,
+            "flags": 8.0
+          },
+          "bootstrap_95ci": {
+            "payment": {
+              "precision": [
+                0.0,
+                0.1441771159874609
+              ],
+              "recall": [
+                0.0,
+                1.0
+              ],
+              "f1": [
+                0.0,
+                0.24877548818642767
+              ],
+              "false_positive_rate": [
+                0.12312505445080914,
+                0.5516468799736144
+              ],
+              "pr_auc": [
+                0.007606115122477244,
+                0.10423850105756755
+              ],
+              "precision_at_k": [
+                0.0,
+                0.05005000000000001
+              ],
+              "value_recall": [
+                0.0,
+                1.0
+              ]
+            },
+            "shop": {
+              "precision": [
+                0.0,
+                0.5714285714285714
+              ],
+              "recall": [
+                0.0,
+                1.0
+              ],
+              "f1": [
+                0.0,
+                0.6153846153846154
+              ],
+              "false_positive_rate": [
+                0.04,
+                0.22460671768707485
+              ],
+              "pr_auc": [
+                0.036713572525784506,
+                0.5705729166666658
+              ],
+              "precision_at_k": [
+                0.02,
+                0.16
+              ],
+              "value_recall": [
+                0.0,
+                1.0
+              ]
+            }
+          }
+        },
+        {
+          "name": "logistic_regression",
+          "error": null,
+          "threshold": 0.14950960260569912,
+          "train_seconds": 1.4516249769999376,
+          "inference_seconds": 0.0021578809999027726,
+          "train_rows": 17539,
+          "payment": {
+            "n": 1416.0,
+            "positives": 40.0,
+            "precision": 0.6774193548387096,
+            "recall": 0.525,
+            "f1": 0.5915492957746479,
+            "false_positive_rate": 0.007267441860465116,
+            "pr_auc": 0.5382855250453344,
+            "precision_at_k": 0.04,
+            "k": 1000.0,
+            "value_recall": 0.46915815336867966,
+            "flags": 31.0
+          },
+          "shop": {
+            "n": 53.0,
+            "positives": 4.0,
+            "precision": 0.4,
+            "recall": 1.0,
+            "f1": 0.5714285714285715,
+            "false_positive_rate": 0.12244897959183673,
+            "pr_auc": 0.6458333333333333,
+            "precision_at_k": 0.08,
+            "k": 50.0,
+            "value_recall": 1.0,
+            "flags": 10.0
+          },
+          "bootstrap_95ci": {
+            "payment": {
+              "precision": [
+                0.21428571428571427,
+                0.9263626834381552
+              ],
+              "recall": [
+                0.4,
+                0.75
+              ],
+              "f1": [
+                0.33279569892473115,
+                0.7272727272727272
+              ],
+              "false_positive_rate": [
+                0.0014456141929947426,
+                0.015888566525008172
+              ],
+              "pr_auc": [
+                0.30984234704705843,
+                0.794718267202752
+              ],
+              "precision_at_k": [
+                0.004,
+                0.089025
+              ],
+              "value_recall": [
+                0.3881779402803169,
+                0.7794117647058824
+              ]
+            },
+            "shop": {
+              "precision": [
+                0.12437500000000001,
+                0.7142857142857143
+              ],
+              "recall": [
+                1.0,
+                1.0
+              ],
+              "f1": [
+                0.2222222222222222,
+                0.8333333333333333
+              ],
+              "false_positive_rate": [
+                0.041666666666666664,
+                0.22011224489795922
+              ],
+              "pr_auc": [
+                0.3333333333333333,
+                1.0
+              ],
+              "precision_at_k": [
+                0.02,
+                0.16
+              ],
+              "value_recall": [
+                1.0,
+                1.0
+              ]
+            }
+          }
+        },
+        {
+          "name": "random_forest",
+          "error": null,
+          "threshold": 0.5005771221081801,
+          "train_seconds": 0.9774588960000301,
+          "inference_seconds": 0.006479904000002534,
+          "train_rows": 17539,
+          "payment": {
+            "n": 1416.0,
+            "positives": 40.0,
+            "precision": 1.0,
+            "recall": 0.45,
+            "f1": 0.6206896551724138,
+            "false_positive_rate": 0.0,
+            "pr_auc": 0.8745276924479587,
+            "precision_at_k": 0.04,
+            "k": 1000.0,
+            "value_recall": 0.40837967153756627,
+            "flags": 18.0
+          },
+          "shop": {
+            "n": 53.0,
+            "positives": 4.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "false_positive_rate": 0.0,
+            "pr_auc": 1.0,
+            "precision_at_k": 0.08,
+            "k": 50.0,
+            "value_recall": 1.0,
+            "flags": 4.0
+          },
+          "bootstrap_95ci": {
+            "payment": {
+              "precision": [
+                1.0,
+                1.0
+              ],
+              "recall": [
+                0.2,
+                0.75
+              ],
+              "f1": [
+                0.33333333333333337,
+                0.8571428571428571
+              ],
+              "false_positive_rate": [
+                0.0,
+                0.0
+              ],
+              "pr_auc": [
+                0.6067051055939945,
+                0.9654029427903734
+              ],
+              "precision_at_k": [
+                0.004,
+                0.089025
+              ],
+              "value_recall": [
+                0.2905982905982906,
+                0.7794117647058824
+              ]
+            },
+            "shop": {
+              "precision": [
+                1.0,
+                1.0
+              ],
+              "recall": [
+                1.0,
+                1.0
+              ],
+              "f1": [
+                1.0,
+                1.0
+              ],
+              "false_positive_rate": [
+                0.0,
+                0.0
+              ],
+              "pr_auc": [
+                1.0,
+                1.0
+              ],
+              "precision_at_k": [
+                0.02,
+                0.16
+              ],
+              "value_recall": [
+                1.0,
+                1.0
+              ]
+            }
+          }
+        },
+        {
+          "name": "xgboost",
+          "error": null,
+          "threshold": 0.5051857829093933,
+          "train_seconds": 0.22918181000000004,
+          "inference_seconds": 0.038562596000019767,
+          "train_rows": 17539,
+          "payment": {
+            "n": 1416.0,
+            "positives": 40.0,
+            "precision": 1.0,
+            "recall": 0.5,
+            "f1": 0.6666666666666666,
+            "false_positive_rate": 0.0,
+            "pr_auc": 0.9016827806491989,
+            "precision_at_k": 0.04,
+            "k": 1000.0,
+            "value_recall": 0.48079658605974396,
+            "flags": 20.0
+          },
+          "shop": {
+            "n": 53.0,
+            "positives": 4.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "false_positive_rate": 0.0,
+            "pr_auc": 1.0,
+            "precision_at_k": 0.08,
+            "k": 50.0,
+            "value_recall": 1.0,
+            "flags": 4.0
+          },
+          "bootstrap_95ci": {
+            "payment": {
+              "precision": [
+                1.0,
+                1.0
+              ],
+              "recall": [
+                0.4,
+                0.75
+              ],
+              "f1": [
+                0.5714285714285715,
+                0.8571428571428571
+              ],
+              "false_positive_rate": [
+                0.0,
+                0.0
+              ],
+              "pr_auc": [
+                0.7388624338624339,
+                0.959154190642352
+              ],
+              "precision_at_k": [
+                0.004,
+                0.089025
+              ],
+              "value_recall": [
+                0.42260092851235304,
+                0.7794117647058824
+              ]
+            },
+            "shop": {
+              "precision": [
+                1.0,
+                1.0
+              ],
+              "recall": [
+                1.0,
+                1.0
+              ],
+              "f1": [
+                1.0,
+                1.0
+              ],
+              "false_positive_rate": [
+                0.0,
+                0.0
+              ],
+              "pr_auc": [
+                1.0,
+                1.0
+              ],
+              "precision_at_k": [
+                0.02,
+                0.16
+              ],
+              "value_recall": [
+                1.0,
+                1.0
+              ]
+            }
+          }
+        },
+        {
+          "name": "lightgbm",
+          "error": null,
+          "threshold": 0.6666666666666666,
+          "train_seconds": 0.25087490400005663,
+          "inference_seconds": 0.012203847000023416,
+          "train_rows": 17539,
+          "payment": {
+            "n": 1416.0,
+            "positives": 40.0,
+            "precision": 0.7560975609756098,
+            "recall": 0.775,
+            "f1": 0.7654320987654322,
+            "false_positive_rate": 0.007267441860465116,
+            "pr_auc": 0.6898925175692435,
+            "precision_at_k": 0.038,
+            "k": 1000.0,
+            "value_recall": 0.7779645674382516,
+            "flags": 41.0
+          },
+          "shop": {
+            "n": 53.0,
+            "positives": 4.0,
+            "precision": 0.36363636363636365,
+            "recall": 1.0,
+            "f1": 0.5333333333333333,
+            "false_positive_rate": 0.14285714285714285,
+            "pr_auc": 1.0,
+            "precision_at_k": 0.08,
+            "k": 50.0,
+            "value_recall": 1.0,
+            "flags": 11.0
+          },
+          "bootstrap_95ci": {
+            "payment": {
+              "precision": [
+                0.2716783216783217,
+                0.9306253928346953
+              ],
+              "recall": [
+                0.75,
+                0.8
+              ],
+              "f1": [
+                0.41999999999999993,
+                0.8472179596476271
+              ],
+              "false_positive_rate": [
+                0.002246225101734847,
+                0.013299503431120376
+              ],
+              "pr_auc": [
+                0.4982425743004335,
+                0.7670716187624014
+              ],
+              "precision_at_k": [
+                0.004,
+                0.08202500000000001
+              ],
+              "value_recall": [
+                0.75366257023123,
+                0.8473411583581136
+              ]
+            },
+            "shop": {
+              "precision": [
+                0.09977272727272728,
+                0.6377622377622381
+              ],
+              "recall": [
+                1.0,
+                1.0
+              ],
+              "f1": [
+                0.22055555555555556,
+                0.7808080808080804
+              ],
+              "false_positive_rate": [
+                0.05839460784313726,
+                0.23541176470588238
+              ],
+              "pr_auc": [
+                1.0,
+                1.0
+              ],
+              "precision_at_k": [
+                0.02,
+                0.16
+              ],
+              "value_recall": [
+                1.0,
+                1.0
+              ]
+            }
+          }
+        },
+        {
+          "name": "isolation_forest",
+          "error": null,
+          "threshold": 0.05618729212008888,
+          "train_seconds": 0.18949586000007912,
+          "inference_seconds": 0.01656785799991667,
+          "train_rows": 19200,
+          "payment": {
+            "n": 1416.0,
+            "positives": 40.0,
+            "precision": 0.7804878048780488,
+            "recall": 0.8,
+            "f1": 0.7901234567901235,
+            "false_positive_rate": 0.006540697674418605,
+            "pr_auc": 0.8408425632408361,
+            "precision_at_k": 0.04,
+            "k": 1000.0,
+            "value_recall": 0.9062459588775378,
+            "flags": 41.0
+          },
+          "shop": {
+            "n": 53.0,
+            "positives": 4.0,
+            "precision": 0.5,
+            "recall": 1.0,
+            "f1": 0.6666666666666666,
+            "false_positive_rate": 0.08163265306122448,
+            "pr_auc": 0.95,
+            "precision_at_k": 0.08,
+            "k": 50.0,
+            "value_recall": 1.0,
+            "flags": 8.0
+          },
+          "bootstrap_95ci": {
+            "payment": {
+              "precision": [
+                0.24930555555555556,
+                0.9796875
+              ],
+              "recall": [
+                0.6,
+                0.974090909090909
+              ],
+              "f1": [
+                0.37500000000000006,
+                0.9233194733194732
+              ],
+              "false_positive_rate": [
+                0.0006093750000000003,
+                0.015483229005452678
+              ],
+              "pr_auc": [
+                0.427075807439155,
+                0.9777098480787377
+              ],
+              "precision_at_k": [
+                0.004,
+                0.089025
+              ],
+              "value_recall": [
+                0.6762004445588475,
+                0.9863831380147972
+              ]
+            },
+            "shop": {
+              "precision": [
+                0.16607142857142856,
+                0.9113636363636368
+              ],
+              "recall": [
+                1.0,
+                1.0
+              ],
+              "f1": [
+                0.33141025641025645,
+                0.9559523809523803
+              ],
+              "false_positive_rate": [
+                0.01875000000000001,
+                0.1601666666666667
+              ],
+              "pr_auc": [
+                0.6616666666666666,
+                1.0
+              ],
+              "precision_at_k": [
+                0.02,
+                0.16
+              ],
+              "value_recall": [
+                1.0,
+                1.0
+              ]
+            }
+          }
+        },
+        {
+          "name": "autoencoder",
+          "error": null,
+          "threshold": 1.0554911259853685,
+          "train_seconds": 1.3521825239999998,
+          "inference_seconds": 0.001566926999998941,
+          "train_rows": 19200,
+          "payment": {
+            "n": 1416.0,
+            "positives": 40.0,
+            "precision": 0.5,
+            "recall": 0.6,
+            "f1": 0.5454545454545454,
+            "false_positive_rate": 0.01744186046511628,
+            "pr_auc": 0.41321066215743796,
+            "precision_at_k": 0.04,
+            "k": 1000.0,
+            "value_recall": 0.8024052760894866,
+            "flags": 48.0
+          },
+          "shop": {
+            "n": 53.0,
+            "positives": 4.0,
+            "precision": 0.23529411764705882,
+            "recall": 1.0,
+            "f1": 0.38095238095238093,
+            "false_positive_rate": 0.2653061224489796,
+            "pr_auc": 0.31403186274509803,
+            "precision_at_k": 0.08,
+            "k": 50.0,
+            "value_recall": 1.0,
+            "flags": 17.0
+          },
+          "bootstrap_95ci": {
+            "payment": {
+              "precision": [
+                0.079875,
+                0.75365515771526
+              ],
+              "recall": [
+                0.2,
+                0.974090909090909
+              ],
+              "f1": [
+                0.1356060606060606,
+                0.7999999999999999
+              ],
+              "false_positive_rate": [
+                0.00900008778432367,
+                0.027934444018457412
+              ],
+              "pr_auc": [
+                0.062192342275109676,
+                0.693561797479826
+              ],
+              "precision_at_k": [
+                0.004,
+                0.089025
+              ],
+              "value_recall": [
+                0.2905982905982906,
+                0.9863831380147972
+              ]
+            },
+            "shop": {
+              "precision": [
+                0.06240808823529412,
+                0.4548484848484849
+              ],
+              "recall": [
+                1.0,
+                1.0
+              ],
+              "f1": [
+                0.11764705882352941,
+                0.6258522727272726
+              ],
+              "false_positive_rate": [
+                0.14247720364741642,
+                0.38786514605842337
+              ],
+              "pr_auc": [
+                0.08831801470588237,
+                0.85296992481203
+              ],
+              "precision_at_k": [
+                0.02,
+                0.16
+              ],
+              "value_recall": [
+                1.0,
+                1.0
+              ]
+            }
+          },
+          "autoencoder_iterations": 40,
+          "autoencoder_hidden": 16
+        }
+      ],
+      "dataset": {
+        "n_shops": 300,
+        "n_customers": 3000,
+        "n_agents": 60,
+        "calendar_start": "2026-09-16",
+        "calendar_days": 30,
+        "holdout_pattern": "turnover_burst",
+        "analyst_capacity_payments": 1000,
+        "analyst_capacity_shops": 50,
+        "train_end": "2026-10-05",
+        "validation_end": "2026-10-10",
+        "rules_threshold": 0.5
+      }
+    },
+    {
+      "seed": 7,
+      "validation_payments": 1891,
+      "validation_payment_positives": 6,
+      "validation_shops": 58,
+      "validation_shop_positives": 1,
+      "payment_k": 1000,
+      "shop_k": 50,
+      "features": [
+        "amount",
+        "on_us",
+        "is_round_100",
+        "is_round_500",
+        "is_round_1000",
+        "just_under_cap",
+        "after_regime_change",
+        "amount_vs_category_median",
+        "hour",
+        "is_friday",
+        "after_hours",
+        "payer_day_total",
+        "payer_day_shops",
+        "payer_day_total_vs_limit",
+        "near_limit",
+        "payer_day_payments_here",
+        "inflow_recent",
+        "paid_share_of_recent_inflow",
+        "remittance_recent",
+        "paid_share_of_recent_remittance",
+        "payer_shop_distance_km",
+        "first_visit",
+        "payer_account_age_days",
+        "payer_payments_7d",
+        "payer_amount_7d",
+        "payer_shop_days_7d",
+        "payer_round_share_7d",
+        "payer_first_visit_share_7d",
+        "payer_inflow_7d",
+        "payer_bank_topups_7d",
+        "turnover_7d",
+        "payments_7d",
+        "unique_payers_per_day_7d",
+        "round_1000_share_30d",
+        "after_hours_share_30d",
+        "first_visit_share_30d",
+        "far_payer_share_30d",
+        "last_day_vs_own_median_30d",
+        "qr_codes_per_account",
+        "turnover_vs_peers_7d",
+        "owner_p2p_senders_7d",
+        "shop_age_days",
+        "is_open"
+      ],
+      "lightgbm_params": {
+        "objective": "cross_entropy",
+        "learning_rate": 0.05,
+        "num_leaves": 31,
+        "min_child_samples": 50,
+        "feature_fraction": 0.8,
+        "bagging_fraction": 0.8,
+        "bagging_freq": 1,
+        "lambda_l2": 1.0,
+        "num_boost_round": 150,
+        "early_stopping_rounds": 20
+      },
+      "target_mode": "weak_and_cases",
+      "models": [
+        {
+          "name": "rules_only",
+          "error": null,
+          "threshold": 0.5,
+          "train_seconds": 0.0,
+          "inference_seconds": 0.00014067300003262062,
+          "train_rows": 0,
+          "payment": {
+            "n": 1891.0,
+            "positives": 6.0,
+            "precision": 0.4444444444444444,
+            "recall": 0.6666666666666666,
+            "f1": 0.5333333333333333,
+            "false_positive_rate": 0.002652519893899204,
+            "pr_auc": 0.3714280118299156,
+            "precision_at_k": 0.004,
+            "k": 1000.0,
+            "value_recall": 0.6762589928057554,
+            "flags": 9.0
+          },
+          "shop": {
+            "n": 58.0,
+            "positives": 1.0,
+            "precision": 0.16666666666666666,
+            "recall": 1.0,
+            "f1": 0.2857142857142857,
+            "false_positive_rate": 0.08771929824561403,
+            "pr_auc": 0.5,
+            "precision_at_k": 0.02,
+            "k": 50.0,
+            "value_recall": 1.0,
+            "flags": 6.0
+          },
+          "bootstrap_95ci": {
+            "payment": {
+              "precision": [
+                0.0,
+                0.8888888888888888
+              ],
+              "recall": [
+                0.6666666666666666,
+                0.6666666666666666
+              ],
+              "f1": [
+                0.4444444444444444,
+                0.7729646697388631
+              ],
+              "false_positive_rate": [
+                0.00048507324490695803,
+                0.005178436135127909
+              ],
+              "pr_auc": [
+                0.24773655959062618,
+                0.642701070339808
+              ],
+              "precision_at_k": [
+                0.0,
+                0.018
+              ],
+              "value_recall": [
+                0.6762589928057554,
+                0.6762589928057554
+              ]
+            },
+            "shop": {
+              "precision": [
+                0.0,
+                0.5025000000000006
+              ],
+              "recall": [
+                1.0,
+                1.0
+              ],
+              "f1": [
+                0.17083333333333336,
+                0.7862499999999997
+              ],
+              "false_positive_rate": [
+                0.034482758620689655,
+                0.18973835450695706
+              ],
+              "pr_auc": [
+                0.25,
+                1.0
+              ],
+              "precision_at_k": [
+                0.0,
+                0.06050000000000011
+              ],
+              "value_recall": [
+                1.0,
+                1.0
+              ]
+            }
+          }
+        },
+        {
+          "name": "graph_shared_payers",
+          "error": null,
+          "threshold": 263.0,
+          "train_seconds": 0.09059093700000176,
+          "inference_seconds": 2.310000013494573e-06,
+          "train_rows": 47888,
+          "payment": {
+            "n": 1891.0,
+            "positives": 6.0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "false_positive_rate": 0.10185676392572944,
+            "pr_auc": 0.0027544194490362528,
+            "precision_at_k": 0.0,
+            "k": 1000.0,
+            "value_recall": 0.0,
+            "flags": 192.0
+          },
+          "shop": {
+            "n": 58.0,
+            "positives": 1.0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "false_positive_rate": 0.03508771929824561,
+            "pr_auc": 0.018518518518518517,
+            "precision_at_k": 0.0,
+            "k": 50.0,
+            "value_recall": 0.0,
+            "flags": 2.0
+          },
+          "bootstrap_95ci": {
+            "payment": {
+              "precision": [
+                0.0,
+                0.0
+              ],
+              "recall": [
+                0.0,
+                0.0
+              ],
+              "f1": [
+                0.0,
+                0.0
+              ],
+              "false_positive_rate": [
+                0.0,
+                0.24679519162234775
+              ],
+              "pr_auc": [
+                0.002114477600588712,
+                0.01082884493413575
+              ],
+              "precision_at_k": [
+                0.0,
+                0.0
+              ],
+              "value_recall": [
+                0.0,
+                0.0
+              ]
+            },
+            "shop": {
+              "precision": [
+                0.0,
+                0.0
+              ],
+              "recall": [
+                0.0,
+                0.0
+              ],
+              "f1": [
+                0.0,
+                0.0
+              ],
+              "false_positive_rate": [
+                0.0,
+                0.07306426332288408
+              ],
+              "pr_auc": [
+                0.017543859649122806,
+                0.07547169811320754
+              ],
+              "precision_at_k": [
+                0.0,
+                0.02
+              ],
+              "value_recall": [
+                0.0,
+                0.0
+              ]
+            }
+          }
+        },
+        {
+          "name": "logistic_regression",
+          "error": null,
+          "threshold": 0.19324806510634499,
+          "train_seconds": 1.3561693209999248,
+          "inference_seconds": 0.002492122000035124,
+          "train_rows": 16613,
+          "payment": {
+            "n": 1891.0,
+            "positives": 6.0,
+            "precision": 0.16129032258064516,
+            "recall": 0.8333333333333334,
+            "f1": 0.27027027027027023,
+            "false_positive_rate": 0.013793103448275862,
+            "pr_auc": 0.338500417710944,
+            "precision_at_k": 0.006,
+            "k": 1000.0,
+            "value_recall": 0.8633093525179856,
+            "flags": 31.0
+          },
+          "shop": {
+            "n": 58.0,
+            "positives": 1.0,
+            "precision": 0.05,
+            "recall": 1.0,
+            "f1": 0.09523809523809523,
+            "false_positive_rate": 0.3333333333333333,
+            "pr_auc": 1.0,
+            "precision_at_k": 0.02,
+            "k": 50.0,
+            "value_recall": 1.0,
+            "flags": 20.0
+          },
+          "bootstrap_95ci": {
+            "payment": {
+              "precision": [
+                0.0,
+                0.43527667984189733
+              ],
+              "recall": [
+                0.8333333333333334,
+                0.8333333333333334
+              ],
+              "f1": [
+                0.2222222222222222,
+                0.5882352941176471
+              ],
+              "false_positive_rate": [
+                0.007200582242247661,
+                0.0220650793639489
+              ],
+              "pr_auc": [
+                0.28094523283268374,
+                0.6253110982207486
+              ],
+              "precision_at_k": [
+                0.0,
+                0.018
+              ],
+              "value_recall": [
+                0.8633093525179856,
+                0.8633093525179856
+              ]
+            },
+            "shop": {
+              "precision": [
+                0.0,
+                0.17674632352941183
+              ],
+              "recall": [
+                1.0,
+                1.0
+              ],
+              "f1": [
+                0.07407407407407407,
+                0.3285087719298245
+              ],
+              "false_positive_rate": [
+                0.22389162561576356,
+                0.4821582512315271
+              ],
+              "pr_auc": [
+                1.0,
+                1.0
+              ],
+              "precision_at_k": [
+                0.0,
+                0.06050000000000011
+              ],
+              "value_recall": [
+                1.0,
+                1.0
+              ]
+            }
+          }
+        },
+        {
+          "name": "random_forest",
+          "error": null,
+          "threshold": 0.20392256340248666,
+          "train_seconds": 0.9386756709999418,
+          "inference_seconds": 0.007107363000045552,
+          "train_rows": 16613,
+          "payment": {
+            "n": 1891.0,
+            "positives": 6.0,
+            "precision": 0.19047619047619047,
+            "recall": 0.6666666666666666,
+            "f1": 0.2962962962962963,
+            "false_positive_rate": 0.009018567639257295,
+            "pr_auc": 0.708735632183908,
+            "precision_at_k": 0.006,
+            "k": 1000.0,
+            "value_recall": 0.6762589928057554,
+            "flags": 21.0
+          },
+          "shop": {
+            "n": 58.0,
+            "positives": 1.0,
+            "precision": 0.07692307692307693,
+            "recall": 1.0,
+            "f1": 0.14285714285714288,
+            "false_positive_rate": 0.21052631578947367,
+            "pr_auc": 1.0,
+            "precision_at_k": 0.02,
+            "k": 50.0,
+            "value_recall": 1.0,
+            "flags": 13.0
+          },
+          "bootstrap_95ci": {
+            "payment": {
+              "precision": [
+                0.0,
+                0.5333333333333333
+              ],
+              "recall": [
+                0.6666666666666666,
+                0.6666666666666666
+              ],
+              "f1": [
+                0.2222222222222222,
+                0.5925925925925926
+              ],
+              "false_positive_rate": [
+                0.0033209975625705965,
+                0.015542271185642284
+              ],
+              "pr_auc": [
+                0.7003082569749236,
+                0.7848840689600127
+              ],
+              "precision_at_k": [
+                0.0,
+                0.018
+              ],
+              "value_recall": [
+                0.6762589928057554,
+                0.6762589928057554
+              ]
+            },
+            "shop": {
+              "precision": [
+                0.0,
+                0.2730519480519481
+              ],
+              "recall": [
+                1.0,
+                1.0
+              ],
+              "f1": [
+                0.1,
+                0.46746031746031724
+              ],
+              "false_positive_rate": [
+                0.10313479623824452,
+                0.321582512315271
+              ],
+              "pr_auc": [
+                1.0,
+                1.0
+              ],
+              "precision_at_k": [
+                0.0,
+                0.06050000000000011
+              ],
+              "value_recall": [
+                1.0,
+                1.0
+              ]
+            }
+          }
+        },
+        {
+          "name": "xgboost",
+          "error": null,
+          "threshold": 0.14670057594776154,
+          "train_seconds": 0.21794742600002337,
+          "inference_seconds": 0.03760971700000937,
+          "train_rows": 16613,
+          "payment": {
+            "n": 1891.0,
+            "positives": 6.0,
+            "precision": 0.14285714285714285,
+            "recall": 0.6666666666666666,
+            "f1": 0.23529411764705882,
+            "false_positive_rate": 0.01273209549071618,
+            "pr_auc": 0.18120608934562424,
+            "precision_at_k": 0.006,
+            "k": 1000.0,
+            "value_recall": 0.6762589928057554,
+            "flags": 28.0
+          },
+          "shop": {
+            "n": 58.0,
+            "positives": 1.0,
+            "precision": 0.05555555555555555,
+            "recall": 1.0,
+            "f1": 0.10526315789473684,
+            "false_positive_rate": 0.2982456140350877,
+            "pr_auc": 0.5,
+            "precision_at_k": 0.02,
+            "k": 50.0,
+            "value_recall": 1.0,
+            "flags": 18.0
+          },
+          "bootstrap_95ci": {
+            "payment": {
+              "precision": [
+                0.0,
+                0.3814285714285715
+              ],
+              "recall": [
+                0.6666666666666666,
+                0.6666666666666666
+              ],
+              "f1": [
+                0.18648947951273534,
+                0.514516129032258
+              ],
+              "false_positive_rate": [
+                0.006639171923014718,
+                0.02071474161978157
+              ],
+              "pr_auc": [
+                0.12624692791638353,
+                0.45554434501400765
+              ],
+              "precision_at_k": [
+                0.0,
+                0.018
+              ],
+              "value_recall": [
+                0.6762589928057554,
+                0.6762589928057554
+              ]
+            },
+            "shop": {
+              "precision": [
+                0.0,
+                0.18836805555555575
+              ],
+              "recall": [
+                1.0,
+                1.0
+              ],
+              "f1": [
+                0.08333333333333333,
+                0.3718749999999999
+              ],
+              "false_positive_rate": [
+                0.17849310776942356,
+                0.4214912280701755
+              ],
+              "pr_auc": [
+                0.25,
+                1.0
+              ],
+              "precision_at_k": [
+                0.0,
+                0.06050000000000011
+              ],
+              "value_recall": [
+                1.0,
+                1.0
+              ]
+            }
+          }
+        },
+        {
+          "name": "lightgbm",
+          "error": null,
+          "threshold": 0.5555555555555555,
+          "train_seconds": 0.25350625900000523,
+          "inference_seconds": 0.010320232000026408,
+          "train_rows": 16613,
+          "payment": {
+            "n": 1891.0,
+            "positives": 6.0,
+            "precision": 0.18181818181818182,
+            "recall": 0.6666666666666666,
+            "f1": 0.28571428571428575,
+            "false_positive_rate": 0.009549071618037135,
+            "pr_auc": 0.2232038468530746,
+            "precision_at_k": 0.005,
+            "k": 1000.0,
+            "value_recall": 0.6762589928057554,
+            "flags": 22.0
+          },
+          "shop": {
+            "n": 58.0,
+            "positives": 1.0,
+            "precision": 0.06666666666666667,
+            "recall": 1.0,
+            "f1": 0.125,
+            "false_positive_rate": 0.24561403508771928,
+            "pr_auc": 0.3333333333333333,
+            "precision_at_k": 0.02,
+            "k": 50.0,
+            "value_recall": 1.0,
+            "flags": 15.0
+          },
+          "bootstrap_95ci": {
+            "payment": {
+              "precision": [
+                0.0,
+                0.48484848484848486
+              ],
+              "recall": [
+                0.6666666666666666,
+                0.6666666666666666
+              ],
+              "f1": [
+                0.2285714285714286,
+                0.5704260651629073
+              ],
+              "false_positive_rate": [
+                0.004413301095817679,
+                0.01535565850982474
+              ],
+              "pr_auc": [
+                0.15292229805291413,
+                0.5686950863613142
+              ],
+              "precision_at_k": [
+                0.0,
+                0.018
+              ],
+              "value_recall": [
+                0.6762589928057554,
+                0.6762589928057554
+              ]
+            },
+            "shop": {
+              "precision": [
+                0.0,
+                0.23181818181818206
+              ],
+              "recall": [
+                1.0,
+                1.0
+              ],
+              "f1": [
+                0.09654761904761905,
+                0.440079365079365
+              ],
+              "false_positive_rate": [
+                0.14029038112522685,
+                0.3623922413793104
+              ],
+              "pr_auc": [
+                0.2,
+                1.0
+              ],
+              "precision_at_k": [
+                0.0,
+                0.06050000000000011
+              ],
+              "value_recall": [
+                1.0,
+                1.0
+              ]
+            }
+          }
+        },
+        {
+          "name": "isolation_forest",
+          "error": null,
+          "threshold": 0.07994865526690276,
+          "train_seconds": 0.09365752799999427,
+          "inference_seconds": 0.009739523000007466,
+          "train_rows": 18131,
+          "payment": {
+            "n": 1891.0,
+            "positives": 6.0,
+            "precision": 0.29411764705882354,
+            "recall": 0.8333333333333334,
+            "f1": 0.4347826086956522,
+            "false_positive_rate": 0.00636604774535809,
+            "pr_auc": 0.45799396681749616,
+            "precision_at_k": 0.006,
+            "k": 1000.0,
+            "value_recall": 0.8633093525179856,
+            "flags": 17.0
+          },
+          "shop": {
+            "n": 58.0,
+            "positives": 1.0,
+            "precision": 0.1,
+            "recall": 1.0,
+            "f1": 0.18181818181818182,
+            "false_positive_rate": 0.15789473684210525,
+            "pr_auc": 1.0,
+            "precision_at_k": 0.02,
+            "k": 50.0,
+            "value_recall": 1.0,
+            "flags": 10.0
+          },
+          "bootstrap_95ci": {
+            "payment": {
+              "precision": [
+                0.0,
+                0.667857142857143
+              ],
+              "recall": [
+                0.8333333333333334,
+                0.8333333333333334
+              ],
+              "f1": [
+                0.3225806451612903,
+                0.7692307692307692
+              ],
+              "false_positive_rate": [
+                0.0022871629098482706,
+                0.012582295163349253
+              ],
+              "pr_auc": [
+                0.3648904336970432,
+                0.7890976265114196
+              ],
+              "precision_at_k": [
+                0.0,
+                0.018
+              ],
+              "value_recall": [
+                0.8633093525179856,
+                0.8633093525179856
+              ]
+            },
+            "shop": {
+              "precision": [
+                0.0,
+                0.33541666666666714
+              ],
+              "recall": [
+                1.0,
+                1.0
+              ],
+              "f1": [
+                0.125,
+                0.5882352941176471
+              ],
+              "false_positive_rate": [
+                0.07014519056261342,
+                0.25021551724137936
+              ],
+              "pr_auc": [
+                1.0,
+                1.0
+              ],
+              "precision_at_k": [
+                0.0,
+                0.06050000000000011
+              ],
+              "value_recall": [
+                1.0,
+                1.0
+              ]
+            }
+          }
+        },
+        {
+          "name": "autoencoder",
+          "error": null,
+          "threshold": 0.9735401127485778,
+          "train_seconds": 0.42651068599991504,
+          "inference_seconds": 0.0075942219999660665,
+          "train_rows": 18131,
+          "payment": {
+            "n": 1891.0,
+            "positives": 6.0,
+            "precision": 0.08888888888888889,
+            "recall": 0.6666666666666666,
+            "f1": 0.1568627450980392,
+            "false_positive_rate": 0.021750663129973476,
+            "pr_auc": 0.06659379198834005,
+            "precision_at_k": 0.006,
+            "k": 1000.0,
+            "value_recall": 0.6762589928057554,
+            "flags": 45.0
+          },
+          "shop": {
+            "n": 58.0,
+            "positives": 1.0,
+            "precision": 0.034482758620689655,
+            "recall": 1.0,
+            "f1": 0.06666666666666667,
+            "false_positive_rate": 0.49122807017543857,
+            "pr_auc": 0.03571428571428571,
+            "precision_at_k": 0.02,
+            "k": 50.0,
+            "value_recall": 1.0,
+            "flags": 29.0
+          },
+          "bootstrap_95ci": {
+            "payment": {
+              "precision": [
+                0.0,
+                0.2624043715846995
+              ],
+              "recall": [
+                0.6666666666666666,
+                0.6666666666666666
+              ],
+              "f1": [
+                0.1313661202185792,
+                0.3921935987509757
+              ],
+              "false_positive_rate": [
+                0.014377139890081029,
+                0.02889908955114831
+              ],
+              "pr_auc": [
+                0.05692524709815279,
+                0.221596899883844
+              ],
+              "precision_at_k": [
+                0.0,
+                0.018
+              ],
+              "value_recall": [
+                0.6762589928057554,
+                0.6762589928057554
+              ]
+            },
+            "shop": {
+              "precision": [
+                0.0,
+                0.1203333333333334
+              ],
+              "recall": [
+                1.0,
+                1.0
+              ],
+              "f1": [
+                0.05555555555555556,
+                0.23870588235294116
+              ],
+              "false_positive_rate": [
+                0.3454388714733542,
+                0.6209618874773141
+              ],
+              "pr_auc": [
+                0.02857142857142857,
+                0.14803571428571424
+              ],
+              "precision_at_k": [
+                0.0,
+                0.06050000000000011
+              ],
+              "value_recall": [
+                1.0,
+                1.0
+              ]
+            }
+          },
+          "autoencoder_iterations": 21,
+          "autoencoder_hidden": 16
+        }
+      ],
+      "dataset": {
+        "n_shops": 300,
+        "n_customers": 3000,
+        "n_agents": 60,
+        "calendar_start": "2026-09-16",
+        "calendar_days": 30,
+        "holdout_pattern": "turnover_burst",
+        "analyst_capacity_payments": 1000,
+        "analyst_capacity_shops": 50,
+        "train_end": "2026-10-05",
+        "validation_end": "2026-10-10"
+      }
+    },
+    {
+      "seed": 2026,
+      "validation_payments": 2161,
+      "validation_payment_positives": 31,
+      "validation_shops": 57,
+      "validation_shop_positives": 4,
+      "payment_k": 1000,
+      "shop_k": 50,
+      "features": [
+        "amount",
+        "on_us",
+        "is_round_100",
+        "is_round_500",
+        "is_round_1000",
+        "just_under_cap",
+        "after_regime_change",
+        "amount_vs_category_median",
+        "hour",
+        "is_friday",
+        "after_hours",
+        "payer_day_total",
+        "payer_day_shops",
+        "payer_day_total_vs_limit",
+        "near_limit",
+        "payer_day_payments_here",
+        "inflow_recent",
+        "paid_share_of_recent_inflow",
+        "remittance_recent",
+        "paid_share_of_recent_remittance",
+        "payer_shop_distance_km",
+        "first_visit",
+        "payer_account_age_days",
+        "payer_payments_7d",
+        "payer_amount_7d",
+        "payer_shop_days_7d",
+        "payer_round_share_7d",
+        "payer_first_visit_share_7d",
+        "payer_inflow_7d",
+        "payer_bank_topups_7d",
+        "turnover_7d",
+        "payments_7d",
+        "unique_payers_per_day_7d",
+        "round_1000_share_30d",
+        "after_hours_share_30d",
+        "first_visit_share_30d",
+        "far_payer_share_30d",
+        "last_day_vs_own_median_30d",
+        "qr_codes_per_account",
+        "turnover_vs_peers_7d",
+        "owner_p2p_senders_7d",
+        "shop_age_days",
+        "is_open"
+      ],
+      "lightgbm_params": {
+        "objective": "cross_entropy",
+        "learning_rate": 0.05,
+        "num_leaves": 31,
+        "min_child_samples": 50,
+        "feature_fraction": 0.8,
+        "bagging_fraction": 0.8,
+        "bagging_freq": 1,
+        "lambda_l2": 1.0,
+        "num_boost_round": 150,
+        "early_stopping_rounds": 20
+      },
+      "target_mode": "weak_and_cases",
+      "models": [
+        {
+          "name": "rules_only",
+          "error": null,
+          "threshold": 0.5,
+          "train_seconds": 0.0,
+          "inference_seconds": 0.00015402199994696275,
+          "train_rows": 0,
+          "payment": {
+            "n": 2161.0,
+            "positives": 31.0,
+            "precision": 0.6,
+            "recall": 0.2903225806451613,
+            "f1": 0.3913043478260869,
+            "false_positive_rate": 0.0028169014084507044,
+            "pr_auc": 0.16716971931552996,
+            "precision_at_k": 0.015,
+            "k": 1000.0,
+            "value_recall": 0.3287701237542438,
+            "flags": 15.0
+          },
+          "shop": {
+            "n": 57.0,
+            "positives": 4.0,
+            "precision": 0.42857142857142855,
+            "recall": 0.75,
+            "f1": 0.5454545454545454,
+            "false_positive_rate": 0.07547169811320754,
+            "pr_auc": 0.3151629072681704,
+            "precision_at_k": 0.08,
+            "k": 50.0,
+            "value_recall": 0.935578217706971,
+            "flags": 7.0
+          },
+          "bootstrap_95ci": {
+            "payment": {
+              "precision": [
+                0.0,
+                1.0
+              ],
+              "recall": [
+                0.11250000000000004,
+                0.42857142857142855
+              ],
+              "f1": [
+                0.14687100893997446,
+                0.5427083333333333
+              ],
+              "false_positive_rate": [
+                0.0,
+                0.006577204861972694
+              ],
+              "pr_auc": [
+                0.022704964716552197,
+                0.34835158267782584
+              ],
+              "precision_at_k": [
+                0.0009750000000000006,
+                0.04407500000000002
+              ],
+              "value_recall": [
+                0.06205870467653653,
+                0.403422348975888
+              ]
+            },
+            "shop": {
+              "precision": [
+                0.0,
+                0.8333333333333334
+              ],
+              "recall": [
+                0.0,
+                1.0
+              ],
+              "f1": [
+                0.0,
+                0.8357142857142856
+              ],
+              "false_positive_rate": [
+                0.01922169811320755,
+                0.13725490196078433
+              ],
+              "pr_auc": [
+                0.017543859649122806,
+                0.7675438596491229
+              ],
+              "precision_at_k": [
+                0.01950000000000001,
+                0.14
+              ],
+              "value_recall": [
+                0.0,
+                1.0
+              ]
+            }
+          }
+        },
+        {
+          "name": "graph_shared_payers",
+          "error": null,
+          "threshold": 16.0,
+          "train_seconds": 0.09123432100000173,
+          "inference_seconds": 2.5349999077661778e-06,
+          "train_rows": 48838,
+          "payment": {
+            "n": 2161.0,
+            "positives": 31.0,
+            "precision": 0.014345210550670985,
+            "recall": 1.0,
+            "f1": 0.028284671532846715,
+            "false_positive_rate": 1.0,
+            "pr_auc": 0.009398237771607237,
+            "precision_at_k": 0.0,
+            "k": 1000.0,
+            "value_recall": 1.0,
+            "flags": 2161.0
+          },
+          "shop": {
+            "n": 57.0,
+            "positives": 4.0,
+            "precision": 0.07017543859649122,
+            "recall": 1.0,
+            "f1": 0.13114754098360656,
+            "false_positive_rate": 1.0,
+            "pr_auc": 0.0653460574513206,
+            "precision_at_k": 0.06,
+            "k": 50.0,
+            "value_recall": 1.0,
+            "flags": 57.0
+          },
+          "bootstrap_95ci": {
+            "payment": {
+              "precision": [
+                0.0005562304418416455,
+                0.03437908331284144
+              ],
+              "recall": [
+                1.0,
+                1.0
+              ],
+              "f1": [
+                0.005321635160569048,
+                0.06651849905205263
+              ],
+              "false_positive_rate": [
+                1.0,
+                1.0
+              ],
+              "pr_auc": [
+                0.002152577539485818,
+                0.024891117489589058
+              ],
+              "precision_at_k": [
+                0.0,
+                0.010100000000000022
+              ],
+              "value_recall": [
+                1.0,
+                1.0
+              ]
+            },
+            "shop": {
+              "precision": [
+                0.017543859649122806,
+                0.12324561403508781
+              ],
+              "recall": [
+                1.0,
+                1.0
+              ],
+              "f1": [
+                0.034482758620689655,
+                0.22149038461538445
+              ],
+              "false_positive_rate": [
+                1.0,
+                1.0
+              ],
+              "pr_auc": [
+                0.022173913043478263,
+                0.15832152439923336
+              ],
+              "precision_at_k": [
+                0.0,
+                0.12
+              ],
+              "value_recall": [
+                1.0,
+                1.0
+              ]
+            }
+          }
+        },
+        {
+          "name": "logistic_regression",
+          "error": null,
+          "threshold": 0.8604714120487104,
+          "train_seconds": 1.1961896340000067,
+          "inference_seconds": 0.0023802180000984663,
+          "train_rows": 16327,
+          "payment": {
+            "n": 2161.0,
+            "positives": 31.0,
+            "precision": 0.6923076923076923,
+            "recall": 0.2903225806451613,
+            "f1": 0.4090909090909091,
+            "false_positive_rate": 0.0018779342723004694,
+            "pr_auc": 0.5752640426564499,
+            "precision_at_k": 0.031,
+            "k": 1000.0,
+            "value_recall": 0.40637260270442643,
+            "flags": 13.0
+          },
+          "shop": {
+            "n": 57.0,
+            "positives": 4.0,
+            "precision": 0.42857142857142855,
+            "recall": 0.75,
+            "f1": 0.5454545454545454,
+            "false_positive_rate": 0.07547169811320754,
+            "pr_auc": 0.6071428571428572,
+            "precision_at_k": 0.08,
+            "k": 50.0,
+            "value_recall": 0.935578217706971,
+            "flags": 7.0
+          },
+          "bootstrap_95ci": {
+            "payment": {
+              "precision": [
+                0.0,
+                0.916826923076923
+              ],
+              "recall": [
+                0.05625000000000002,
+                0.5714285714285714
+              ],
+              "f1": [
+                0.07826086956521743,
+                0.6324210526315789
+              ],
+              "false_positive_rate": [
+                0.0004179583249890673,
+                0.00456732570288948
+              ],
+              "pr_auc": [
+                0.19557665511492686,
+                0.8218770671247971
+              ],
+              "precision_at_k": [
+                0.001,
+                0.06507500000000002
+              ],
+              "value_recall": [
+                0.029756438044157098,
+                0.5270935960591133
+              ]
+            },
+            "shop": {
+              "precision": [
+                0.0,
+                0.8916666666666673
+              ],
+              "recall": [
+                0.0,
+                1.0
+              ],
+              "f1": [
+                0.0,
+                0.8333333333333333
+              ],
+              "false_positive_rate": [
+                0.017410714285714293,
+                0.15384615384615385
+              ],
+              "pr_auc": [
+                0.0990909090909091,
+                1.0
+              ],
+              "precision_at_k": [
+                0.02,
+                0.14050000000000012
+              ],
+              "value_recall": [
+                0.0,
+                1.0
+              ]
+            }
+          }
+        },
+        {
+          "name": "random_forest",
+          "error": null,
+          "threshold": 0.21683220460035485,
+          "train_seconds": 0.9437641289999874,
+          "inference_seconds": 0.007268616000033035,
+          "train_rows": 16327,
+          "payment": {
+            "n": 2161.0,
+            "positives": 31.0,
+            "precision": 0.38235294117647056,
+            "recall": 0.41935483870967744,
+            "f1": 0.39999999999999997,
+            "false_positive_rate": 0.009859154929577466,
+            "pr_auc": 0.4353160457434555,
+            "precision_at_k": 0.031,
+            "k": 1000.0,
+            "value_recall": 0.6734266590219485,
+            "flags": 34.0
+          },
+          "shop": {
+            "n": 57.0,
+            "positives": 4.0,
+            "precision": 0.25,
+            "recall": 1.0,
+            "f1": 0.4,
+            "false_positive_rate": 0.22641509433962265,
+            "pr_auc": 0.5270833333333333,
+            "precision_at_k": 0.08,
+            "k": 50.0,
+            "value_recall": 1.0,
+            "flags": 16.0
+          },
+          "bootstrap_95ci": {
+            "payment": {
+              "precision": [
+                0.06183035714285716,
+                0.6543918918918921
+              ],
+              "recall": [
+                0.15384615384615385,
+                0.8999999999999994
+              ],
+              "f1": [
+                0.12462121212121212,
+                0.6270133164235889
+              ],
+              "false_positive_rate": [
+                0.0041727760524355225,
+                0.019086511663995845
+              ],
+              "pr_auc": [
+                0.13390036349267093,
+                0.8397064980352462
+              ],
+              "precision_at_k": [
+                0.001,
+                0.06507500000000002
+              ],
+              "value_recall": [
+                0.1535880860813354,
+                0.8629629629629622
+              ]
+            },
+            "shop": {
+              "precision": [
+                0.06240808823529412,
+                0.5
+              ],
+              "recall": [
+                1.0,
+                1.0
+              ],
+              "f1": [
+                0.12426470588235294,
+                0.6666666666666666
+              ],
+              "false_positive_rate": [
+                0.11715686274509805,
+                0.33349056603773586
+              ],
+              "pr_auc": [
+                0.14285714285714285,
+                1.0
+              ],
+              "precision_at_k": [
+                0.02,
+                0.14050000000000012
+              ],
+              "value_recall": [
+                1.0,
+                1.0
+              ]
+            }
+          }
+        },
+        {
+          "name": "xgboost",
+          "error": null,
+          "threshold": 0.03995417430996895,
+          "train_seconds": 0.23328233699999146,
+          "inference_seconds": 0.020354558000008183,
+          "train_rows": 16327,
+          "payment": {
+            "n": 2161.0,
+            "positives": 31.0,
+            "precision": 0.24,
+            "recall": 0.3870967741935484,
+            "f1": 0.2962962962962963,
+            "false_positive_rate": 0.01784037558685446,
+            "pr_auc": 0.2815522225209442,
+            "precision_at_k": 0.031,
+            "k": 1000.0,
+            "value_recall": 0.6617018946446173,
+            "flags": 50.0
+          },
+          "shop": {
+            "n": 57.0,
+            "positives": 4.0,
+            "precision": 0.14814814814814814,
+            "recall": 1.0,
+            "f1": 0.25806451612903225,
+            "false_positive_rate": 0.4339622641509434,
+            "pr_auc": 0.30448717948717946,
+            "precision_at_k": 0.08,
+            "k": 50.0,
+            "value_recall": 1.0,
+            "flags": 27.0
+          },
+          "bootstrap_95ci": {
+            "payment": {
+              "precision": [
+                0.03023989898989899,
+                0.4365656565656566
+              ],
+              "recall": [
+                0.15384615384615385,
+                0.8999999999999994
+              ],
+              "f1": [
+                0.08299999999999999,
+                0.5
+              ],
+              "false_positive_rate": [
+                0.01121620989131,
+                0.026925408911449525
+              ],
+              "pr_auc": [
+                0.07710819606475178,
+                0.6559805598692208
+              ],
+              "precision_at_k": [
+                0.001,
+                0.06507500000000002
+              ],
+              "value_recall": [
+                0.1535880860813354,
+                0.8629629629629622
+              ]
+            },
+            "shop": {
+              "precision": [
+                0.03697318007662835,
+                0.30443143812709034
+              ],
+              "recall": [
+                1.0,
+                1.0
+              ],
+              "f1": [
+                0.07663817663817664,
+                0.46705882352941175
+              ],
+              "false_positive_rate": [
+                0.30183962264150943,
+                0.5820875420875421
+              ],
+              "pr_auc": [
+                0.0641306925996205,
+                0.8129047619047617
+              ],
+              "precision_at_k": [
+                0.02,
+                0.14050000000000012
+              ],
+              "value_recall": [
+                1.0,
+                1.0
+              ]
+            }
+          }
+        },
+        {
+          "name": "lightgbm",
+          "error": null,
+          "threshold": 0.24637681159420288,
+          "train_seconds": 0.18056807699997535,
+          "inference_seconds": 0.011157808000007208,
+          "train_rows": 16327,
+          "payment": {
+            "n": 2161.0,
+            "positives": 31.0,
+            "precision": 0.18309859154929578,
+            "recall": 0.41935483870967744,
+            "f1": 0.25490196078431376,
+            "false_positive_rate": 0.027230046948356807,
+            "pr_auc": 0.17577777275240994,
+            "precision_at_k": 0.031,
+            "k": 1000.0,
+            "value_recall": 0.6734266590219485,
+            "flags": 71.0
+          },
+          "shop": {
+            "n": 57.0,
+            "positives": 4.0,
+            "precision": 0.125,
+            "recall": 1.0,
+            "f1": 0.2222222222222222,
+            "false_positive_rate": 0.5283018867924528,
+            "pr_auc": 0.22916666666666663,
+            "precision_at_k": 0.08,
+            "k": 50.0,
+            "value_recall": 1.0,
+            "flags": 32.0
+          },
+          "bootstrap_95ci": {
+            "payment": {
+              "precision": [
+                0.019903225806451614,
+                0.348006244424621
+              ],
+              "recall": [
+                0.15384615384615385,
+                0.8999999999999994
+              ],
+              "f1": [
+                0.05834658187599363,
+                0.42236036036036023
+              ],
+              "false_positive_rate": [
+                0.017908760602901697,
+                0.04072404854483328
+              ],
+              "pr_auc": [
+                0.042579883427503774,
+                0.5350451767763752
+              ],
+              "precision_at_k": [
+                0.001,
+                0.06507500000000002
+              ],
+              "value_recall": [
+                0.1535880860813354,
+                0.8629629629629622
+              ]
+            },
+            "shop": {
+              "precision": [
+                0.03122632575757576,
+                0.23148148148148165
+              ],
+              "recall": [
+                1.0,
+                1.0
+              ],
+              "f1": [
+                0.0625,
+                0.37867647058823506
+              ],
+              "false_positive_rate": [
+                0.4072222222222222,
+                0.6601666666666667
+              ],
+              "pr_auc": [
+                0.052496626180836704,
+                0.6723070607553364
+              ],
+              "precision_at_k": [
+                0.02,
+                0.14050000000000012
+              ],
+              "value_recall": [
+                1.0,
+                1.0
+              ]
+            }
+          }
+        },
+        {
+          "name": "isolation_forest",
+          "error": null,
+          "threshold": 0.04498377733266279,
+          "train_seconds": 0.19277376700006243,
+          "inference_seconds": 0.026425650999954087,
+          "train_rows": 17901,
+          "payment": {
+            "n": 2161.0,
+            "positives": 31.0,
+            "precision": 0.375,
+            "recall": 0.2903225806451613,
+            "f1": 0.3272727272727273,
+            "false_positive_rate": 0.007042253521126761,
+            "pr_auc": 0.2727859115697192,
+            "precision_at_k": 0.031,
+            "k": 1000.0,
+            "value_recall": 0.7298987933800176,
+            "flags": 24.0
+          },
+          "shop": {
+            "n": 57.0,
+            "positives": 4.0,
+            "precision": 0.2727272727272727,
+            "recall": 0.75,
+            "f1": 0.39999999999999997,
+            "false_positive_rate": 0.1509433962264151,
+            "pr_auc": 0.4601449275362319,
+            "precision_at_k": 0.08,
+            "k": 50.0,
+            "value_recall": 0.8757625928478937,
+            "flags": 11.0
+          },
+          "bootstrap_95ci": {
+            "payment": {
+              "precision": [
+                0.0,
+                0.7668750000000001
+              ],
+              "recall": [
+                0.0,
+                1.0
+              ],
+              "f1": [
+                0.0,
+                0.7032673267326731
+              ],
+              "false_positive_rate": [
+                0.0020379881567766604,
+                0.017059109542879414
+              ],
+              "pr_auc": [
+                0.028471886446116073,
+                0.8797013754591577
+              ],
+              "precision_at_k": [
+                0.001,
+                0.06507500000000002
+              ],
+              "value_recall": [
+                0.0,
+                1.0
+              ]
+            },
+            "shop": {
+              "precision": [
+                0.0,
+                0.6006250000000001
+              ],
+              "recall": [
+                0.0,
+                1.0
+              ],
+              "f1": [
+                0.0,
+                0.7148571428571429
+              ],
+              "false_positive_rate": [
+                0.05657756813417191,
+                0.25
+              ],
+              "pr_auc": [
+                0.09081818181818183,
+                1.0
+              ],
+              "precision_at_k": [
+                0.02,
+                0.14050000000000012
+              ],
+              "value_recall": [
+                0.0,
+                1.0
+              ]
+            }
+          }
+        },
+        {
+          "name": "autoencoder",
+          "error": null,
+          "threshold": 0.7305663403467615,
+          "train_seconds": 1.4956192999999303,
+          "inference_seconds": 0.0016373580000390575,
+          "train_rows": 17901,
+          "payment": {
+            "n": 2161.0,
+            "positives": 31.0,
+            "precision": 0.10112359550561797,
+            "recall": 0.2903225806451613,
+            "f1": 0.15000000000000002,
+            "false_positive_rate": 0.03755868544600939,
+            "pr_auc": 0.09898866572430756,
+            "precision_at_k": 0.031,
+            "k": 1000.0,
+            "value_recall": 0.501968085449052,
+            "flags": 89.0
+          },
+          "shop": {
+            "n": 57.0,
+            "positives": 4.0,
+            "precision": 0.125,
+            "recall": 1.0,
+            "f1": 0.2222222222222222,
+            "false_positive_rate": 0.5283018867924528,
+            "pr_auc": 0.13287037037037036,
+            "precision_at_k": 0.08,
+            "k": 50.0,
+            "value_recall": 1.0,
+            "flags": 32.0
+          },
+          "bootstrap_95ci": {
+            "payment": {
+              "precision": [
+                0.0,
+                0.22410652173913045
+              ],
+              "recall": [
+                0.11250000000000004,
+                0.7142857142857143
+              ],
+              "f1": [
+                0.026666666666666675,
+                0.2933943089430893
+              ],
+              "false_positive_rate": [
+                0.026497607096250476,
+                0.0489481083520529
+              ],
+              "pr_auc": [
+                0.022737030186884055,
+                0.21963553477650835
+              ],
+              "precision_at_k": [
+                0.001,
+                0.06507500000000002
+              ],
+              "value_recall": [
+                0.059645126924066004,
+                0.6945812807881774
+              ]
+            },
+            "shop": {
+              "precision": [
+                0.02939075630252101,
+                0.22862637362637364
+              ],
+              "recall": [
+                1.0,
+                1.0
+              ],
+              "f1": [
+                0.06060606060606061,
+                0.3723837209302325
+              ],
+              "false_positive_rate": [
+                0.4106316137566137,
+                0.6792452830188679
+              ],
+              "pr_auc": [
+                0.05526315789473684,
+                0.3188894438894437
+              ],
+              "precision_at_k": [
+                0.02,
+                0.14050000000000012
+              ],
+              "value_recall": [
+                1.0,
+                1.0
+              ]
+            }
+          },
+          "autoencoder_iterations": 40,
+          "autoencoder_hidden": 16
+        }
+      ],
+      "dataset": {
+        "n_shops": 300,
+        "n_customers": 3000,
+        "n_agents": 60,
+        "calendar_start": "2026-09-16",
+        "calendar_days": 30,
+        "holdout_pattern": "turnover_burst",
+        "analyst_capacity_payments": 1000,
+        "analyst_capacity_shops": 50,
+        "train_end": "2026-10-05",
+        "validation_end": "2026-10-10"
+      }
+    }
+  ],
+  "compute_seconds": 9.862969129000021,
+  "provenance": {
+    "config_hash": "404238f8be70fff3",
+    "config_hashes": {
+      "world": "931b185832d441ca",
+      "patterns": "c51f9c01b65b75ac",
+      "thresholds": "3663013d2c2f7648",
+      "models": "6a16fc98e17a479e",
+      "rules": "aa7843f343905a31"
+    },
+    "git": {
+      "commit": "a96e5fb",
+      "dirty": true
+    },
+    "model_fingerprint": null
+  },
+  "decision": "We keep LightGBM. Random forest leads mean supervised payment PR-AUC by 0.310, inside the combined seed-to-seed std (0.506). It is ahead of LightGBM on that metric in 3 of 3 seeds. The pre-set bar for swapping the frozen payment model is a mean gap larger than that combined std, so we keep LightGBM. The direction of the lead is consistent across seeds; what the std leaves open is the size of the lead. On validation payments its precision is 0.374 \u00b1 0.331, recall 0.620 \u00b1 0.182, F1 0.435 \u00b1 0.286, false-positive rate 0.015 \u00b1 0.011, PR-AUC 0.363 \u00b1 0.284, and share of misuse taka caught 0.709 \u00b1 0.060 (N=1,823, pos=26). At shop level its F1 is 0.294 \u00b1 0.213 and its PR-AUC is 0.521 \u00b1 0.418 (N=56, pos=3). Train time is 0.228 \u00b1 0.041 s and inference is 0.011 \u00b1 0.001 s. Shop-cluster bootstrap 95% CIs for its payment PR-AUC: seed 42 0.498\u20130.767, seed 7 0.153\u20130.569, seed 2026 0.043\u20130.535. The rules baseline is better on payment false-positive rate (0.002 \u00b1 0.001 versus 0.015 \u00b1 0.011, gap 0.013, combined std 0.012). Rules-only payment PR-AUC is 0.301 \u00b1 0.116 (gap versus the kept model -0.062, combined std 0.400). The gap versus rules is inside the combined seed-to-seed std. Behaviour-shift numbers stay the ones already published in reports/final_test.md. The shared-payer graph rule has payment PR-AUC 0.012 \u00b1 0.011. Its hypothesis is that a shop sharing many payers with other shops is a ring; ordinary neighbours share regulars as well, and the count updates only on the next day, so a same-day ring is invisible to it until tomorrow. Isolation forest and the autoencoder are unsupervised baselines trained without the weak labels. A higher score only raises a case in the human review queue.",
+  "caveats": [
+    "Profile `fast`: 300 shops, 3000 customers, 60 agents, 30 days from 2026-09-16. Same generator, patterns, features and shop+time split as the reference world. These numbers are the fast profile. The frozen reference metrics stay in reports/validation_evaluation.md and reports/final_test.md.",
+    "Thresholds maximise F1 against validation targets from rules and past cases. LightGBM's isotonic calibrator is fit on those same validation targets, as in the frozen payment model. The hidden truth is used only to grade. Flag metrics on this split are therefore a little optimistic. PR-AUC and precision at k use the ranking, not the cut.",
+    "Supervised models train on soft targets (rules plus past cases) for LightGBM and XGBoost. Logistic regression and random forest need a hard 0/1 label, so they use the soft target cut at 0.5 with the same evidence weights. That difference is a property of the libraries, and it can move their thresholded metrics.",
+    "The held-out pattern `turnover_burst` is forced into test by the project split, using the hidden pattern name only to place shops. Those shops are absent from these metrics. Peer-group medians still come from the existing feature pipeline.",
+    "3 seeds is a small sample, so the std is itself noisy. The bootstrap resamples shops inside one seed; it is a different uncertainty from the seed-to-seed std.",
+    "Shop-level value recall treats a flagged shop as catching all of its validation misuse taka. Payment-level value recall counts only the flagged payments.",
+    "Precision at analyst capacity cannot exceed positives/k. When that ceiling is near the positive rate, most models tie and the metric stops separating them. PR-AUC, F1 and misuse taka caught still separate them. seed 42: payment precision@k \u2264 0.040 (k=1000, positives=40, N=1416); shop precision@k \u2264 0.080 (k=50, positives=4, N=53); seed 7: payment precision@k \u2264 0.006 (k=1000, positives=6, N=1891); shop precision@k \u2264 0.020 (k=50, positives=1, N=58); seed 2026: payment precision@k \u2264 0.031 (k=1000, positives=31, N=2161); shop precision@k \u2264 0.080 (k=50, positives=4, N=57).",
+    "A seed with very few misuse payments widens the std: seed 7: 6 misuse payments, 1 misuse shops.",
+    "Shop-level metrics rest on few misuse shops (seed 42: 4, seed 7: 1, seed 2026: 4). A perfect shop F1 or PR-AUC on that count is a small sample."
+  ],
+  "kept_model": "lightgbm"
+}
