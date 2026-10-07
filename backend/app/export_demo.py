@@ -41,6 +41,7 @@ def main() -> None:
             if client.get("/cases").status_code != 200:
                 raise SystemExit("no trained system: run `make demo-data` first")
             save("health.json", {**health, "demo": True})
+            save("overview.json", client.get("/overview").json())
             cases = client.get("/cases", params={"limit": 200}).json()
             save("cases.json", cases)
             for c in cases["cases"][:TOP_CASES]:

@@ -1,0 +1,205 @@
+{
+ "as_of": "2026-10-15",
+ "window_days": 7,
+ "window": {
+  "start": "2026-10-09",
+  "end": "2026-10-15",
+  "previous_start": "2026-10-02"
+ },
+ "volume": {
+  "turnover_7d": 19089612.0,
+  "turnover_previous_7d": 18152521.0,
+  "delta_vs_previous": 0.0516,
+  "payments_7d": 13716,
+  "flagged_7d": 248,
+  "flagged_turnover_7d": 3057965.0
+ },
+ "daily": [
+  {
+   "day": "2026-10-02",
+   "payments": 1845,
+   "turnover": 2644155.0,
+   "flagged": 38,
+   "flagged_turnover": 588650.0
+  },
+  {
+   "day": "2026-10-03",
+   "payments": 2106,
+   "turnover": 2177393.0,
+   "flagged": 9,
+   "flagged_turnover": 58140.0
+  },
+  {
+   "day": "2026-10-04",
+   "payments": 2180,
+   "turnover": 3310104.0,
+   "flagged": 55,
+   "flagged_turnover": 740920.0
+  },
+  {
+   "day": "2026-10-05",
+   "payments": 2100,
+   "turnover": 2100288.0,
+   "flagged": 13,
+   "flagged_turnover": 90910.0
+  },
+  {
+   "day": "2026-10-06",
+   "payments": 1843,
+   "turnover": 2089809.0,
+   "flagged": 16,
+   "flagged_turnover": 141940.0
+  },
+  {
+   "day": "2026-10-07",
+   "payments": 1990,
+   "turnover": 2895541.0,
+   "flagged": 25,
+   "flagged_turnover": 370950.0
+  },
+  {
+   "day": "2026-10-08",
+   "payments": 1994,
+   "turnover": 2935231.0,
+   "flagged": 33,
+   "flagged_turnover": 411225.0
+  },
+  {
+   "day": "2026-10-09",
+   "payments": 1709,
+   "turnover": 2709736.0,
+   "flagged": 43,
+   "flagged_turnover": 545675.0
+  },
+  {
+   "day": "2026-10-10",
+   "payments": 2076,
+   "turnover": 3036698.0,
+   "flagged": 46,
+   "flagged_turnover": 633950.0
+  },
+  {
+   "day": "2026-10-11",
+   "payments": 1962,
+   "turnover": 2031280.0,
+   "flagged": 18,
+   "flagged_turnover": 148600.0
+  },
+  {
+   "day": "2026-10-12",
+   "payments": 2008,
+   "turnover": 2446601.0,
+   "flagged": 18,
+   "flagged_turnover": 239610.0
+  },
+  {
+   "day": "2026-10-13",
+   "payments": 2000,
+   "turnover": 2743141.0,
+   "flagged": 20,
+   "flagged_turnover": 166955.0
+  },
+  {
+   "day": "2026-10-14",
+   "payments": 1971,
+   "turnover": 2838127.0,
+   "flagged": 41,
+   "flagged_turnover": 509375.0
+  },
+  {
+   "day": "2026-10-15",
+   "payments": 1990,
+   "turnover": 3284029.0,
+   "flagged": 62,
+   "flagged_turnover": 813800.0
+  }
+ ],
+ "shops": {
+  "monitored": 300,
+  "high": 1,
+  "review": 35,
+  "low": 264,
+  "alerts": 36,
+  "ring_linked": 14,
+  "with_linking_payers": 14,
+  "mean_risk": 0.307
+ },
+ "recent_flagged_payments": [
+  {
+   "payment_id": "QP797936dd851e",
+   "shop_id": "SHa5ebb21c37",
+   "category": "tea_stall",
+   "ts": "2026-10-15T21:43:20",
+   "amount": 7000,
+   "score": 1.0,
+   "band": "high",
+   "status": "needs review (high priority)"
+  },
+  {
+   "payment_id": "QP837c558b88e9",
+   "shop_id": "SH9e6856cf11",
+   "category": "grocery",
+   "ts": "2026-10-15T20:16:20",
+   "amount": 9700,
+   "score": 1.0,
+   "band": "review",
+   "status": "needs review"
+  },
+  {
+   "payment_id": "QPa513a36c48da",
+   "shop_id": "SH9e6856cf11",
+   "category": "grocery",
+   "ts": "2026-10-15T19:56:44",
+   "amount": 14100,
+   "score": 1.0,
+   "band": "review",
+   "status": "needs review"
+  },
+  {
+   "payment_id": "QPa66745448059",
+   "shop_id": "SH9e6856cf11",
+   "category": "grocery",
+   "ts": "2026-10-15T19:51:45",
+   "amount": 16800,
+   "score": 1.0,
+   "band": "review",
+   "status": "needs review"
+  },
+  {
+   "payment_id": "QPf75239e5dd0f",
+   "shop_id": "SH6f9e89c811",
+   "category": "grocery",
+   "ts": "2026-10-15T19:21:39",
+   "amount": 10000,
+   "score": 1.0,
+   "band": "review",
+   "status": "needs review"
+  },
+  {
+   "payment_id": "QP8de45fdf35b1",
+   "shop_id": "SH9e6856cf11",
+   "category": "grocery",
+   "ts": "2026-10-15T18:55:04",
+   "amount": 12200,
+   "score": 1.0,
+   "band": "review",
+   "status": "needs review"
+  }
+ ],
+ "model": {
+  "payment_model_fingerprint": "4d09a1e98a7365bc",
+  "payment_threshold": 0.6667,
+  "fusion_weights": {
+   "payment_top3_7d": 1.0,
+   "payment_flag_share_7d": 1.0,
+   "rules_flags_30d": 1.0,
+   "turnover_z": 1.0,
+   "peer_anomaly": 1.0,
+   "linking_payers": 1.0,
+   "ring_flag": 1.0,
+   "distant_payer_share": 1.0
+  },
+  "evidence_timestamp": "2026-10-15T00:00:00"
+ },
+ "note": "Synthetic demo data. Bands request a human review; nothing is blocked automatically."
+}

@@ -11,12 +11,12 @@
  },
  "scores": {
   "as_of": "2026-10-15",
-  "risk": 0.7556,
+  "risk": 0.752,
   "band": "review",
   "status": "needs review",
   "components": {
-   "payment_top3_7d": 0.816836005363931,
-   "payment_flag_share_7d": 0.46153846153846156,
+   "payment_top3_7d": 0.6730630490497123,
+   "payment_flag_share_7d": 0.07692307692307693,
    "rules_flags_30d": 15.0,
    "turnover_z": -1.0186485859547143,
    "peer_anomaly": 0.5921592492625374,
@@ -34,16 +34,16 @@
    "weight": 0.1237
   },
   {
-   "code": "FLAGGED_SHARE",
-   "en": "46% of its payments in the last 7 days were flagged.",
-   "bn": "গত ৭ দিনে এর ৪৬% পেমেন্ট চিহ্নিত হয়েছে।",
-   "weight": 0.1237
-  },
-  {
    "code": "RULES_FLAGS",
    "en": "Existing rules flagged 15 of its payments in the last 30 days.",
    "bn": "গত ৩০ দিনে বিদ্যমান নিয়মে এর ১৫টি পেমেন্ট চিহ্নিত হয়েছে।",
    "weight": 0.1235
+  },
+  {
+   "code": "RING",
+   "en": "Part of a group of 8 nearby shops sharing payers who go past the daily limit.",
+   "bn": "কাছাকাছি ৮টি দোকানের একটি দলের অংশ, যাদের গ্রাহকরা দৈনিক সীমা ছাড়িয়ে যান।",
+   "weight": 0.1226
   }
  ],
  "riskiest_payments": [
@@ -51,51 +51,25 @@
    "payment_id": "QP40a70aa60cac",
    "ts": "2026-09-24T19:07:59",
    "amount": 14000,
-   "score": 0.983,
+   "score": 0.9981,
    "reasons": [
     {
      "code": "LARGE_FOR_CATEGORY",
      "en": "Amount Tk 14,000 (1.3x the usual basket for this kind of shop).",
      "bn": "পরিমাণ ৳১৪,০০০ (এই ধরনের দোকানের সাধারণ কেনাকাটার ১.৩ গুণ)।",
-     "weight": 4.3586
+     "weight": 4.3926
     },
     {
      "code": "NEAR_LIMIT",
      "en": "Payer's QR total today: Tk 37,000 at 3 shops (123% of the Tk 30,000 daily limit).",
      "bn": "আজ এই গ্রাহকের মোট QR পেমেন্ট ৳৩৭,০০০, ৩টি দোকানে (দৈনিক ৳৩০,০০০ সীমার ১২৩%)।",
-     "weight": 3.3325
+     "weight": 3.264
     },
     {
      "code": "ROUND_AMOUNT",
      "en": "Round amount: Tk 14,000.",
      "bn": "রাউন্ড অঙ্কের পেমেন্ট: ৳১৪,০০০।",
-     "weight": 2.6235
-    }
-   ]
-  },
-  {
-   "payment_id": "QPe8249cb1fca6",
-   "ts": "2026-10-11T20:00:47",
-   "amount": 14000,
-   "score": 0.9766,
-   "reasons": [
-    {
-     "code": "LARGE_FOR_CATEGORY",
-     "en": "Amount Tk 14,000 (1.4x the usual basket for this kind of shop).",
-     "bn": "পরিমাণ ৳১৪,০০০ (এই ধরনের দোকানের সাধারণ কেনাকাটার ১.৪ গুণ)।",
-     "weight": 4.4559
-    },
-    {
-     "code": "NEAR_LIMIT",
-     "en": "Payer's QR total today: Tk 60,200 at 7 shops (201% of the Tk 30,000 daily limit).",
-     "bn": "আজ এই গ্রাহকের মোট QR পেমেন্ট ৳৬০,২০০, ৭টি দোকানে (দৈনিক ৳৩০,০০০ সীমার ২০১%)।",
-     "weight": 3.3154
-    },
-    {
-     "code": "ROUND_AMOUNT",
-     "en": "Round amount: Tk 14,000.",
-     "bn": "রাউন্ড অঙ্কের পেমেন্ট: ৳১৪,০০০।",
-     "weight": 2.4733
+     "weight": 2.6863
     }
    ]
   },
@@ -103,25 +77,25 @@
    "payment_id": "QPad15f06de1c5",
    "ts": "2026-09-30T21:04:09",
    "amount": 6000,
-   "score": 0.9482,
+   "score": 0.9421,
    "reasons": [
     {
      "code": "LARGE_FOR_CATEGORY",
      "en": "Amount Tk 6,000 (0.6x the usual basket for this kind of shop).",
      "bn": "পরিমাণ ৳৬,০০০ (এই ধরনের দোকানের সাধারণ কেনাকাটার ০.৬ গুণ)।",
-     "weight": 4.1554
+     "weight": 4.4845
     },
     {
      "code": "NEAR_LIMIT",
      "en": "Payer's QR total today: Tk 30,500 at 4 shops (102% of the Tk 30,000 daily limit).",
      "bn": "আজ এই গ্রাহকের মোট QR পেমেন্ট ৳৩০,৫০০, ৪টি দোকানে (দৈনিক ৳৩০,০০০ সীমার ১০২%)।",
-     "weight": 2.8726
+     "weight": 2.7773
     },
     {
      "code": "ROUND_AMOUNT",
      "en": "Round amount: Tk 6,000.",
      "bn": "রাউন্ড অঙ্কের পেমেন্ট: ৳৬,০০০।",
-     "weight": 2.6162
+     "weight": 2.45
     }
    ]
   },
@@ -129,25 +103,51 @@
    "payment_id": "QPe0362af72f26",
    "ts": "2026-10-02T13:49:27",
    "amount": 11000,
-   "score": 0.9309,
+   "score": 0.9241,
    "reasons": [
     {
      "code": "LARGE_FOR_CATEGORY",
      "en": "Amount Tk 11,000 (1.1x the usual basket for this kind of shop).",
      "bn": "পরিমাণ ৳১১,০০০ (এই ধরনের দোকানের সাধারণ কেনাকাটার ১.১ গুণ)।",
-     "weight": 4.0162
+     "weight": 4.2784
     },
     {
      "code": "NEAR_LIMIT",
      "en": "Payer's QR total today: Tk 33,000 at 3 shops (110% of the Tk 30,000 daily limit).",
      "bn": "আজ এই গ্রাহকের মোট QR পেমেন্ট ৳৩৩,০০০, ৩টি দোকানে (দৈনিক ৳৩০,০০০ সীমার ১১০%)।",
-     "weight": 3.8375
+     "weight": 3.8621
     },
     {
      "code": "ROUND_AMOUNT",
      "en": "Round amount: Tk 11,000.",
      "bn": "রাউন্ড অঙ্কের পেমেন্ট: ৳১১,০০০।",
-     "weight": 2.3185
+     "weight": 2.1601
+    }
+   ]
+  },
+  {
+   "payment_id": "QPe8249cb1fca6",
+   "ts": "2026-10-11T20:00:47",
+   "amount": 14000,
+   "score": 0.8812,
+   "reasons": [
+    {
+     "code": "LARGE_FOR_CATEGORY",
+     "en": "Amount Tk 14,000 (1.4x the usual basket for this kind of shop).",
+     "bn": "পরিমাণ ৳১৪,০০০ (এই ধরনের দোকানের সাধারণ কেনাকাটার ১.৪ গুণ)।",
+     "weight": 4.3979
+    },
+    {
+     "code": "NEAR_LIMIT",
+     "en": "Payer's QR total today: Tk 60,200 at 7 shops (201% of the Tk 30,000 daily limit).",
+     "bn": "আজ এই গ্রাহকের মোট QR পেমেন্ট ৳৬০,২০০, ৭টি দোকানে (দৈনিক ৳৩০,০০০ সীমার ২০১%)।",
+     "weight": 3.0618
+    },
+    {
+     "code": "ROUND_AMOUNT",
+     "en": "Round amount: Tk 14,000.",
+     "bn": "রাউন্ড অঙ্কের পেমেন্ট: ৳১৪,০০০।",
+     "weight": 2.6982
     }
    ]
   },
@@ -155,25 +155,25 @@
    "payment_id": "QPd2dcdf60e014",
    "ts": "2026-09-29T13:25:57",
    "amount": 11000,
-   "score": 0.9268,
+   "score": 0.7929,
    "reasons": [
     {
      "code": "LARGE_FOR_CATEGORY",
      "en": "Amount Tk 11,000 (1.0x the usual basket for this kind of shop).",
      "bn": "পরিমাণ ৳১১,০০০ (এই ধরনের দোকানের সাধারণ কেনাকাটার ১.০ গুণ)।",
-     "weight": 4.2234
+     "weight": 4.4077
     },
     {
      "code": "NEAR_LIMIT",
      "en": "Payer's QR total today: Tk 44,500 at 4 shops (148% of the Tk 30,000 daily limit).",
      "bn": "আজ এই গ্রাহকের মোট QR পেমেন্ট ৳৪৪,৫০০, ৪টি দোকানে (দৈনিক ৳৩০,০০০ সীমার ১৪৮%)।",
-     "weight": 3.4587
+     "weight": 3.2291
     },
     {
      "code": "ROUND_AMOUNT",
      "en": "Round amount: Tk 11,000.",
      "bn": "রাউন্ড অঙ্কের পেমেন্ট: ৳১১,০০০।",
-     "weight": 2.2066
+     "weight": 2.1737
     }
    ]
   }
@@ -187,43 +187,43 @@
     "shop_id": "SHa5ebb21c37",
     "shared_payers": 8,
     "category": "tea_stall",
-    "band": "review",
-    "risk": 0.8852
+    "band": "high",
+    "risk": 0.8991
    },
    {
     "shop_id": "SH2d8c2174fb",
     "shared_payers": 7,
     "category": "pharmacy",
     "band": "review",
-    "risk": 0.8836
+    "risk": 0.8872
    },
    {
     "shop_id": "SH7027526b18",
     "shared_payers": 7,
     "category": "clothing",
     "band": "review",
-    "risk": 0.8896
+    "risk": 0.8891
    },
    {
     "shop_id": "SH972c47014c",
     "shared_payers": 7,
     "category": "pharmacy",
     "band": "review",
-    "risk": 0.8709
+    "risk": 0.8693
    },
    {
     "shop_id": "SH3def02ea8a",
     "shared_payers": 6,
     "category": "electronics",
     "band": "review",
-    "risk": 0.7802
+    "risk": 0.7776
    },
    {
     "shop_id": "SH3f07976e59",
     "shared_payers": 2,
     "category": "grocery",
     "band": "review",
-    "risk": 0.7184
+    "risk": 0.6382
    }
   ]
  },
@@ -242,11 +242,11 @@
    "band": "low",
    "payments": 4.0,
    "turnover": 31000.0,
-   "flagged": 2.0
+   "flagged": 0.0
   },
   {
    "day": "2026-09-18",
-   "risk": 0.4265729923464021,
+   "risk": 0.30780671024740697,
    "band": "low",
    "payments": 1.0,
    "turnover": 1500.0,
@@ -254,7 +254,7 @@
   },
   {
    "day": "2026-09-19",
-   "risk": 0.45082005482651305,
+   "risk": 0.3331237392329142,
    "band": "low",
    "payments": 6.0,
    "turnover": 75760.0,
@@ -262,15 +262,15 @@
   },
   {
    "day": "2026-09-20",
-   "risk": 0.4191115266473574,
+   "risk": 0.3067650435807403,
    "band": "low",
    "payments": 3.0,
    "turnover": 40375.0,
-   "flagged": 1.0
+   "flagged": 0.0
   },
   {
    "day": "2026-09-21",
-   "risk": 0.4745053680361159,
+   "risk": 0.3549482411287843,
    "band": "low",
    "payments": 2.0,
    "turnover": 17635.0,
@@ -278,87 +278,87 @@
   },
   {
    "day": "2026-09-22",
-   "risk": 0.4855669305512855,
+   "risk": 0.367312371563567,
    "band": "low",
    "payments": 5.0,
    "turnover": 82510.0,
-   "flagged": 1.0
+   "flagged": 0.0
   },
   {
    "day": "2026-09-23",
-   "risk": 0.7050161119070403,
+   "risk": 0.5851798633026488,
    "band": "review",
    "payments": 2.0,
    "turnover": 33980.0,
-   "flagged": 1.0
+   "flagged": 0.0
   },
   {
    "day": "2026-09-24",
-   "risk": 0.7245010649552649,
+   "risk": 0.6040600526739104,
    "band": "review",
    "payments": 4.0,
    "turnover": 36500.0,
-   "flagged": 3.0
+   "flagged": 1.0
   },
   {
    "day": "2026-09-25",
-   "risk": 0.7345704138870514,
+   "risk": 0.732337440310572,
    "band": "review",
    "payments": 4.0,
    "turnover": 32560.0,
-   "flagged": 2.0
+   "flagged": 1.0
   },
   {
    "day": "2026-09-26",
-   "risk": 0.7397090847823443,
+   "risk": 0.7379878343171415,
    "band": "review",
    "payments": 5.0,
    "turnover": 79160.0,
-   "flagged": 2.0
+   "flagged": 0.0
   },
   {
    "day": "2026-09-27",
-   "risk": 0.7460791947589898,
+   "risk": 0.7435205792026072,
    "band": "review",
    "payments": 2.0,
    "turnover": 82000.0,
-   "flagged": 1.0
+   "flagged": 0.0
   },
   {
    "day": "2026-09-28",
-   "risk": 0.7530134642961602,
+   "risk": 0.750361808174091,
    "band": "review",
    "payments": 4.0,
    "turnover": 39345.0,
-   "flagged": 2.0
+   "flagged": 0.0
   },
   {
    "day": "2026-09-29",
-   "risk": 0.7556513497403008,
+   "risk": 0.7522088488098951,
    "band": "review",
    "payments": 8.0,
    "turnover": 136015.0,
-   "flagged": 4.0
-  },
-  {
-   "day": "2026-09-30",
-   "risk": 0.8093931025924792,
-   "band": "review",
-   "payments": 5.0,
-   "turnover": 70565.0,
-   "flagged": 2.0
-  },
-  {
-   "day": "2026-10-01",
-   "risk": 0.8085412083404984,
-   "band": "review",
-   "payments": 3.0,
-   "turnover": 120690.0,
    "flagged": 1.0
   },
   {
+   "day": "2026-09-30",
+   "risk": 0.8064158044905068,
+   "band": "review",
+   "payments": 5.0,
+   "turnover": 70565.0,
+   "flagged": 1.0
+  },
+  {
+   "day": "2026-10-01",
+   "risk": 0.8069129984409822,
+   "band": "review",
+   "payments": 3.0,
+   "turnover": 120690.0,
+   "flagged": 0.0
+  },
+  {
    "day": "2026-10-02",
-   "risk": 0.8107234984059235,
+   "risk": 0.8085370451122875,
    "band": "review",
    "payments": 2.0,
    "turnover": 15000.0,
@@ -366,7 +366,7 @@
   },
   {
    "day": "2026-10-03",
-   "risk": 0.8131863765686285,
+   "risk": 0.8110464435578357,
    "band": "review",
    "payments": 3.0,
    "turnover": 27000.0,
@@ -374,15 +374,15 @@
   },
   {
    "day": "2026-10-04",
-   "risk": 0.8122731969005541,
+   "risk": 0.8107845478495679,
    "band": "review",
    "payments": 3.0,
    "turnover": 36095.0,
-   "flagged": 1.0
+   "flagged": 0.0
   },
   {
    "day": "2026-10-05",
-   "risk": 0.807423491124488,
+   "risk": 0.805981362356345,
    "band": "review",
    "payments": 5.0,
    "turnover": 43295.0,
@@ -390,7 +390,7 @@
   },
   {
    "day": "2026-10-06",
-   "risk": 0.8077599709818796,
+   "risk": 0.8070156464563865,
    "band": "review",
    "payments": 5.0,
    "turnover": 20810.0,
@@ -398,7 +398,7 @@
   },
   {
    "day": "2026-10-07",
-   "risk": 0.8670707802307122,
+   "risk": 0.8687455104130717,
    "band": "review",
    "payments": 3.0,
    "turnover": 29395.0,
@@ -406,23 +406,23 @@
   },
   {
    "day": "2026-10-08",
-   "risk": 0.8514401506022812,
+   "risk": 0.8561386991694564,
    "band": "review",
    "payments": 2.0,
    "turnover": 15610.0,
-   "flagged": 1.0
+   "flagged": 0.0
   },
   {
    "day": "2026-10-09",
-   "risk": 0.7889610678743856,
+   "risk": 0.793380494744501,
    "band": "review",
    "payments": 1.0,
    "turnover": 61635.0,
-   "flagged": 1.0
+   "flagged": 0.0
   },
   {
    "day": "2026-10-10",
-   "risk": 0.8232723216027503,
+   "risk": 0.7055760060091515,
    "band": "review",
    "payments": 0.0,
    "turnover": 0.0,
@@ -430,31 +430,31 @@
   },
   {
    "day": "2026-10-11",
-   "risk": 0.8031614010674839,
+   "risk": 0.6838368755743689,
    "band": "review",
    "payments": 2.0,
    "turnover": 26500.0,
-   "flagged": 2.0
+   "flagged": 1.0
   },
   {
    "day": "2026-10-12",
-   "risk": 0.8005584395458257,
+   "risk": 0.8004188786972957,
    "band": "review",
    "payments": 3.0,
    "turnover": 23500.0,
-   "flagged": 1.0
+   "flagged": 0.0
   },
   {
    "day": "2026-10-13",
-   "risk": 0.7935975725425949,
+   "risk": 0.7914111192489588,
    "band": "review",
    "payments": 2.0,
    "turnover": 14500.0,
-   "flagged": 1.0
+   "flagged": 0.0
   },
   {
    "day": "2026-10-14",
-   "risk": 0.7580989867602342,
+   "risk": 0.7545634452641419,
    "band": "review",
    "payments": 3.0,
    "turnover": 20885.0,
@@ -462,17 +462,17 @@
   },
   {
    "day": "2026-10-15",
-   "risk": 0.7555627548761763,
+   "risk": 0.7520272133800839,
    "band": "review",
    "payments": 4.0,
    "turnover": 24500.0,
-   "flagged": 2.0
+   "flagged": 0.0
   }
  ],
  "brief": {
-  "analyst_note": "Shop SH62ae50313a needs human review. Its fused risk score is 0.7556 and its current band is review.\n\nEvidence: 7 payers paid this shop and others on days they went past the daily limit. 46% of its payments in the last 7 days were flagged. Existing rules flagged 15 of its payments in the last 30 days.\n\nThis is model-generated evidence from synthetic data, not a finding. An analyst should check the timeline, linked shops and merchant explanation before deciding.",
+  "analyst_note": "Shop SH62ae50313a needs human review. Its fused risk score is 0.7520 and its current band is review.\n\nEvidence: 7 payers paid this shop and others on days they went past the daily limit. Existing rules flagged 15 of its payments in the last 30 days. Part of a group of 8 nearby shops sharing payers who go past the daily limit.\n\nThis is model-generated evidence from synthetic data, not a finding. An analyst should check the timeline, linked shops and merchant explanation before deciding.",
   "analyst_note_source": "template",
-  "merchant_notice_bn": "প্রিয় দোকান মালিক,\n\nআপনার দোকানের সাম্প্রতিক কিছু QR লেনদেন আমাদের নিয়মিত পর্যালোচনার অংশ হিসেবে দেখা হচ্ছে। এটি কোনো অভিযোগ নয়, এবং এখনো কোনো সিদ্ধান্ত নেওয়া হয়নি।\n\nআমরা যা লক্ষ্য করেছি:\n• ৭ জন গ্রাহক দৈনিক সীমা ছাড়ানোর দিনে এই দোকানসহ অন্য দোকানেও পেমেন্ট করেছেন।\n• গত ৭ দিনে এর ৪৬% পেমেন্ট চিহ্নিত হয়েছে।\n• গত ৩০ দিনে বিদ্যমান নিয়মে এর ১৫টি পেমেন্ট চিহ্নিত হয়েছে।\n\nএর কোনো স্বাভাবিক কারণ থাকলে, যেমন পাইকারি বিক্রি, উৎসবের ভিড় বা নতুন দোকান, অনুগ্রহ করে আপনার ব্যাখ্যা জানান। একজন বিশ্লেষক তা মনোযোগ দিয়ে দেখবেন।\n\nআপনার সহযোগিতার জন্য ধন্যবাদ।\n\nupay মার্চেন্ট সাপোর্ট",
+  "merchant_notice_bn": "প্রিয় দোকান মালিক,\n\nআপনার দোকানের সাম্প্রতিক কিছু QR লেনদেন আমাদের নিয়মিত পর্যালোচনার অংশ হিসেবে দেখা হচ্ছে। এটি কোনো অভিযোগ নয়, এবং এখনো কোনো সিদ্ধান্ত নেওয়া হয়নি।\n\nআমরা যা লক্ষ্য করেছি:\n• ৭ জন গ্রাহক দৈনিক সীমা ছাড়ানোর দিনে এই দোকানসহ অন্য দোকানেও পেমেন্ট করেছেন।\n• গত ৩০ দিনে বিদ্যমান নিয়মে এর ১৫টি পেমেন্ট চিহ্নিত হয়েছে।\n• কাছাকাছি ৮টি দোকানের একটি দলের অংশ, যাদের গ্রাহকরা দৈনিক সীমা ছাড়িয়ে যান।\n\nএর কোনো স্বাভাবিক কারণ থাকলে, যেমন পাইকারি বিক্রি, উৎসবের ভিড় বা নতুন দোকান, অনুগ্রহ করে আপনার ব্যাখ্যা জানান। একজন বিশ্লেষক তা মনোযোগ দিয়ে দেখবেন।\n\nআপনার সহযোগিতার জন্য ধন্যবাদ।\n\nupay মার্চেন্ট সাপোর্ট",
   "merchant_notice_source": "template",
   "llm_output_rejected": null
  },
@@ -480,8 +480,8 @@
   "action": "escalate",
   "en": "Possible limit-bypass ring: 7 payers link it to 8 nearby shops. A senior analyst should review the whole group.",
   "bn": "সম্ভাব্য সীমা-এড়ানো চক্র: ৭ জন গ্রাহক একে কাছাকাছি ৮টি দোকানের সাথে যুক্ত করেছেন। পুরো দলটি একজন সিনিয়র বিশ্লেষকের দেখা উচিত।",
-  "estimated_cash_out_demand_30d": 477710,
-  "convert_eligible": true,
+  "estimated_cash_out_demand_30d": 69130,
+  "convert_eligible": false,
   "convert_offer": "none",
   "note": "Recommendation only: the analyst decides."
  },
