@@ -168,6 +168,7 @@ Evidence and responsible-use documentation:
 - [Data card](docs/data_card.md) — synthetic dataset scope and provenance
 - [Model card](docs/model_card.md) — intended use, evidence and oversight
 - [Limitations](docs/limitations.md) — claim and deployment boundaries
+- [Production plan](docs/production_plan.md) — codebase review findings and the ordered work packages
 
 ## 4. Requirements
 
