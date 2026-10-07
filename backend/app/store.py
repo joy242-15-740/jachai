@@ -16,6 +16,7 @@ from dataclasses import dataclass
 import numpy as np
 import pandas as pd
 
+from app.common import ALERT_BANDS, STATUS, _clean, records
 from jachai.explain.reasons import load_reason_codes, payment_reasons, shop_reasons
 from jachai.features import build_features
 from jachai.features.config import ThresholdsConfig, load_thresholds
@@ -27,9 +28,9 @@ from jachai.world.config import WorldConfig, load_world_config
 from jachai.world.generate import read_world_tables
 from jachai.world.world import TRUE_LABEL, TRUE_PATTERN, public_view
 
-ALERT_BANDS = ("review", "high")
+__all__ = ["ALERT_BANDS", "STATUS", "Store", "_clean", "records"]
+
 TIMELINE_DAYS = 30
-STATUS = {"high": "needs review (high priority)", "review": "needs review", "low": "no action"}
 
 
 @dataclass
@@ -42,21 +43,6 @@ class Configs:
     @classmethod
     def load(cls) -> Configs:
         return cls(load_world_config(), load_thresholds(), load_rules(), load_models_config())
-
-
-def _clean(value):
-    """JSON-safe scalar (NaN -> None, numpy -> python, timestamps -> ISO)."""
-    if isinstance(value, pd.Timestamp):
-        return value.isoformat()
-    if isinstance(value, np.generic):
-        value = value.item()
-    if isinstance(value, float) and np.isnan(value):
-        return None
-    return value
-
-
-def records(df: pd.DataFrame) -> list[dict]:
-    return [{k: _clean(v) for k, v in row.items()} for row in df.to_dict(orient="records")]
 
 
 def _reasons(reasons) -> list[dict]:

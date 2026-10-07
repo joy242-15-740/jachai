@@ -43,3 +43,6 @@ out/
 # Local editor / assistant settings (machine-specific paths)
 .claude/
 .vercel
+
+# VS Code "Competitive Programming Helper" scratch files
+.cph/
