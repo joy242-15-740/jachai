@@ -39,7 +39,7 @@ export default function ExamplePage() {
           <strong>{ex.nearest_agent_km ?? "—"} km</strong> away. Agent cash-out fees that went around them,
           estimated from this shop&apos;s flagged payments: about{" "}
           <strong>{taka(demand * manifest.agent_cash_out_fee_rate)}</strong> in 30 days (fee rate Tk{" "}
-          {(manifest.agent_cash_out_fee_rate * 1000).toFixed(2)} per Tk 1,000).
+          {(manifest.agent_cash_out_fee_rate * 1000).toFixed(2)} per ৳ 1,000).
         </div>
       )}
     </div>

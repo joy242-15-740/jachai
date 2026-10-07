@@ -4,7 +4,7 @@ import type { Band } from "@/lib/types";
 // both on the same heavy day (past the daily limit across several shops) around it.
 // Line thickness = how many such payers they share. Plain SVG, no graph library.
 
-const FILL: Record<Band, string> = { high: "#b83232", review: "#b7791f", low: "#3e7c59" };
+const FILL: Record<Band, string> = { high: "#D33D48", review: "#D08914", low: "#109660" };
 
 export function NetworkGraph({
   center,

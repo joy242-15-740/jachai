@@ -71,7 +71,7 @@ export default function TrustPage() {
       <SourceNote source={source} />
 
       <div className="mb-5 grid gap-4 md:grid-cols-3">
-        <div className="glass-panel rounded-2xl border-l-2 border-l-review p-5">
+        <div className="card border-l-4 border-l-warning p-5">
           <div className="eyebrow text-review">Validation · 3 seeds · criteria partly met</div>
           <h2 className="mt-2 font-semibold">Current fusion · multi-seed</h2>
           <p className="mt-2 text-sm leading-6 text-muted">
@@ -79,14 +79,14 @@ export default function TrustPage() {
             0.899). Matched-budget, evasion and label-source evidence is in reports/.
           </p>
         </div>
-        <div className="glass-panel rounded-2xl border-l-2 border-l-review p-5">
+        <div className="card border-l-4 border-l-warning p-5">
           <div className="eyebrow text-review">Final test · single access</div>
           <h2 className="mt-2 font-semibold">Rules were stronger</h2>
           <p className="mt-2 text-sm leading-6 text-muted">
             Jachai PR-AUC 0.584 vs rules 0.843. No tuning follows this result.
           </p>
         </div>
-        <div className="glass-panel rounded-2xl border-l-2 border-l-high p-5">
+        <div className="card border-l-4 border-l-danger p-5">
           <div className="eyebrow text-high">Not available</div>
           <h2 className="mt-2 font-semibold">Real-world performance</h2>
           <p className="mt-2 text-sm leading-6 text-muted">

@@ -129,6 +129,9 @@ class CachedStore:
     def fairness(self) -> dict:
         return deepcopy(self._read("fairness.json"))
 
+    def overview(self) -> dict:
+        return deepcopy(self._read("overview.json"))
+
     def simulate(self, overrides: dict) -> dict:
         """Apply transparent slider sensitivity to cached fast-profile outputs."""
         out = deepcopy(self._simulator)
